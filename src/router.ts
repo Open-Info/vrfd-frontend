@@ -11,14 +11,14 @@ const routes = [
     },
   },
   {
-    path: '/verified', // page with verified addresses
+    path: '/verified/', // page with verified addresses
     component: IndexPage, // ?
     meta: {
       title: 'Verified List'
     },
   },
   {
-      path: '/flagged', // page with flagged addresses
+      path: '/flagged/', // page with flagged addresses
       component: IndexPage, // ?
       meta: {
         title: 'Flagged List'
