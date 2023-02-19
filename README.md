@@ -1,19 +1,45 @@
-# Vite + Vue 3 + Typescript + Tailwind Starter
+# vrfd.info Frontend Repository
 
-Simple, opinionated, **fully typed**, and **production-ready** project template for Vite.
+## ERC20 address verification app.
 
-This template is **practical** and **batteries included** but not overly complex or bloated. Also explicit configuration over magic; it should be easy to understand how everything works, strip out anything you don't need, and fast to modify things to your needs.
+[See user-manual](https://open-info.gitbook.io/verified-app/)
 
-Includes plenty of **examples and documentation** of how to do things but **minimal cruft** to delete to get you going.
+[Development build online.](https://vrfd.dev)
 
-Please [check out the homepage](https://vite-ts-tailwind-starter.vercel.app/) for full docs. A [detailed changelog](./CHANGES.md) is available. This repository is also [mirrored on GitLab](https://gitlab.com/uninen/vite-ts-tailwind-starter).
+## Scripts
+Install dependencies
 
-## Features
+- `pnpm i`
 
+Run development server
+
+- `pnpm dev`
+
+Run uni tests (Vitest)
+
+- `pnpm test`
+
+Run component tests (Playwright)
+
+- `pnpm test-ct`
+
+Run e2e tests (Playwright)
+
+- `pnpm test-e2e`
+
+Build for production
+
+- `pnpm build`
+
+## Framework Features
+
+Framework derived from @[Uninen](https://github.com/Uninen/vite-ts-tailwind-starter).
+- Vite 3.1
 - Vue 3.2
 - Pinia store (fully typed Vuex store is available up to version 1.13)
 - Routing using [vue-router 4](https://router.vuejs.org/)
 - TypeScript 4.7
+- PNPM
 - Automatic package and component imports w/ [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import) and [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)
 - Tailwind CSS 3 w/ following plugins and configuration preinstalled:
   - `@tailwindcss/aspect-ratio`
@@ -23,7 +49,7 @@ Please [check out the homepage](https://vite-ts-tailwind-starter.vercel.app/) fo
   - `firefox`-variant
 - PostCSS 8 w/ `postcss-nesting` plugin and `cssnano` for minimizing production CSS
 - Eslint
-- Prettier
+- Prettier, with Volar recommended for VS Code
 - Alias `@` to `<project_root>/src`
 - Predefined and fully typed global variables:
   - `VITE_APP_VERSION` is read from `package.json` version at build time
@@ -37,12 +63,3 @@ Please [check out the homepage](https://vite-ts-tailwind-starter.vercel.app/) fo
   - Automated component tests
   - Automated e2e tests
 - GitLab CI config available up to versions 2.x
-
-## Elsewhere
-
-- [Follow @uninen](https://twitter.com/uninen) on Twitter
-- Read my continuously updating learnings from Vite / Vue / TypeScript and other Web development topics from my [Today I Learned site](https://til.unessa.net/)
-
-## Contributing
-
-Contributions are welcome! Please follow the [code of conduct](./CODE_OF_CONDUCT.md) when interacting with others.
