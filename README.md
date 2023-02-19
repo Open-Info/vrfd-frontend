@@ -1,10 +1,12 @@
 # vrfd.info Frontend Repository
 
-## ERC20 address verification app.
+## ETH address verification app.
 
-[See user-manual](https://open-info.gitbook.io/verified-app/)
+See dApp [user-manual](https://open-info.gitbook.io/verified-app/).
 
-[Development build online.](https://vrfd.dev)
+Public `master` branch live [here](https://vrfd-frontend.vercel.app/).
+
+Testing `develop` branch live [here](https://vrfd-frontend-dev-build.vercel.app/).
 
 ## Scripts
 Install dependencies
