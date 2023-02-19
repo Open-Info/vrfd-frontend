@@ -11,6 +11,8 @@ export const useStore = defineStore('main', {
     version: versionString,
     isInitialized: false,
     count: 0,
+    verified: false,
+    flagged: false
   }),
 
   actions: {
@@ -19,8 +21,12 @@ export const useStore = defineStore('main', {
       console.log('app initialized!')
     },
 
-    increment(value = 1) {
-      this.count += value
+    verify() {
+      this.verified = true
+    },
+
+    flag() {
+      this.flagged = true
     },
   },
 
@@ -28,5 +34,13 @@ export const useStore = defineStore('main', {
     isReady: (state) => {
       return !state.isInitialized
     },
+
+    isVerified: (state) => {
+      return state.verified
+    },
+
+    isFlagged: (state) => {
+      return state.flagged
+    }
   },
 })

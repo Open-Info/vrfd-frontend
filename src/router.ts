@@ -7,9 +7,23 @@ const routes = [
     path: '/',
     component: IndexPage,
     meta: {
-      title: 'Vite + Vue + TypeScript + Tailwind Starter Template',
+      title: 'Verified?',
     },
   },
+  {
+    path: '/verified', // page with verified addresses
+    component: IndexPage, // ?
+    meta: {
+      title: 'Verified List'
+    },
+  },
+  {
+      path: '/flagged', // page with flagged addresses
+      component: IndexPage, // ?
+      meta: {
+        title: 'Flagged List'
+    },
+  }
 ]
 
 const router = createRouter({
