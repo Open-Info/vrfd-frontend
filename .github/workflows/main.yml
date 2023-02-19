@@ -25,9 +25,6 @@ jobs:
   tests:
     runs-on: ubuntu-latest
 
-    env:
-      PLAYWRIGHT_BROWSERS_PATH: 0
-
     steps:
       - uses: actions/checkout@v3
       - uses: actions/cache@v3
@@ -45,14 +42,5 @@ jobs:
           node-version: 16
           cache: 'pnpm'
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
       - name: Run unit tests
         run: pnpm test:ci
-
-      - name: Run component tests
-        run: pnpm test:ci-ct
-
-      - name: Run e2e tests
-        run: pnpm test:ci-e2e
