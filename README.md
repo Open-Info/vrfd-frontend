@@ -17,21 +17,9 @@ Run development server
 
 - `pnpm dev`
 
-Run uni tests (Vitest)
+Run unit tests (Vitest)
 
 - `pnpm test`
-
-Run component tests (Playwright)
-
-- `pnpm test-ct`
-
-Run e2e tests (Playwright)
-
-- `pnpm test-e2e`
-
-Build for production
-
-- `pnpm build`
 
 ## Framework Features
 
@@ -58,10 +46,7 @@ Framework derived from @[Uninen](https://github.com/Uninen/vite-ts-tailwind-star
   - `VITE_APP_BUILD_EPOCH` is populated as `new Date().getTime()` at build time
 - Using newest `script setup` syntax w/ Ref sugar (see the official [Script Setup documentation](https://vuejs.org/api/sfc-script-setup.html) and [Ref Sugar RFC](https://github.com/vuejs/rfcs/discussions/369) discussion)
 - Vitest unit tests
-- Playwright e2e + component tests
 - GitHub workflows
   - Renovatebot for keeping up with dependencies
   - Automated unit tests
-  - Automated component tests
-  - Automated e2e tests
 - GitLab CI config available up to versions 2.x
