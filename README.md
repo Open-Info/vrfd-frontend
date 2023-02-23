@@ -4,9 +4,9 @@
 
 See dApp [user-manual](https://open-info.gitbook.io/verified-app/).
 
-Public `master` branch live [here](https://vrfd-frontend.vercel.app/).
+Public `master` branch live [here](https://vrfd.info/).
 
-Testing `develop` branch live [here](https://vrfd-frontend-dev-build.vercel.app/).
+Testing `develop` branch live [here](https://vrfd-develop.vercel.app/).
 
 ## Scripts
 Install dependencies
