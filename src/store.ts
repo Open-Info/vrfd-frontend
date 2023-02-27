@@ -32,9 +32,9 @@ export const useStore = defineStore("main", {
     find_nft() {
       // call web3 smart contract and call either flag or verify
       if (Math.random() > 0.5) {
-        verify();
+        // verify();
       } else {
-        flag();
+        // flag();
       }
     },
   },
