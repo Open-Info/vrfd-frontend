@@ -13,6 +13,7 @@ export const useStore = defineStore("main", {
     count: 0,
     verified: false,
     flagged: false,
+    state: 'unknown'
   }),
 
   actions: {
@@ -29,14 +30,14 @@ export const useStore = defineStore("main", {
       this.flagged = true;
     },
 
-    find_nft() {
-      // call web3 smart contract and call either flag or verify
-      if (Math.random() > 0.5) {
-        verify();
-      } else {
-        flag();
-      }
-    },
+    // find_nft() {
+    //   // call web3 smart contract and call either flag or verify
+    //   if (Math.random() > 0.5) {
+    //     verify();
+    //   } else {
+    //     flag();
+    //   }
+    // },
   },
 
   getters: {

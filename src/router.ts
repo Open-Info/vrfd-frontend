@@ -1,28 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import IndexPage from '@/pages/IndexPage.vue'
+import Home from '@/pages/Home.vue'
+import Unknown from '@/pages/Unknown.vue'
+import Verified from '@/pages/Verified.vue'
+import Flagged from '@/pages/Flagged.vue'
+import VerifiedView from '@/pages/VerifiedView.vue'
 
 const routes = [
   {
     path: '/',
-    component: IndexPage,
-    meta: {
-      title: 'Verified?',
-    },
+    component: Home,
   },
   {
-    path: '/verified/', // page with verified addresses
-    component: IndexPage, // ?
-    meta: {
-      title: 'Verified List'
-    },
+    path: '/unknown', // page with unknown addresses
+    component: Unknown,
   },
   {
-      path: '/flagged/', // page with flagged addresses
-      component: IndexPage, // ?
-      meta: {
-        title: 'Flagged List'
-    },
+    path: '/verified', // page with verified addresses
+    component: Verified,
+  },
+  {
+    path: '/flagged', // page with flagged addresses
+    component: Flagged,
+  },
+  {
+    path: '/view/verified', // page with flagged addresses
+    component: VerifiedView,
   }
 ]
 
