@@ -34,16 +34,16 @@ const thisYear = new Date().getFullYear()
       class="container relative max-w-2xl mx-auto bg-white shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5"
     >
       <header class="px-4 pt-6 prose-sm md:px-6 md:prose">
-        <h1>Coming Soon...</h1>
       </header>
       <main>
         <div class="p-4 mx-auto prose md:px-6 prose-indigo sm:rounded-md">
-          <HelloWorld msg="Check back later." />
+          <HelloWorld msg="Coming soon..." />
+          <a href="https://open-info.gitbook.io/verified-app/">Verified</a>, the next big blockhain app.
         </div>
       </main>
       <footer class="py-6 text-sm text-center text-gray-700">
         <p>
-          An Open Information product.
+          An <a href="https://github.com/Open-Info">Open Information</a> product.
         </p>
       </footer>
     </div>
