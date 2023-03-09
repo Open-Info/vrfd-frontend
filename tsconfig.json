@@ -25,7 +25,7 @@
     "src/**/*.d.ts",
     "src/**/*.vue",
     "./components.d.ts"
-  ],
+, "src/contracts/web3.js", "src/contracts/web3.js"  ],
   "exclude": ["node_modules", "dist", "public"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

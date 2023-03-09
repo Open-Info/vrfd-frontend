@@ -2,9 +2,7 @@
   <div class="relative">
     <div class="flex flex-col justify-between h-[50vh] bg-[#363B3E] pb-[60px]">
       <header class="py-[34px] px-[37px] flex justify-end">
-        <div class="w-[67px] h-[67px] rounded-full bg-[#FFF4F3] flex justify-center items-center text-[47px] leading-[47px] font-normal text-[#30B1FD] text-center font-['VT323']">
-          i
-        </div>
+        <WalletConnectionButton :bg-color="walletConnectionBtnBgColor" />
       </header>
       <h1 class="font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-[#30B1FD] text-center mb-[9px]">Verified - oi</h1>
     </div>
@@ -29,24 +27,104 @@
 
 <script lang="ts">
   import '@/assets/sass/style.scss'
-  // import web3 from '../contracts/web3'
-  import OIVerifiedContract from '../contracts/OIVerifiedInstanace'
+  import { toast } from 'vue3-toastify'
+  import 'vue3-toastify/dist/index.css'
+  import { useStore } from '../store'
+
+  import WalletConnectionButton from "@/components/WalletConnectionButton.vue"
+  import OIVerifiedContract from '@/contracts/OIVerifiedInstance'
+  import OIFlaggedContract from '@/contracts/OIFlaggedInstance'
+  import { checkAddress } from '@/api'
   export default {
     name: 'Home',
+    components: {
+      WalletConnectionButton
+    },
     data() {
       return {
         address: '',
+        walletConnectionBtnBgColor: '#FFF4F3'
       }
     },
     methods: {
-      handleSearch() {
-        console.log(this.address)
-        OIVerifiedContract.methods
-        .balanceOf(this.address)
-        .call()
-        .then((balance: any) => {
-          console.log('balance', balance)
-        })
+      async handleSearch() {
+
+        const store = useStore()
+
+        store.setSearchAddr(this.address)
+
+        let flag = 'unknown'
+
+        try {
+          let balance = await OIVerifiedContract.methods.balanceOf(this.address).call()
+          if (Number(balance) != 0) {
+            store.setState('verified')
+            flag = 'verified'
+            localStorage.setItem('state', 'verified')
+          }
+        } catch (error: any) {
+          if (error.code == 'INVALID_ARGUMENT') {
+            toast("Invalid Address!", {
+              autoClose: 1000,
+              theme: 'dark',
+              type: 'error'
+            });
+            return;
+          } else {
+            toast("Unexpected Error!", {
+              autoClose: 1000,
+              theme: 'dark',
+              type: 'error'
+            });
+            return;
+          }
+        }
+        
+        if (flag == 'unknown') {
+          try {
+            let balance = await OIFlaggedContract.methods.balanceOf(this.address).call()
+            if (Number(balance) != 0) {
+              flag = 'flagged'
+              store.setState('flagged')
+              localStorage.setItem('state', 'flagged')
+            }
+          } catch (error: any) {
+            if (error.code == 'INVALID_ARGUMENT') {
+              toast("Invalid Address!", {
+                autoClose: 1000,
+                theme: 'dark',
+                type: 'error'
+              });
+              return;
+            } else {
+              toast("Unexpected Error!", {
+                autoClose: 1000,
+                theme: 'dark',
+                type: 'error'
+              });
+              return;
+            }
+          }
+        }
+
+        if (flag == 'unknown') {
+          try {
+            let res = await checkAddress(this.address)
+            console.log(res)
+          } catch (error: any) {
+            toast("Unexpected Error!", {
+              autoClose: 1000,
+              theme: 'dark',
+              type: 'error'
+            });
+          }
+        //   // flag = 'unknown'
+        //   // store.setState('unknown')
+        //   // localStorage.setItem('state', 'unknown')
+        }
+        store.setState('unknown')
+        localStorage.setItem('state', 'unknown')
+        this.$router.push({ name: 'address', params: { addr: this.address}})
       }
     }
   }

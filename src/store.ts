@@ -10,10 +10,12 @@ export const useStore = defineStore("main", {
     debug: import.meta.env.MODE === "development",
     version: versionString,
     isInitialized: false,
-    count: 0,
-    verified: false,
-    flagged: false,
-    state: 'unknown'
+    // count: 0,
+    // verified: false,
+    // flagged: false,
+    state: 'unknown',
+    searchAddr: '',
+    walletAddr: ''
   }),
 
   actions: {
@@ -22,27 +24,43 @@ export const useStore = defineStore("main", {
       console.log("app initialized!");
     },
 
-    verify() {
-      this.verified = true;
-    },
-
-    flag() {
-      this.flagged = true;
-    },
-
-    // find_nft() {
-    //   // call web3 smart contract and call either flag or verify
-    //   if (Math.random() > 0.5) {
-    //     verify();
-    //   } else {
-    //     flag();
-    //   }
+    // verify() {
+    //   this.verified = true;
     // },
+
+    // flag() {
+    //   this.flagged = true;
+    // },
+
+    setState(state: string) {
+      this.state = state;
+    },
+    
+    setSearchAddr(searchAddr: string) {
+      this.searchAddr = searchAddr;
+    },
+
+    setWalletAddr(addr: string) {
+      this.walletAddr = addr;
+    }
+    
   },
 
   getters: {
     isReady: (state) => {
       return !state.isInitialized;
     },
+
+    getState: (state) => {
+      return state.state;
+    },
+
+    getSearchAddr: (state) => {
+      return state.searchAddr;
+    },
+
+    getWalletAddr: (state) => {
+      return state.walletAddr;
+    }
   },
 });
