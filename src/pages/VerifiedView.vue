@@ -1,6 +1,3 @@
-<!-- <script setup lang="ts">
-  import '@/assets/sass/style.scss'
-</script> -->
 <template>
   <div class="flex flex-col items-center bg-[#363B3E] h-screen py-[54px]">
     <div class="mb-[44px]">

@@ -9,13 +9,12 @@
     <input type="text" id="search" name="search" :value="$route.params.addr" readonly class="text-black font-normal text-[32px] leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[6px_10px] absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%]"
     />
     <div class="flex flex-col justify-between items-center h-[50vh] bg-[#FFF4F3]">
-      <div class="flex justify-between items-center min-w-[400px] pt-[75px]">
-        <button v-if="!walletAddr" class="bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">flag address</button>
-        <button v-if="!walletAddr"  class="bg-[#00B689] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">get verified</button>
+      <div class="flex justify-between items-center min-w-[420px] pt-[75px]">
+        <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" class="bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">flag address</button>
+        <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"  class="bg-[#00B689] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">get verified</button>
 
-        <button v-if="walletAddr"  class="bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint for verified</button>
-        <button v-if="walletAddr" class="bg-[#00B689] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint for flagged</button>
-
+        <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"  class="bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint for flagged</button>
+        <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="mintForVerified" class="bg-[#00B689] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint for verified</button>
       </div>
       <footer class="flex justify-center items-center flex-col w-[100%] h-[147px] shadow-[inset_0_8px_4px_rgba(0,0,0,0.25)]">
         <p class="font-normal text-[23px] leading-[26px] text-[#000] text-center font-['Ubuntu Condensed']">Verified v3.1.0,</p>
@@ -32,6 +31,7 @@
 
   const store = useStore()
   const { walletAddr } = storeToRefs(store)
+  console.log('walet, ', walletAddr)
 
   watch(walletAddr, (newWalletAddr) => {
     console.log(newWalletAddr)
@@ -40,7 +40,11 @@
 
 <script lang="ts">
   import '@/assets/sass/style.scss'
+  import { OWNER_ADDR } from "@/helpers/constants"
+  import { useEthers } from "@/composables/useEthers"
   import WalletConnectionButton from "@/components/WalletConnectionButton.vue"
+  import { OIVerifiedContract, OIVerifiedSignedContract } from '@/contracts/OIVerifiedInstance'
+  import { OIFlaggedContract, OIFlaggedSignedContract } from '@/contracts/OIFlaggedInstance'
 
   export default {
     name: 'Flagged',
@@ -50,8 +54,23 @@
     data() {
       return {
         walletConnectionBtnBgColor: '#FFF4F3',
-        walletAddr: ''
+        walletAddr: '',
+        address: ''
       }
     },
+    methods: {
+      async mintForVerified() {
+        console.log(this.$route.params.addr)
+        const signer = useEthers()
+        if (signer) {
+          try {
+            await OIVerifiedSignedContract(signer).methods.safeMint(this.address);
+            // console.log('okk');
+          } catch (error: any) {
+            console.log('error', error)
+          }
+        }
+      }
+    }
   }
 </script>

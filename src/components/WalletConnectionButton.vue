@@ -9,6 +9,7 @@
 
   import { useOnboard } from '../composables/useOnboard'
   import Prism from 'prismjs'
+  import Web3 from 'web3';
   import 'prismjs/themes/prism-dark.css'
 
   import { useStore } from '../store'
@@ -24,7 +25,6 @@
   }>()
   
   onMounted(() => {
-    console.log('kkk', connectedWallet.value)
     if (connectedWallet != null) {
       store.setWalletAddr(connectedWallet.value?.accounts[0].address as string)
     }

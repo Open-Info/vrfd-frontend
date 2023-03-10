@@ -10,12 +10,10 @@ export const useStore = defineStore("main", {
     debug: import.meta.env.MODE === "development",
     version: versionString,
     isInitialized: false,
-    // count: 0,
-    // verified: false,
-    // flagged: false,
     state: 'unknown',
     searchAddr: '',
-    walletAddr: ''
+    walletAddr: '',
+    signer: null
   }),
 
   actions: {
@@ -23,14 +21,6 @@ export const useStore = defineStore("main", {
       this.isInitialized = true;
       console.log("app initialized!");
     },
-
-    // verify() {
-    //   this.verified = true;
-    // },
-
-    // flag() {
-    //   this.flagged = true;
-    // },
 
     setState(state: string) {
       this.state = state;
@@ -42,6 +32,10 @@ export const useStore = defineStore("main", {
 
     setWalletAddr(addr: string) {
       this.walletAddr = addr;
+    },
+
+    setSigner(signer: any) {
+      this.signer = signer
     }
     
   },
@@ -61,6 +55,10 @@ export const useStore = defineStore("main", {
 
     getWalletAddr: (state) => {
       return state.walletAddr;
+    },
+    
+    getSigner: (state) => {
+      return state.signer;
     }
   },
 });

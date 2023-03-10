@@ -582,6 +582,8 @@ const abi = [
   }
 ];
 
-const instance = new web3.eth.Contract(abi, address);
+export const OIVerifiedContract = new web3.eth.Contract(abi, address);
 
-export default instance;
+export const OIVerifiedSignedContract = (signer: any) => {
+  return new web3.eth.Contract(abi, address, signer);
+}

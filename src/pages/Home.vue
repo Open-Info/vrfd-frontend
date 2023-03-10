@@ -32,8 +32,8 @@
   import { useStore } from '../store'
 
   import WalletConnectionButton from "@/components/WalletConnectionButton.vue"
-  import OIVerifiedContract from '@/contracts/OIVerifiedInstance'
-  import OIFlaggedContract from '@/contracts/OIFlaggedInstance'
+  import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'
+  import { OIFlaggedContract } from '@/contracts/OIFlaggedInstance'
   import { checkAddress } from '@/api'
   export default {
     name: 'Home',
@@ -107,21 +107,22 @@
           }
         }
 
-        if (flag == 'unknown') {
-          try {
-            let res = await checkAddress(this.address)
-            console.log(res)
-          } catch (error: any) {
-            toast("Unexpected Error!", {
-              autoClose: 1000,
-              theme: 'dark',
-              type: 'error'
-            });
-          }
+        // if (flag == 'unknown') {
+        //   try {
+        //     let res = await checkAddress(this.address)
+        //     console.log(res)
+        //   } catch (error: any) {
+        //     toast("Unexpected Error!", {
+        //       autoClose: 1000,
+        //       theme: 'dark',
+        //       type: 'error'
+        //     });
+        //     return;
+        //   }
         //   // flag = 'unknown'
         //   // store.setState('unknown')
         //   // localStorage.setItem('state', 'unknown')
-        }
+        // }
         store.setState('unknown')
         localStorage.setItem('state', 'unknown')
         this.$router.push({ name: 'address', params: { addr: this.address}})

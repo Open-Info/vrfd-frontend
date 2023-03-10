@@ -59,9 +59,10 @@ export function useEthers() {
 
   return {
     loading,
+    getSigner,
     fetchSignerData,
     address,
     ens,
-    balance
+    balance,
   };
 }
