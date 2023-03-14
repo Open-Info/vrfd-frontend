@@ -33,30 +33,17 @@ const thisYear = new Date().getFullYear()
     <div
       class="container relative max-w-2xl mx-auto bg-white shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5"
     >
-      <header class="flex justify-end items-center px-4 bg-gray-800 text-white fixed top-0 right-0 w-full">
-
-      <div class="float-left text-lg font-bold mr-auto">
-        OI
-      </div>
-      <a href="#" class="float-right px-4 py-2 text-lg rounded-md bg-green-500 text-white cursor-pointer hover:bg-green-600 focus:outline-none focus:bg-green-600 no-underline">
-        HELP
-      </a>
-      <div class="flex justify-center items-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-bold text-lg mr-4">
-        ?
-      </div>
-
+      <header class="px-4 pt-6 prose-sm md:px-6 md:prose">
       </header>
       <main>
         <div class="p-4 mx-auto prose md:px-6 prose-indigo sm:rounded-md">
-          <HelloWorld msg="Verified?" />
+          <HelloWorld msg="Coming soon..." />
+          <a href="https://open-info.gitbook.io/verified-app/">Verified</a>, the next big blockhain app.
         </div>
       </main>
       <footer class="py-6 text-sm text-center text-gray-700">
-    
-      <p>
-          Verified v{{ VERSION }}, Powered by Open Information &copy; 2020-{{ thisYear }}.
-          <template v-if="BUILD_DATE"> Site built {{ BUILD_DATE.toLocaleDateString() }}. </template>
-          <template v-else> Development mode. </template>
+        <p>
+          An <a href="https://github.com/Open-Info">Open Information</a> product.
         </p>
       </footer>
     </div>
