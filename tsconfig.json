@@ -13,6 +13,7 @@
     "useDefineForClassFields": true,
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
+    "types": ["vite/client"],
     "plugins": [{ "name": "@vuedx/typescript-plugin-vue" }],
     "paths": {
       "@/*": ["./src/*"]
@@ -24,8 +25,10 @@
     "tests/**/*.test.ts",
     "src/**/*.d.ts",
     "src/**/*.vue",
-    "./components.d.ts"
-, "src/contracts/web3.js", "src/contracts/web3.js"  ],
+    "./components.d.ts",
+    "src/contracts/web3.js",
+    "src/contracts/web3.js"
+  ],
   "exclude": ["node_modules", "dist", "public"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
