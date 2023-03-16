@@ -49,86 +49,86 @@
     methods: {
       async handleSearch() {
 
-        const store = useStore()
+        // const store = useStore()
 
-        store.setSearchAddr(this.address)
+        // store.setSearchAddr(this.address)
 
-        let flag = 'unknown'
+        // let flag = 'unknown'
 
-        try {
-          let balance = await OIVerifiedContract.methods.balanceOf(this.address).call()
-          if (Number(balance) != 0) {
-            store.setState('verified')
-            flag = 'verified'
-            localStorage.setItem('state', 'verified')
-          }
-        } catch (error: any) {
-          if (error.code == 'INVALID_ARGUMENT') {
-            toast("Invalid Address!", {
-              autoClose: 1000,
-              theme: 'dark',
-              type: 'error'
-            });
-            return;
-          } else {
-            toast("Unexpected Error!", {
-              autoClose: 1000,
-              theme: 'dark',
-              type: 'error'
-            });
-            return;
-          }
-        }
+        // try {
+        //   let balance = await OIVerifiedContract.methods.balanceOf(this.address).call()
+        //   if (Number(balance) != 0) {
+        //     store.setState('verified')
+        //     flag = 'verified'
+        //     localStorage.setItem('state', 'verified')
+        //   }
+        // } catch (error: any) {
+        //   if (error.code == 'INVALID_ARGUMENT') {
+        //     toast("Invalid Address!", {
+        //       autoClose: 1000,
+        //       theme: 'dark',
+        //       type: 'error'
+        //     });
+        //     return;
+        //   } else {
+        //     toast("Unexpected Error!", {
+        //       autoClose: 1000,
+        //       theme: 'dark',
+        //       type: 'error'
+        //     });
+        //     return;
+        //   }
+        // }
         
-        if (flag == 'unknown') {
-          try {
-            let balance = await OIFlaggedContract.methods.balanceOf(this.address).call()
-            if (Number(balance) != 0) {
-              flag = 'flagged'
-              store.setState('flagged')
-              localStorage.setItem('state', 'flagged')
-            }
-          } catch (error: any) {
-            if (error.code == 'INVALID_ARGUMENT') {
-              toast("Invalid Address!", {
-                autoClose: 1000,
-                theme: 'dark',
-                type: 'error'
-              });
-              return;
-            } else {
-              toast("Unexpected Error!", {
-                autoClose: 1000,
-                theme: 'dark',
-                type: 'error'
-              });
-              return;
-            }
-          }
-        }
+        // if (flag == 'unknown') {
+        //   try {
+        //     let balance = await OIFlaggedContract.methods.balanceOf(this.address).call()
+        //     if (Number(balance) != 0) {
+        //       flag = 'flagged'
+        //       store.setState('flagged')
+        //       localStorage.setItem('state', 'flagged')
+        //     }
+        //   } catch (error: any) {
+        //     if (error.code == 'INVALID_ARGUMENT') {
+        //       toast("Invalid Address!", {
+        //         autoClose: 1000,
+        //         theme: 'dark',
+        //         type: 'error'
+        //       });
+        //       return;
+        //     } else {
+        //       toast("Unexpected Error!", {
+        //         autoClose: 1000,
+        //         theme: 'dark',
+        //         type: 'error'
+        //       });
+        //       return;
+        //     }
+        //   }
+        // }
 
-        if (flag == 'unknown') {
-          try {
-            let res = await checkAddress(this.address)
-            console.log(res.flagged)
-            if (res.flagged) {
-              flag = 'flagged'
-              store.setState('flagged')
-              localStorage.setItem('state', 'flagged')
-            } else {
-              flag = 'unknown'
-              store.setState('unknown')
-              localStorage.setItem('state', 'unknown')
-            }
-          } catch (error: any) {
-            toast("Unexpected Error!", {
-              autoClose: 1000,
-              theme: 'dark',
-              type: 'error'
-            });
-            return;
-          }
-        }
+        // if (flag == 'unknown') {
+        //   try {
+        //     let res = await checkAddress(this.address)
+        //     console.log(res.flagged)
+        //     if (res.flagged) {
+        //       flag = 'flagged'
+        //       store.setState('flagged')
+        //       localStorage.setItem('state', 'flagged')
+        //     } else {
+        //       flag = 'unknown'
+        //       store.setState('unknown')
+        //       localStorage.setItem('state', 'unknown')
+        //     }
+        //   } catch (error: any) {
+        //     toast("Unexpected Error!", {
+        //       autoClose: 1000,
+        //       theme: 'dark',
+        //       type: 'error'
+        //     });
+        //     return;
+        //   }
+        // }
 
         this.$router.push({ name: 'address', params: { addr: this.address}})
       }
