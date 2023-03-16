@@ -18,17 +18,16 @@ const routes = [
   {
     path: '/:addr',
     name: 'address',
-    component: Unknown
-    // component: function() {
-    //   const state = localStorage.getItem('state')
-    //   if (state == "verified") {
-    //     return Verified;
-    //   } else if (state == "flagged"){
-    //     return Flagged;
-    //   } else {
-    //     return Unknown;
-    //   }
-    // }
+    component: function() {
+      const state = localStorage.getItem('state')
+      if (state == "verified") {
+        return Verified;
+      } else if (state == "flagged"){
+        return Flagged;
+      } else {
+        return Unknown;
+      }
+    }
   },
   // {
   //   path: '/unknown', // page with unknown addresses
