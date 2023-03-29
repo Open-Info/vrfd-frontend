@@ -31,7 +31,6 @@
 
   const store = useStore()
   const { walletAddr } = storeToRefs(store)
-  console.log('walet, ', walletAddr)
 
   watch(walletAddr, (newWalletAddr) => {
     console.log(newWalletAddr)

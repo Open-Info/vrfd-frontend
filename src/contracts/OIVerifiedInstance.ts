@@ -1,17 +1,11 @@
 import web3 from "./web3";
 import Web3 from 'web3';
 
-const address = "0x8A585c907645e768DAB31f0747d21c35D2Da7953";
+const address = "0xD09E9a1B526fbcb4B0d94815D3e04F0d81dB2b9f";
 
 const abi = [
   {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_baseURI",
-        "type": "string"
-      }
-    ],
+    "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
@@ -258,25 +252,6 @@ const abi = [
     "inputs": [
       {
         "internalType": "address",
-        "name": "user",
-        "type": "address"
-      }
-    ],
-    "name": "getOwnersToken",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "owner",
         "type": "address"
       },
@@ -484,30 +459,6 @@ const abi = [
         "internalType": "string",
         "name": "",
         "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "tokenOfOwnerByIndex",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",

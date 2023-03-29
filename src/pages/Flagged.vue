@@ -20,8 +20,9 @@
     />
     <div class="flex flex-col justify-between items-center h-[50vh] bg-[#363B3E]">
       <div class="flex justify-between items-center min-w-[300px] pt-[75px]">
-        <button class="bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#F7766A] text-center border-[#B8B8B8] rounded-[20px] border-[4px] py-[9px] px-[12px]">second</button>
-        <button class="bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#00B689] text-center border-[#B8B8B8] rounded-[20px] border-[4px] py-[9px] px-[12px]">dispute</button>
+        <button @click="downvote" class="bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#F7766A] text-center border-[#B8B8B8] rounded-[20px] border-[4px] py-[9px] px-[12px]">second</button>
+        <a v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" href="/" target="_blank" class="bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#00B689] text-center border-[#B8B8B8] rounded-[20px] border-[4px] py-[9px] px-[12px]">dispute</a>
+        <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="revoke" class="bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#00B689] text-center border-[#B8B8B8] rounded-[20px] border-[4px] py-[9px] px-[12px]">revoke</button>
       </div>
       <footer class="flex justify-center items-center flex-col w-[100%] h-[147px] shadow-[inset_0_8px_4px_rgba(0,0,0,0.25)]">
         <p class="font-normal text-[23px] leading-[26px] text-[#000] text-center font-['Ubuntu Condensed']">Verified v3.1.0,</p>
@@ -32,9 +33,25 @@
   
 </template>
 
+<script setup lang="ts">
+  import { storeToRefs } from 'pinia'
+  import { useStore } from '../store'
+
+  const store = useStore()
+  const { walletAddr } = storeToRefs(store)
+
+  watch(walletAddr, (newWalletAddr) => {
+    console.log(newWalletAddr)
+  })
+</script>
+
 <script lang="ts">
   import '@/assets/sass/style.scss'
+  import { toast } from 'vue3-toastify'
+  import { OWNER_ADDR } from "@/helpers/constants"
   import WalletConnectionButton from "@/components/WalletConnectionButton.vue"
+  import { useEthers } from "@/composables/useEthers"
+  import { OIFlaggedSignedContract } from '@/contracts/OIFlaggedInstance'
   export default {
     name: 'Flagged',
     components: {
@@ -43,6 +60,45 @@
     data() {
       return {
         walletConnectionBtnBgColor: '#FFF4F3'
+      }
+    },
+    methods: {
+      downvote() {
+        console.log('downvote');
+      },
+      async revoke() {
+        const { getSigner } = useEthers()
+        const signer = getSigner()
+        const address = await signer.getAddress()
+
+        try {
+          let tokenIds = await OIFlaggedSignedContract(signer).methods.getOwnersToken(this.$route.params.addr).call()
+          console.log('tokenIds', tokenIds)
+          if (tokenIds.length > 0) {
+            await OIFlaggedSignedContract(signer).methods.burn(tokenIds[tokenIds.length - 1]).send({from: address});
+            toast("Successfully revoked!", {
+              autoClose: 1000,
+              theme: 'dark',
+              type: 'success'
+            });
+          }
+        } catch (error: any) {
+          if (error.code == 'INVALID_ARGUMENT') {
+            toast("Invalid Address!", {
+              autoClose: 1000,
+              theme: 'dark',
+              type: 'error'
+            });
+            return;
+          } else {
+            toast("Unexpected Error!", {
+              autoClose: 1000,
+              theme: 'dark',
+              type: 'error'
+            });
+            return;
+          }
+        }
       }
     }
   }
