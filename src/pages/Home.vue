@@ -130,9 +130,9 @@
           }
         }
         
-        flag = 'unknown'
-        store.setState('unknown')
-        localStorage.setItem('state', 'unknown')
+        // flag = 'unknown'
+        // store.setState('unknown')
+        // localStorage.setItem('state', 'unknown')
 
         this.$router.push({ name: 'address', params: { addr: this.address}})
       }
