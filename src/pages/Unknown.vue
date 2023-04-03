@@ -13,7 +13,7 @@
         <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" class="bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">flag address</button>
         <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"  class="bg-[#00B689] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">get verified</button>
 
-        <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"  class="bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint for flagged</button>
+        <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="mintForFlagged" class="bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint for flagged</button>
         <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="mintForVerified" class="bg-[#00B689] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint for verified</button>
       </div>
       <footer class="flex justify-center items-center flex-col w-[100%] h-[147px] shadow-[inset_0_8px_4px_rgba(0,0,0,0.25)]">
@@ -31,7 +31,6 @@
 
   const store = useStore()
   const { walletAddr } = storeToRefs(store)
-  console.log('walet, ', walletAddr)
 
   watch(walletAddr, (newWalletAddr) => {
     console.log(newWalletAddr)
@@ -60,12 +59,27 @@
     },
     methods: {
       async mintForVerified() {
-        console.log(this.$route.params.addr)
-        const signer = useEthers()
+        const { getSigner } = useEthers()
+        const signer = getSigner()
+        const address = await signer.getAddress()
+
         if (signer) {
           try {
-            await OIVerifiedSignedContract(signer).methods.safeMint(this.address);
-            // console.log('okk');
+            await OIVerifiedSignedContract(signer).methods.safeMint(this.$route.params.addr).send({from: address})
+          } catch (error: any) {
+            console.log('error', error)
+          }
+        }
+      },
+
+      async mintForFlagged() {
+        const { getSigner } = useEthers()
+        const signer = getSigner()
+        const address = await signer.getAddress()
+
+        if (signer) {
+          try {
+            await OIFlaggedSignedContract(signer).methods.safeMint(this.$route.params.addr).send({from: address})
           } catch (error: any) {
             console.log('error', error)
           }
