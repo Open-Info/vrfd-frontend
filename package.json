@@ -20,6 +20,8 @@
     "@web3-onboard/injected-wallets": "^2.8.3",
     "@web3-onboard/trust": "^2.0.1",
     "@web3-onboard/walletconnect": "^2.3.3",
+    "ag-grid-community": "^29.2.0",
+    "ag-grid-vue3": "^29.2.0",
     "node-sass": "^8.0.0",
     "pinia": "2.0.28",
     "prismjs": "^1.29.0",
