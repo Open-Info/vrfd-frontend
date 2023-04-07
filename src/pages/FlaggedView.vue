@@ -11,10 +11,10 @@
       />
     </div>
     <div
-      class="min-w-[1062px] border-[3px] border-dashed border-[#00B689] py-[42px]"
+      class="min-w-[1062px] border-[3px] border-dashed border-[#F7766A] py-[42px]"
     >
       <ag-grid-vue
-        class="ag-theme-alpine green"
+        class="ag-theme-alpine"
         style="width: 100%; height: 700px"
         :columnDefs="columnDefs.value"
         :rowData="searchData"
@@ -67,9 +67,9 @@ export default {
 
     onMounted(async () => {
       try {
-        const data = await getAddrsFromStatus("verified");
+        const data = await getAddrsFromStatus("flagged");
         rowData.value = data.addresses.map((item: any) => ({
-          votes: `+ ${item.upvotes}`,
+          votes: `- ${item.upvotes}`,
           address: item.address,
           date: item.createdAt,
           id: item.token_id,
@@ -97,15 +97,9 @@ export default {
 </script>
 
 <style lang="scss">
-.green {
-  --ag-header-foreground-color: #00b689 !important;
-
-  .ag-cell:nth-child(1) {
-    color: #00b689 !important;
-  }
-}
 .ag-theme-alpine {
   --ag-background-color: #363b3e;
+  --ag-header-foreground-color: #F7766A;
   --ag-header-background-color: #363b3e;
 
   --ag-font-size: 32px;
@@ -163,6 +157,7 @@ export default {
       .ag-cell:nth-child(1) {
         width: 14% !important;
         left: 0 !important;
+        color: #F7766A;
         padding-left: 23px;
       }
 

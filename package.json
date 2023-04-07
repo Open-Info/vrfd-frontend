@@ -20,6 +20,8 @@
     "@web3-onboard/injected-wallets": "^2.8.1",
     "@web3-onboard/trust": "^2.0.0",
     "@web3-onboard/walletconnect": "^2.3.1",
+    "ag-grid-community": "^29.2.0",
+    "ag-grid-vue3": "^29.2.0",
     "node-sass": "^8.0.0",
     "pinia": "2.0.28",
     "prismjs": "^1.29.0",
@@ -27,6 +29,7 @@
     "sass": "^1.58.3",
     "sass-loader": "^13.2.0",
     "vue": "3.2.45",
+    "vue-property-decorator": "^8.0.0",
     "vue-router": "^4.1.6",
     "vue3-toastify": "^0.1.1",
     "web3": "^1.8.2"
