@@ -130,9 +130,9 @@
           }
         }
         
-        flag = 'flagged'
-        store.setState('flagged')
-        localStorage.setItem('state', 'flagged')
+        // flag = 'flagged'
+        // store.setState('flagged')
+        // localStorage.setItem('state', 'flagged')
 
         this.$router.push({ name: 'address', params: { addr: this.address}})
       }
