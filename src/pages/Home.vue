@@ -4,7 +4,7 @@
       <header class="py-[34px] px-[37px] flex justify-end">
         <WalletConnectionButton :bg-color="walletConnectionBtnBgColor" />
       </header>
-      <h1 class="font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-[#30B1FD] text-center mb-[9px]">Verified - oi</h1>
+      <h1 class="font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-[#30B1FD] text-center mb-[9px]">Verified</h1>
     </div>
     <input type="text" id="search" name="search" class="bg-transparent text-[#FFF4F3] font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-[#747C81] py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)] absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%]"
       placeholder="0x0000000000000000000000000000000000000000"
@@ -17,8 +17,9 @@
         <button class="font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#00B689] text-center border-[#00B689] rounded-[20px] border-[4px] py-[12px] px-[24px]">verified<p class="text-[#747C81]">addresses</p></button>
       </div>
       <footer class="flex justify-center items-center flex-col w-[100%] h-[147px] shadow-[inset_0_8px_4px_rgba(0,0,0,0.25)]">
-        <p class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">Verified v3.1.0,</p>
-        <p class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">Powered by <span class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]">Open Information</span></p>
+        <p class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">v0.1.0</p>
+        <a href="https://github.com/open-info/" class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">An <span class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]">Open Info</span> dApp</a>
+        <a href="https://open-info.gitbook.io/verified-app/" class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">See User Manual</a>
       </footer>
     </div>
   </div>
