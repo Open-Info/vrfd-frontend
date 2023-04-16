@@ -8,4 +8,4 @@ export const API_GET_OPTION: any = {
   }
 };
 
-export const OWNER_ADDR = '0xF243E959167b97B7106c4eeb6b58334fDa61D94B'
+export const OWNER_ADDR = '0x57d4ADA400d290a0c7028C10fFbeB659396239B6'

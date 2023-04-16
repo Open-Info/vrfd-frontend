@@ -18,29 +18,23 @@ const routes = [
   {
     path: '/:addr',
     name: 'address',
-    component: function() {
-      const state = localStorage.getItem('state')
-      if (state == "verified") {
-        return Verified;
-      } else if (state == "flagged"){
-        return Flagged;
-      } else {
-        return Unknown;
-      }
-    }
+    component: Home,
   },
-  // {
-  //   path: '/unknown', // page with unknown addresses
-  //   component: Unknown,
-  // },
-  // {
-  //   path: '/verified', // page with verified addresses
-  //   component: Verified,
-  // },
-  // {
-  //   path: '/flagged', // page with flagged addresses
-  //   component: Flagged,
-  // },
+  {
+    path: '/:addr',
+    name: 'unknown',
+    component: Unknown,
+  },
+  {
+    path: '/:addr',
+    name: 'verified',
+    component: Verified,
+  },
+  {
+    path: '/:addr', // page with flagged addresses
+    name: 'flagged',
+    component: Flagged,
+  },
   {
     path: '/view/verified', // page with flagged addresses
     component: VerifiedView,
@@ -58,7 +52,7 @@ const hasRecentlyConnected = (previousTimestamp: number, maxMinutes = 6) => {
   return minutes < maxMinutes;
 }
 
-router.beforeEach(async (_, _2, next) => {
+router.beforeEach(async (to, from, next) => {
   const {
     alreadyConnectedWallets,
     connectedWallet,
@@ -74,7 +68,28 @@ router.beforeEach(async (_, _2, next) => {
       },
     });
   }
-  next();
+
+  const state = localStorage.getItem('state')
+  if (to.name == 'address') {
+    if (state == "verified") {
+      next({
+        name: 'verified',
+        params: { addr: to.params.addr}
+      })
+    } else if (state == "flagged"){
+      next({
+        name: 'flagged',
+        params: { addr: to.params.addr}
+      })
+    } else {
+      next({
+        name: 'unknown',
+        params: { addr: to.params.addr}
+      })
+    }
+  } else {
+    next();
+  }
 });
 
 export default router

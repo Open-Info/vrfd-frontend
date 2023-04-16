@@ -111,7 +111,16 @@
         if (flag == 'unknown') {
           try {
             let res = await checkAddress(this.address)
-            console.log(res)
+            console.log(res.flagged)
+            if (res.flagged) {
+              flag = 'flagged'
+              store.setState('flagged')
+              localStorage.setItem('state', 'flagged')
+            } else {
+              flag = 'unknown'
+              store.setState('unknown')
+              localStorage.setItem('state', 'unknown')
+            }
           } catch (error: any) {
             toast("Unexpected Error!", {
               autoClose: 1000,
@@ -120,12 +129,12 @@
             });
             return;
           }
-          flag = 'unknown'
-          store.setState('unknown')
-          localStorage.setItem('state', 'unknown')
         }
+        
+        // flag = 'unknown'
         // store.setState('unknown')
         // localStorage.setItem('state', 'unknown')
+
         this.$router.push({ name: 'address', params: { addr: this.address}})
       }
     }
