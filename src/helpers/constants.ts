@@ -1,8 +1,17 @@
 export const FLAG_CHECK_API = 'https://vrfd.dev/scala/flag_check' // FLAG_CHECK_API
 export const ADDR_VIEW_API = 'https://vrfd.dev/api/db/view' // ADDR_VIEW_API
+export const VOTE_API = 'https://vrfd.dev/api/db'
 
 export const API_GET_OPTION: any = {
   method: 'GET',
+  headers: { 
+    accept: 'application/json', 
+    mode: 'no-cors'
+  }
+};
+
+export const API_PATCH_OPTION: any = {
+  method: 'PATCH',
   headers: { 
     accept: 'application/json', 
     mode: 'no-cors'

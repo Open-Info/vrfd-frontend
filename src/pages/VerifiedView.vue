@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center bg-[#363B3E] h-screen py-[54px]">
+  <div class="flex flex-col items-center bg-[#363B3E] h-full min-h-screen py-[54px]">
     <div class="mb-[44px]">
       <input
         type="text"
@@ -53,6 +53,7 @@ export default {
       value: [
         { field: "votes" },
         { field: "address" },
+        { field: "ens" },
         { field: "date" },
         { field: "id" },
       ],
@@ -69,8 +70,9 @@ export default {
       try {
         const data = await getAddrsFromStatus("verified");
         rowData.value = data.addresses.map((item: any) => ({
-          votes: `+ ${item.upvotes}`,
+          votes: `+${item.upvotes}`,
           address: item.address,
+          ens: item.ens,
           date: item.createdAt,
           id: item.token_id,
         }));
@@ -128,27 +130,37 @@ export default {
       }
 
       .ag-header-cell:nth-child(1) {
-        width: 14% !important;
+        width: 10% !important;
         left: 0 !important;
-        padding-left: 23px;
+        padding-left: 14px;
+        padding-right: 10px !important;
       }
 
       .ag-header-cell:nth-child(2) {
-        width: 61% !important;
-        left: 14% !important;
-        padding-left: 30px;
+        width: 55% !important;
+        left: 10% !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
       }
 
       .ag-header-cell:nth-child(3) {
         width: 15% !important;
-        left: 75% !important;
-        padding-left: 4px;
+        left: 65% !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
       }
 
       .ag-header-cell:nth-child(4) {
-        width: 10% !important;
-        left: 90% !important;
-        padding-left: 23px;
+        width: 14% !important;
+        left: 80% !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+      }
+
+      .ag-header-cell:nth-child(5) {
+        width: 6% !important;
+        left: 94% !important;
+        padding-left: 0px !important;
       }
     }
 
@@ -161,30 +173,41 @@ export default {
       }
 
       .ag-cell:nth-child(1) {
-        width: 14% !important;
+        width: 10% !important;
         left: 0 !important;
-        padding-left: 23px;
+        padding-left: 14px;
+        padding-right: 10px !important;
       }
 
       .ag-cell:nth-child(2) {
-        width: 61% !important;
-        left: 14% !important;
+        width: 55% !important;
+        left: 10% !important;
         color: white;
-        padding-left: 30px;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
       }
 
       .ag-cell:nth-child(3) {
         width: 15% !important;
-        left: 75% !important;
+        left: 65% !important;
         color: white;
-        padding-left: 4px;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
       }
 
       .ag-cell:nth-child(4) {
-        width: 10% !important;
-        left: 90% !important;
+        width: 14% !important;
+        left: 80% !important;
         color: white;
-        padding-left: 23px;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+      }
+
+      .ag-cell:nth-child(5) {
+        width: 6% !important;
+        left: 94% !important;
+        color: white;
+        padding-left: 0px !important;
       }
 
       .ag-row-odd {
