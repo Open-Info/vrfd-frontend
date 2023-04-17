@@ -133,16 +133,36 @@ export default {
   methods: {
     async downvote() {
       const { getSigner } = useEthers();
-      const signer = getSigner();
-      const address = await signer.getAddress();
-      
+      let address;
       try {
-        await voteAddress('downvote', address);
-        toast("Successfully downvoted!", {
+        const signer = getSigner();
+        address = await signer.getAddress();
+      } catch(e) {
+        console.log(e);
+        toast("Please connect your wallet", {
           autoClose: 1000,
           theme: "dark",
-          type: "success",
+          type: "error",
         });
+        return;
+      }
+
+      try {
+        const res = await voteAddress('downvote', this.$route.params.addr as string, address);
+        if (res.success) {
+          toast("Successfully downvoted!", {
+            autoClose: 1000,
+            theme: "dark",
+            type: "success",
+          });
+        } else {
+          toast("Downvoting failed!", {
+            autoClose: 1000,
+            theme: "dark",
+            type: "error",
+          });
+        }
+        
       } catch (error: any) {
         console.log(error);
         toast("Unexpected Error!", {

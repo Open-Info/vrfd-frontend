@@ -10,8 +10,8 @@ export const API_GET_OPTION: any = {
   }
 };
 
-export const API_PATCH_OPTION: any = {
-  method: 'PATCH',
+export const API_POST_OPTION: any = {
+  method: 'POST',
   headers: { 
     accept: 'application/json', 
     mode: 'no-cors'

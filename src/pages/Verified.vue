@@ -132,25 +132,46 @@ export default {
   methods: {
     async upvote() {
       const { getSigner } = useEthers();
-      const signer = getSigner();
-      const address = await signer.getAddress();
-
+      let address;
       try {
-        await voteAddress("upvote", address);
-        toast("Successfully upvote!", {
-          autoClose: 1000,
-          theme: "dark",
-          type: "success",
-        });
-      } catch (error: any) {
-        console.log(error);
-        toast("Unexpected Error!", {
+        const signer = getSigner();
+        address = await signer.getAddress();
+      } catch(e) {
+        console.log(e);
+        toast("Please connect your wallet", {
           autoClose: 1000,
           theme: "dark",
           type: "error",
         });
+        return;
+      }
+
+      try {
+        const res = await voteAddress('upvote', this.$route.params.addr as string, address);
+        if (res.success) {
+          toast("Successfully upvoted!", {
+            autoClose: 1000,
+            theme: "dark",
+            type: "success",
+          });
+        } else {
+          toast("Upvoting failed!", {
+            autoClose: 1000,
+            theme: "dark",
+            type: "error",
+          });
+        }
+        
+      } catch (error: any) {
+        console.log(error);
+        toast("Unexpected Error!", {
+            autoClose: 1000,
+            theme: "dark",
+            type: "error",
+          });
       }
     },
+    
     async revoke() {
       const { getSigner } = useEthers();
       const signer = getSigner();
