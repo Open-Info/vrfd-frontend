@@ -11,10 +11,10 @@
       />
     </div>
     <div
-      class="min-w-[1062px] border-[3px] border-dashed border-[#00B689] py-[42px]"
+      class="min-w-[1100px] border-[3px] border-dashed border-[#F7766A] py-[42px]"
     >
       <ag-grid-vue
-        class="ag-theme-alpine green"
+        class="ag-theme-alpine"
         style="width: 100%; height: 700px"
         :columnDefs="columnDefs.value"
         :rowData="searchData"
@@ -51,7 +51,7 @@ export default {
     // Each Column Definition results in one Column.
     const columnDefs = reactive({
       value: [
-        { field: "votes", valueFormatter: (parmas: any) =>  Math.sign(parmas.value) >= 0 ? '+' + Math.abs(parmas.value) : -Math.abs(parmas.valueber)},
+        { field: "votes" },
         { field: "address" },
         // { field: "ens" },
         { field: "date" },
@@ -68,7 +68,7 @@ export default {
 
     onMounted(async () => {
       try {
-        const data = await getAddrsFromStatus("verified");
+        const data = await getAddrsFromStatus("flagged");
         rowData.value = data.addresses.map((item: any) => ({
           votes: item.votes,
           address: item.address,
@@ -99,15 +99,9 @@ export default {
 </script>
 
 <style lang="scss">
-.green {
-  --ag-header-foreground-color: #00b689 !important;
-
-  .ag-cell:nth-child(1) {
-    color: #00b689 !important;
-  }
-}
 .ag-theme-alpine {
   --ag-background-color: #363b3e;
+  --ag-header-foreground-color: #F7766A;
   --ag-header-background-color: #363b3e;
 
   --ag-font-size: 32px;
@@ -168,6 +162,7 @@ export default {
       .ag-cell:nth-child(1) {
         width: 15% !important;
         left: 0 !important;
+        color: #F7766A;
         padding-left: 20px;
         padding-right: 10px !important;
       }

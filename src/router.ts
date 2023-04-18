@@ -5,6 +5,7 @@ import Unknown from '@/pages/Unknown.vue'
 import Verified from '@/pages/Verified.vue'
 import Flagged from '@/pages/Flagged.vue'
 import VerifiedView from '@/pages/VerifiedView.vue'
+import FlaggedView from '@/pages/FlaggedView.vue'
 import { useStore } from './store'
 
 import { useOnboard } from "./composables/useOnboard";
@@ -31,13 +32,17 @@ const routes = [
     component: Verified,
   },
   {
-    path: '/:addr', // page with flagged addresses
+    path: '/:addr',
     name: 'flagged',
     component: Flagged,
   },
   {
-    path: '/view/verified', // page with flagged addresses
+    path: '/view/verified', // page with verified addresses
     component: VerifiedView,
+  },
+  {
+    path: '/view/flagged', // page with flagged addresses
+    component: FlaggedView,
   }
 ]
 

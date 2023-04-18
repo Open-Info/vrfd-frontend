@@ -10,8 +10,12 @@
     />
     <div class="flex flex-col justify-between items-center h-[50vh] bg-[#FFF4F3]">
       <div class="flex justify-between items-center min-w-[420px] pt-[75px]">
-        <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" class="bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">flag address</button>
-        <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"  class="bg-[#00B689] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">get verified</button>
+        <a href="https://bit.ly/mint-flag" v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" class="bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">
+          MINT FLAG
+        </a>
+        <a href="https://bit.ly/get-vrfd" v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"  class="bg-[#00B689] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">
+          GET VRFD
+        </a>
 
         <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="mintForFlagged" class="bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint for flagged</button>
         <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="mintForVerified" class="bg-[#00B689] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint for verified</button>

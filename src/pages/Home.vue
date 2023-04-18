@@ -13,8 +13,8 @@
     />
     <div class="flex flex-col justify-between items-center h-[50vh] bg-[#363B3E]">
       <div class="flex justify-between items-center min-w-[400px] pt-[75px]">
-        <button class="font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#F7766A] text-center border-[#F7766A] rounded-[20px] border-[4px] py-[12px] px-[24px]">flagged<p class="text-[#747C81]">addresses</p></button>
-        <button class="font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#00B689] text-center border-[#00B689] rounded-[20px] border-[4px] py-[12px] px-[24px]">verified<p class="text-[#747C81]">addresses</p></button>
+        <a href="/view/flagged" class="font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#F7766A] text-center border-[#F7766A] rounded-[20px] border-[4px] py-[12px] px-[24px]">flagged<p class="text-[#747C81]">addresses</p></a>
+        <a href="/view/verified" class="font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#00B689] text-center border-[#00B689] rounded-[20px] border-[4px] py-[12px] px-[24px]">verified<p class="text-[#747C81]">addresses</p></a>
       </div>
       <footer class="flex justify-center items-center flex-col w-[100%] h-[147px] shadow-[inset_0_8px_4px_rgba(0,0,0,0.25)]">
         <p class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">v0.1.0</p>
@@ -131,9 +131,9 @@
           }
         }
         
-        // flag = 'unknown'
-        // store.setState('unknown')
-        // localStorage.setItem('state', 'unknown')
+        // flag = 'flagged'
+        // store.setState('flagged')
+        // localStorage.setItem('state', 'flagged')
 
         this.$router.push({ name: 'address', params: { addr: this.address}})
       }
