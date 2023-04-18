@@ -38,7 +38,7 @@
             <p
               class="font-['Handjet'] font-normal text-[40px] leading-[45px] text-[#F7766A] ml-[31px]"
             >
-              13 times
+              {{ votes }} times
             </p>
           </div>
         </h1>
