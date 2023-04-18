@@ -1,4 +1,4 @@
-import { FLAG_CHECK_API, API_GET_OPTION, ADDR_VIEW_API, VOTE_API, API_POST_OPTION } from "@/helpers/constants";
+import { FLAG_CHECK_API, API_GET_OPTION, ADDR_VIEW_API, VOTE_API, VOTES_GET_API, API_POST_OPTION } from "@/helpers/constants";
 
 export const checkAddress = async (addr: string) => {
   const result = await fetch(`${FLAG_CHECK_API}/${addr}`, API_GET_OPTION);
@@ -18,3 +18,8 @@ export const voteAddress = async (status: string, target: string, source: string
   );
   return result.json();
 };
+
+export const getVotes = async (addr: string) => {
+  const result = await fetch(`${VOTES_GET_API}?address=${addr}`, API_GET_OPTION);
+  return result.json();
+}

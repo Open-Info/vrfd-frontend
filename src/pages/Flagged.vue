@@ -118,7 +118,7 @@ import { OWNER_ADDR } from "@/helpers/constants";
 import WalletConnectionButton from "@/components/WalletConnectionButton.vue";
 import { useEthers } from "@/composables/useEthers";
 import { OIFlaggedSignedContract } from "@/contracts/OIFlaggedInstance";
-import { voteAddress } from "@/api";
+import { voteAddress, getVotes } from "@/api";
 
 export default {
   name: "Flagged",
@@ -128,7 +128,21 @@ export default {
   data() {
     return {
       walletConnectionBtnBgColor: "#FFF4F3",
+      votes: 0
     };
+  },
+  mounted() {
+    getVotes(this.$route.params.addr as string)
+      .then(res => {
+        if (res.success) {
+          this.votes = res.votes;
+        } else {
+          console.log('getVotes api failed');
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
   },
   methods: {
     async downvote() {
