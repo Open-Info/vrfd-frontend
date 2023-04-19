@@ -18,8 +18,22 @@
       </div>
       <footer class="flex justify-center items-center flex-col w-[100%] h-[147px] shadow-[inset_0_8px_4px_rgba(0,0,0,0.25)]">
         <p class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">v0.1.0</p>
-        <a href="https://github.com/open-info/" class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">An <span class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]">Open Info</span> dApp</a>
-        <a href="https://open-info.gitbook.io/verified-app/" class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">See <span class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]">User Manual</span></a>
+        <a href="https://github.com/open-info/" class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">
+          An 
+          <span class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]">
+            Open Info
+          </span> 
+          dApp
+         </a>
+        <a href="https://open-info.gitbook.io/verified-app/" class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">
+          See 
+          <span class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]">
+            User Manual
+          </span>
+        </a>
+        <a href="https://open-info.gitbook.io/verified-app/" class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">
+          Submit Feedback
+        </a>
       </footer>
     </div>
   </div>
