@@ -31,7 +31,7 @@
             User Manual
           </span>
         </a>
-        <a href="https://open-info.gitbook.io/verified-app/" class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">
+        <a href="https://bit.ly/oi-feedback" class="font-normal text-[23px] leading-[26px]">
           <span class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]">
             Submit Feedback
           </span>
