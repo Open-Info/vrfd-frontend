@@ -73,7 +73,7 @@
         let flag = 'unknown'
 
         try {
-          let balance = await OIVerifiedContract.methods.balanceOf(this.address).call()
+          let balance = await OIVerifiedContract().methods.balanceOf(this.address).call()
           if (Number(balance) != 0) {
             store.setState('verified')
             flag = 'verified'
@@ -99,7 +99,7 @@
         
         if (flag == 'unknown') {
           try {
-            let balance = await OIFlaggedContract.methods.balanceOf(this.address).call()
+            let balance = await OIFlaggedContract().methods.balanceOf(this.address).call()
             if (Number(balance) != 0) {
               flag = 'flagged'
               store.setState('flagged')
