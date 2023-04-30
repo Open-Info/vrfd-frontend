@@ -77,7 +77,6 @@
           if (Number(balance) != 0) {
             store.setState('verified')
             flag = 'verified'
-            localStorage.setItem('state', 'verified')
           }
         } catch (error: any) {
           if (error.code == 'INVALID_ARGUMENT') {
@@ -103,7 +102,6 @@
             if (Number(balance) != 0) {
               flag = 'flagged'
               store.setState('flagged')
-              localStorage.setItem('state', 'flagged')
             }
           } catch (error: any) {
             if (error.code == 'INVALID_ARGUMENT') {
@@ -131,11 +129,9 @@
             if (res.flagged) {
               flag = 'flagged'
               store.setState('flagged')
-              localStorage.setItem('state', 'flagged')
             } else {
               flag = 'unknown'
               store.setState('unknown')
-              localStorage.setItem('state', 'unknown')
             }
           } catch (error: any) {
             toast("Unexpected Error!", {
