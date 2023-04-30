@@ -6,6 +6,9 @@ import Verified from '@/pages/Verified.vue'
 import Flagged from '@/pages/Flagged.vue'
 import VerifiedView from '@/pages/VerifiedView.vue'
 import FlaggedView from '@/pages/FlaggedView.vue'
+import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'
+import { OIFlaggedContract } from '@/contracts/OIFlaggedInstance'
+import { checkAddress } from '@/api'
 import { useStore } from './store'
 
 import { useOnboard } from "./composables/useOnboard";
@@ -57,6 +60,51 @@ const hasRecentlyConnected = (previousTimestamp: number, maxMinutes = 6) => {
   return minutes < maxMinutes;
 }
 
+const classifyAddr = async (addr: string) => {
+  let flag = 'unknown'
+  const store = useStore()
+
+  try {
+    let balance = await OIVerifiedContract.methods.balanceOf(addr).call()
+    if (Number(balance) != 0) {
+      store.setState('verified')
+      flag = 'verified'
+    }
+  } catch (error: any) {
+    return 'invalid'
+  }
+
+  if (flag == 'unknown') {
+    try {
+      let balance = await OIFlaggedContract.methods.balanceOf(addr).call()
+      if (Number(balance) != 0) {
+        flag = 'flagged'
+        store.setState('flagged')
+      }
+    } catch (error: any) {
+      return 'invalid'
+    }
+  }
+
+  if (flag == 'unknown') {
+    try {
+      let res = await checkAddress(addr)
+      console.log(res.flagged)
+      if (res.flagged) {
+        flag = 'flagged'
+        store.setState('flagged')
+      } else {
+        flag = 'unknown'
+        store.setState('unknown')
+      }
+    } catch (error: any) {
+      return 'invalid'
+    }
+  }
+
+  return flag;
+}
+
 router.beforeEach(async (to, from, next) => {
   const {
     alreadyConnectedWallets,
@@ -74,9 +122,16 @@ router.beforeEach(async (to, from, next) => {
     });
   }
 
-  const state = localStorage.getItem('state')
+  const state = useStore().state;
+  console.log(to.params.addr, state);
   if (to.name == 'address') {
-    if (state == "verified") {
+    const state = await classifyAddr(to.params.addr as string);
+    if (state == "invalid") {
+      next({
+        name: 'home',
+      })
+    }
+    else if (state == "verified") {
       next({
         name: 'verified',
         params: { addr: to.params.addr}
