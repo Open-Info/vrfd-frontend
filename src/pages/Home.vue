@@ -1,45 +1,40 @@
 <template>
   <div class="relative">
-    <div class="flex flex-col justify-between h-[50vh] bg-[#363B3E] pb-[60px]">
-      <header class="py-[34px] px-[37px] flex justify-end">
-        <WalletConnectionButton :bg-color="walletConnectionBtnBgColor" />
-      </header>
-      <h1 class="font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-[#30B1FD] text-center mb-[9px]">Search</h1>
+    <div class="flex flex-col justify-between md:h-[35vh] h-[50vh] bg-offBlack pb-[60px]">
+      <Header class="md:hidden" :textColor=textColor />
+      <h1
+        class="md:mt-[50px] font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-blue text-center mb-[9px]">
+        Search</h1>
     </div>
-    <input type="text" id="search" name="search" class="bg-transparent text-[#FFF4F3] font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-[#747C81] py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)] absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%]"
-      placeholder="0x0000000000000000000000000000000000000000"
-      v-model="address"
-      @keyup.enter="handleSearch"
-    />
-    <div class="flex flex-col justify-between items-center h-[50vh] bg-[#363B3E]">
-      <div class="flex justify-between items-center min-w-[400px] pt-[75px]">
-        <a href="/view/flagged" class="font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#F7766A] text-center border-[#F7766A] rounded-[20px] border-[4px] py-[12px] px-[24px]">flagged<p class="text-[#747C81]">addresses</p></a>
-        <a href="/view/verified" class="font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-[#00B689] text-center border-[#00B689] rounded-[20px] border-[4px] py-[12px] px-[24px]">verified<p class="text-[#747C81]">addresses</p></a>
+    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
+      <div class="relative flex items-center">
+        <i @click="copyAddress"
+          class="hover:bg-blue hover:text-black cursor-pointer border-[1px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-regular fa-clipboard"></i>
+        <input type="text" id="search" name="search" placeholder="0x0000000000000000000000000000000000000000"
+          v-model="address" @keyup.enter="handleSearch"
+          class="bg-transparent text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]" />
+        <i @click="handleSearch"
+          class="hover:bg-blue hover:text-black cursor-pointer border-[1px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-solid fa-arrow-right"></i>
       </div>
-      <footer class="flex justify-center items-center flex-col w-[100%] h-[147px] shadow-[inset_0_8px_4px_rgba(0,0,0,0.25)]">
-        <p class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">v0.1.0</p>
-        <a href="https://github.com/open-info/" class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">
-          An 
-          <span class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]">
-            Open Info
-          </span> 
-          dApp
-         </a>
-        <a href="https://open-info.gitbook.io/verified-app/" class="font-normal text-[23px] leading-[26px] text-[#FFF4F3] text-center font-['Ubuntu Condensed']">
-          See 
-          <span class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]">
-            User Manual
-          </span>
+    </div>
+    <div class="flex flex-col justify-between items-center md:h-[65vh] h-[50vh] bg-offBlack">
+      <div class="flex justify-between md:flex-col gap-[30px] items-center min-w-[400px] pt-[75px]">
+        <a href="/view/verified"
+          class="hover:bg-green hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-green text-center border-green border-[4px] py-[12px] px-[24px]">verified
+          <p>addresses</p>
         </a>
-        <a href="https://bit.ly/oi-feedback" class="font-normal text-[23px] leading-[26px]">
-          <span class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]">
-            Submit Feedback
-          </span>
+        <a href="/view/verified"
+          class="hover:bg-yellow hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-yellow text-center border-yellow border-[4px] py-[12px] px-[24px]">certified
+          <p>addresses</p>
         </a>
-      </footer>
+        <a href="/view/flagged"
+          class="hover:bg-red hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-red text-center border-red border-[4px] py-[12px] px-[24px]">flagged
+          <p>addresses</p>
+        </a>
+      </div>
+      <Footer :textColor="footerColor" />
     </div>
   </div>
-  
 </template>
 
 <script lang="ts">
@@ -49,18 +44,23 @@
   import { useStore } from '../store'
 
   import WalletConnectionButton from "@/components/WalletConnectionButton.vue"
+  import Header from "@/pages/layouts/Header.vue"
+  import Footer from "@/pages/layouts/Footer.vue"
   import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'
   import { OIFlaggedContract } from '@/contracts/OIFlaggedInstance'
   import { checkAddress } from '@/api'
   export default {
     name: 'Home',
     components: {
+      Header,
+      Footer,
       WalletConnectionButton
     },
     data() {
       return {
         address: '',
-        walletConnectionBtnBgColor: '#FFF4F3'
+        textColor: 'blue',
+        footerColor: "white"
       }
     },
     methods: {
@@ -148,6 +148,9 @@
         // localStorage.setItem('state', 'flagged')
 
         this.$router.push({ name: 'address', params: { addr: this.address}})
+      },
+      copyAddress() {
+        navigator.clipboard.writeText(this.address);
       }
     }
   }
