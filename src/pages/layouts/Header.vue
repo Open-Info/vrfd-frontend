@@ -4,36 +4,36 @@
             <ul class="flex">
                 <li
                     :class="`hover:shadow-[6px_6px_0px_#000000] border-[4px] border-transparent hover:border-[#000000] py-[10px] px-[20px] cursor-pointer hover:bg-blue text-${textColor} hover:text-[#000000]`">
-                    <a href="https://vrfd.info/" target="_black" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">Home</a>
+                    <a href="/" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">Home</a>
                 </li>
                 <li class="md:hidden" @click="showMenu"
                     :class="`relative ml-[42px] hover:shadow-[6px_6px_0px_#000000] border-[4px] border-transparent hover:border-[#000000] py-[10px] px-[20px] cursor-pointer hover:bg-blue text-${textColor} hover:text-[#000000]`">
                     <a href="#" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">
-                        View Top
+                        View Top Addresses
                         <i class="text-[15px] fa-solid fa-chevron-down"></i>
                     </a>
                     <ul v-if="dropdown" class="absolute -bottom-[220px] -left-[3px]">
                         <li
                             class="mb-[18px] shadow-[6px_6px_0px_#000000] border-[4px] border-[#000000] py-[10px] px-[20px] cursor-pointer bg-blue text-blue text-[#000000]">
-                            <a class="font-[700] text-[23px] leading-[26px] font-['Handjet']">VRFD</a>
+                            <a href="/view/verified" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">VRFD</a>
                         </li>
                         <li
                             class="mb-[18px] shadow-[6px_6px_0px_#000000] border-[4px] border-[#000000] py-[10px] px-[20px] cursor-pointer bg-blue text-blue text-[#000000]">
-                            <a class="font-[700] text-[23px] leading-[26px] font-['Handjet']">CRTFD</a>
+                            <a href="/view/verified" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">CRTFD</a>
                         </li>
                         <li
                             class="shadow-[6px_6px_0px_#000000] border-[4px] border-[#000000] py-[10px] px-[20px] cursor-pointer bg-blue text-blue text-[#000000]">
-                            <a class="font-[700] text-[23px] leading-[26px] font-['Handjet']">FLAG</a>
+                            <a  href="/view/flagged" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">FLAG</a>
                         </li>
                     </ul>
                 </li>
                 <li class="md:hidden"
                     :class="`ml-[42px] hover:shadow-[6px_6px_0px_#000000] border-[4px] border-transparent hover:border-[#000000] py-[10px] px-[20px] cursor-pointer hover:bg-blue text-${textColor} hover:text-[#000000]`">
-                    <a href="#" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">User Manual</a>
+                    <a href="https://open-info.gitbook.io/verified-app/" target="_blank" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">User-Manual</a>
                 </li>
                 <li class="md:hidden"
-                    :class="`ml-[42px] hover:shadow-[6px_6px_0px_#000000] border-[4px] border-transparent hover:border-[#000000] py-[10px] px-[20px] cursor-pointer hove:bg-blue text-${textColor} hover:text-[#000000]`">
-                    <a href="https://open-info.gitbook.io/oi-litepaper" target="_black" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">Learn More</a>
+                    :class="`ml-[42px] hover:shadow-[6px_6px_0px_#000000] border-[4px] border-transparent hover:border-[#000000] py-[10px] px-[20px] cursor-pointer hover:bg-blue text-${textColor} hover:text-[#000000]`">
+                    <a href="https://open-info.gitbook.io/oi-litepaper/" target="_blank" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">Litepaper</a>
                 </li>
             </ul>
         </div>

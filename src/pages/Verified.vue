@@ -10,7 +10,7 @@
         </h1>
         <div class="flex flex-col justify-end pb-[27px]">
           <p class="font-['Handjet'] font-normal text-[40px] leading-[45px] text-black md:ml-0 ml-[31px]">
-            {{ votes }} times
+            {{ votes }} time(s)
           </p>
         </div>
       </div>
@@ -42,7 +42,9 @@
           class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
           <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
             class="cursor-pointer bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
-            <a href="/" target="_blank">report</a>
+            <a href="https://bit.ly/mint-flag" target="_blank">
+              report
+            </a>
           </button>
         </div>
         <button

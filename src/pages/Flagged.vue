@@ -10,7 +10,7 @@
         </h1>
         <div class="flex flex-col justify-end pb-[27px]">
           <p class="font-['Handjet'] font-normal text-[40px] leading-[45px] text-red md:ml-0 ml-[31px]">
-            {{ votes }} times
+            {{ votes }} time(s)
           </p>
         </div>
       </div>
@@ -45,8 +45,10 @@
           class="md:hidden font-['Handjet'] bg-red font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000000] border-black border-[3px] py-[5px] px-[12px]">
           AKA
         </button>
-        <a v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" href="/" target="_blank"
-          class="shadow-[8px_8px_0px_#000000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">dispute</a>
+        <a v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" href="https://bit.ly/get-vrfd" target="_blank"
+          class="shadow-[8px_8px_0px_#000000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">
+          dispute
+        </a>
         <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="revoke"
           class="bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">
           revoke
