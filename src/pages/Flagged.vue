@@ -1,11 +1,11 @@
 <template>
   <div class="relative">
     <div class="flex flex-col justify-between h-[50vh] bg-offBlack pb-[60px]">
-      <Header :textColor="textColor">
-        <WalletConnectionButton :textColor="textColor" />
+      <Header :textColor=textColor>
+        <WalletConnectionButton :textColor=textColor />
       </Header>
       <div class="flex md:flex-col justify-center md:items-center">
-        <h1 class=" md:mb-[30px] flex font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-red text-center">
+        <h1 class=" md:mb-[30px] flex font-['Handjet'] text-[150px] leading-[168px] font-bold text-red text-center">
           Flagged
         </h1>
         <div class="flex flex-col justify-end pb-[27px]">
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
+    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
       <div class="relative">
         <a href="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></a>
         <input type="text" id="search" name="search" :value="$route.params.addr" readonly
@@ -78,6 +78,9 @@ import "@/assets/sass/style.scss";
 import { toast } from "vue3-toastify";
 import { OWNER_ADDR } from "@/helpers/constants";
 import WalletConnectionButton from "@/components/WalletConnectionButton.vue";
+import Header from "../pages/layouts/Header.vue";
+import Footer from "../pages/layouts/Footer.vue";
+import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { useEthers } from "@/composables/useEthers";
 import { OIFlaggedSignedContract } from "@/contracts/OIFlaggedInstance";
 import { voteAddress, getVotes } from "@/api";
@@ -86,6 +89,9 @@ export default {
   name: "Flagged",
   components: {
     WalletConnectionButton,
+    Header,
+    Footer,
+    MobileFooter
   },
   data() {
     return {

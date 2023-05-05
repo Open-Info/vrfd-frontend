@@ -1,13 +1,13 @@
 <template>
   <div class="relative">
     <div class="flex flex-col justify-between h-[50vh] bg-offBlack pb-[60px]">
-      <Header :textColor="textColor">
-        <WalletConnectionButton :textColor="textColor" />
+      <Header :textColor=textColor>
+        <WalletConnectionButton :textColor=textColor />
       </Header>
-      <h1 class="font-['Handjet'] font-normal md:text-[100px] text-[150px] leading-[168px] font-bold text-white text-center mb-[9px]">
+      <h1 class="font-['Handjet'] md:text-[100px] text-[150px] leading-[168px] font-bold text-white text-center mb-[9px]">
         Unknown</h1>
     </div>
-    <div class="flex absolute top-1/2 left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
+    <div class="flex absolute top-1/2 left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
       <div class="relative">
         <a href="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[5px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></a>
         <input type="text" id="search" name="search" :value="$route.params.addr" readonly
@@ -71,7 +71,7 @@
   import { OIFlaggedContract, OIFlaggedSignedContract } from '@/contracts/OIFlaggedInstance'
 
   export default {
-    name: 'Flagged',
+    name: 'Unknown',
     components: {
       WalletConnectionButton,
       Header,

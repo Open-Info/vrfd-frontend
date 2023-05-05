@@ -5,7 +5,7 @@
         <WalletConnectionButton :textColor=textColor />
       </Header>
       <div class="flex md:flex-col justify-center md:items-center">
-        <h1 class="flex font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-black text-center">
+        <h1 class="flex font-['Handjet'] text-[150px] leading-[168px] font-bold text-black text-center">
           VRFD
         </h1>
         <div class="flex flex-col justify-end pb-[27px]">
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
+    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
       <div class="relative">
         <a href="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></a>
         <input type="text" id="search" name="search" :value="$route.params.addr" readonly
@@ -97,9 +97,11 @@ import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
 import { voteAddress, getVotes } from "@/api";
 
 export default {
-  name: "Flagged",
+  name: "Verified",
   components: {
     WalletConnectionButton,
+    Header,
+    Footer,
     MobileFooter
   },
   data() {
