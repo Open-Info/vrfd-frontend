@@ -1,4 +1,5 @@
 import web3 from "./web3";
+import Web3 from 'web3';
 
 const address = "0x53560A19F50fbe55a06418938ffd97428CDDd9Db";
 
@@ -582,7 +583,10 @@ const abi = [
   }
 ];
 
-export const OIFlaggedContract = new web3.eth.Contract(abi, address);
+export const OIFlaggedContract = () => {
+  const _web3 : any = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
+  return new _web3.eth.Contract(abi, address);
+}
 
 export const OIFlaggedSignedContract = (signer: any) => {
   return new web3.eth.Contract(abi, address, signer);

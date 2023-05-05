@@ -1,99 +1,71 @@
 <template>
   <div class="relative">
-    <div class="flex flex-col justify-between h-[50vh] bg-[#00B689] pb-[60px]">
-      <header class="py-[34px] px-[37px] flex justify-end items-center">
-        <svg
-          width="56"
-          height="56"
-          viewBox="0 0 56 56"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M16.9167 16.3334H39.0834V11.6667C39.0834 7.00002 37.3334 4.66669 32.0834 4.66669H23.9167C18.6667 4.66669 16.9167 7.00002 16.9167 11.6667V16.3334ZM37.3334 35V44.3334C37.3334 49 35.0001 51.3334 30.3334 51.3334H25.6667C21.0001 51.3334 18.6667 49 18.6667 44.3334V35H37.3334Z"
-            stroke="black"
-            stroke-width="1.5"
-            stroke-miterlimit="10"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M39.6667 35H16.3333M16.3333 25.6666H23.3333M49 23.3333V35C49 39.6666 46.6667 42 42 42H37.3333V35H18.6667V42H14C9.33333 42 7 39.6666 7 35V23.3333C7 18.6666 9.33333 16.3333 14 16.3333H42C46.6667 16.3333 49 18.6666 49 23.3333Z"
-            stroke="black"
-            stroke-width="1.5"
-            stroke-miterlimit="10"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-        <WalletConnectionButton :bg-color="walletConnectionBtnBgColor" />
-      </header>
-      <div class="flex justify-center">
-        <h1
-          class="flex font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-[#232020] text-center ml-[140px]"
-        >
+    <div class="flex flex-col justify-between h-[50vh] bg-green pb-[60px]">
+      <Header :textColor=textColor>
+        <WalletConnectionButton :textColor=textColor />
+      </Header>
+      <div class="flex md:flex-col justify-center md:items-center">
+        <h1 class="flex font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-black text-center">
           VRFD
-          <div class="flex flex-col justify-end pb-[27px]">
-            <p
-              class="font-['Handjet'] font-normal text-[40px] leading-[45px] text-[#232020] ml-[31px]"
-            >
-              {{votes}} times
-            </p>
-          </div>
         </h1>
+        <div class="flex flex-col justify-end pb-[27px]">
+          <p class="font-['Handjet'] font-normal text-[40px] leading-[45px] text-black md:ml-0 ml-[31px]">
+            {{ votes }} times
+          </p>
+        </div>
       </div>
     </div>
-    <input
-      type="text"
-      id="search"
-      name="search"
-      readonly
-      :value="$route.params.addr + ' ✓'"
-      class="bg-[#00B689] text-black font-normal text-[32px] leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] min-w-[620px] rounded-[14px] border-[1px] border-[#000] shadow-[6px_10px] absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%]"
-    />
-    <div
-      class="flex flex-col justify-between items-center h-[50vh] bg-[#FFF4F3]"
-    >
-      <div class="flex justify-between items-center min-w-[300px] pt-[75px]">
-        <a
-          v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
-          href="/"
-          target="_blank"
-          class="cursor-pointer bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]"
-          >report</a
-        >
-        <button
-          @click="revoke"
-          v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"
-          class="cursor-pointer bg-[#F7766A] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]"
-        >
-          revoke
-        </button>
-        <button
-          @click="upvote"
-          class="bg-[#00B689] font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]"
-        >
-          second
-        </button>
+    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
+      <div class="relative">
+        <a href="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></a>
+        <input type="text" id="search" name="search" :value="$route.params.addr" readonly
+          class="text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000000]" />
       </div>
-      <footer
-        class="flex justify-center items-center flex-col w-[100%] h-[147px] shadow-[inset_0_8px_4px_rgba(0,0,0,0.25)]"
-      >
-        <p
-          class="font-normal text-[23px] leading-[26px] text-[#000] text-center font-['Ubuntu Condensed']"
-        >
-          Verified v3.1.0,
-        </p>
-        <p
-          class="font-normal text-[23px] leading-[26px] text-[#000] text-center font-['Ubuntu Condensed']"
-        >
-          Powered by
-          <span
-            class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-[#30B1FD]"
-            >Open Information</span
-          >
-        </p>
-      </footer>
+      <button
+        class="md:hidden text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000000]">
+        <i class="fas fa-share-nodes"></i>
+      </button>
+    </div>
+    <div class="m_md:hidden flex bg-offWhite justify-center pt-[70px]">
+      <button
+        class="font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000000] border-black border-[3px] py-[5px] px-[12px]">
+        AKA
+      </button>
+      <button
+        class="text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000000]">
+        <i class="fas fa-share-nodes"></i>
+      </button>
+    </div>
+    <div class="flex flex-col justify-between md:justify-start items-center md:h-[40vh] h-[50vh] bg-offWhite">
+      <div class="flex justify-between items-center md:w-[300px] w-[400px] md:pt-[30px] md:mb-[100px] pt-[75px]">
+        <div
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
+          <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
+            class="cursor-pointer bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
+            <a href="/" target="_blank">report</a>
+          </button>
+        </div>
+        <button
+          class="md:hidden font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000000] border-black border-[3px] py-[5px] px-[12px]">
+          AKA
+        </button>
+        <div v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
+          <button @click="revoke"
+            class="cursor-pointer bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
+            revoke
+          </button>
+        </div>
+        <div
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
+          <button @click="upvote"
+            class="bg-green font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
+            second
+          </button>
+        </div>
+      </div>
+      <MobileFooter :textColor=textColor />
+      <Footer :textColor=textColor />
     </div>
   </div>
 </template>
@@ -116,6 +88,9 @@ import "@/assets/sass/style.scss";
 import { OWNER_ADDR } from "@/helpers/constants";
 import { useEthers } from "@/composables/useEthers";
 import WalletConnectionButton from "@/components/WalletConnectionButton.vue";
+import Header from "../pages/layouts/Header.vue";
+import Footer from "../pages/layouts/Footer.vue";
+import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
 import { voteAddress, getVotes } from "@/api";
 
@@ -123,10 +98,11 @@ export default {
   name: "Flagged",
   components: {
     WalletConnectionButton,
+    MobileFooter
   },
   data() {
     return {
-      walletConnectionBtnBgColor: "#FFF4F3",
+      textColor: 'black',
       votes: 0
     };
   },

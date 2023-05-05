@@ -4,14 +4,38 @@ const plugin = require('tailwindcss/plugin')
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,ts}'],
-  // theme: {
-  //   extend: {
-  //     // here's how to extend fonts if needed
-  //     fontFamily: {
-  //       sans: [...defaultTheme.fontFamily.sans],
-  //     },
-  //   },
-  // },
+  theme: {
+    colors: {
+      blue: "#30B1FD",
+      black: "#232020",
+      offBlack: "#363B3E",
+      white: "#FFFFFF",
+      offWhite: "#FFF4F3",
+      yellow: "#EBEA67",
+      red: "#F7766A",
+      green: "#00B689",
+      grey: "#747C81",
+      silver: "#B8B8B8"
+    },
+    extend: {
+      screens: {
+        '2xl': { 'max': '1535px' },
+        // => @media (max-width: 1535px) { ... }
+        'xl': { 'min': '1600px', 'max': '3840px' },
+        // => @media (max-width: 1279px) { ... }
+        'lg': { 'max': '1100px' },
+        // => @media (max-width: 1023px) { ... }
+        'sm': { 'max': '400px' },
+        // => @media (max-width: 639px) { ... }
+        'md': { 'max': '865px' },
+        // => @media (max-width: 767px) { ... }
+        'm_lg': '1440px',
+        'm_lg1': '1920px',
+        'm_md': '865px',
+        'm_sm': '393px',        
+      },
+    },
+  },
   plugins: [
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/line-clamp'),

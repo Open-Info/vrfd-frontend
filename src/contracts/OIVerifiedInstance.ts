@@ -583,7 +583,11 @@ const abi = [
   }
 ];
 
-export const OIVerifiedContract = new web3.eth.Contract(abi, address);
+
+export const OIVerifiedContract = () => {
+  const _web3 : any = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
+  return new _web3.eth.Contract(abi, address);
+}
 
 export const OIVerifiedSignedContract = (signer: any) => {
   return new web3.eth.Contract(abi, address, signer);
