@@ -39,7 +39,7 @@
     <div class="flex flex-col justify-between md:justify-start items-center md:h-[40vh] h-[50vh] bg-offWhite">
       <div class="flex justify-between items-center md:w-[300px] w-[400px] md:pt-[30px] md:mb-[100px] pt-[75px]">
         <div
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
           <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
             class="cursor-pointer bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             <a href="https://bit.ly/mint-flag" target="_blank">
@@ -52,14 +52,14 @@
           AKA
         </button>
         <div v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
           <button @click="revoke"
             class="cursor-pointer bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             revoke
           </button>
         </div>
         <div
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
           <button @click="upvote"
             class="bg-green font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             second
