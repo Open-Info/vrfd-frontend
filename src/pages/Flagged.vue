@@ -16,10 +16,12 @@
     <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
       <div class="relative">
         <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
-        <input type="text" id="search" name="search" :value="$route.params.addr" readonly
-          class="text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000]" />
+        <input @click="redirectToBSCLink" type="text" id="search" name="search" :value="shortenAddr($route.params.addr as string)" readonly
+          class="cursor-pointer text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000]" />
       </div>
-      <button class="md:hidden text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000]">
+      <button 
+        @click="copyToClipboard"
+        class="md:hidden text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000]">
         <i class="fas fa-share-alt"></i>
       </button>
     </div>
@@ -29,6 +31,7 @@
         AKA
       </button>
       <button
+        @click="copyToClipboard"
         class="text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000]">
         <i class="fas fa-share-nodes"></i>
       </button>
@@ -89,10 +92,22 @@ export default {
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
       textColor: "blue",
       footerColor: "white",
       votes: 0
     };
+  },
+  computed: {
+    deviceWidth() {
+      return this.windowWidth;
+    }
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
   },
   mounted() {
     getVotes(this.$route.params.addr as string)
@@ -108,6 +123,16 @@ export default {
       })
   },
   methods: {
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    },
+    shortenAddr(addr: string) {
+      if (this.windowWidth <= 768) {
+        if (addr.length < 10) return addr;
+        return `${addr.slice(0, 8)}...${addr.slice(addr.length - 8)}`;
+      }
+      return addr;
+    },
     async downvote() {
       const { getSigner } = useEthers();
       let address;
@@ -187,6 +212,16 @@ export default {
         }
       }
     },
-  },
+    copyToClipboard() {
+      navigator.clipboard.writeText(this.$route.params.addr as string).then(() => {
+        console.log('Text copied to clipboard');
+      }).catch((error) => {
+        console.error('Error copying text to clipboard:', error);
+      });
+    },
+    redirectToBSCLink() {
+      window.open(`${import.meta.env.VITE_BSCSCAN_URL}/token/${import.meta.env.VITE_FLAGGED_CONTRACT_ADDR}?a=${this.$route.params.addr}`, '_blank');
+    }
+  }
 };
 </script>

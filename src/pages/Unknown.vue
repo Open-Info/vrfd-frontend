@@ -8,8 +8,8 @@
     <div class="flex absolute top-1/2 left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
       <div class="relative">
         <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[5px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
-        <input type="text" id="search" name="search" :value="$route.params.addr" readonly
-          class="text-black font-normal text-[32px] leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000]" />
+        <input type="text" id="search" name="search" :value="shortenAddr($route.params.addr as string)" readonly
+          class="cursor-pointer text-black font-normal text-[32px] leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000]" />
       </div>
     </div>
     <div class="flex flex-col md:justify-start justify-between items-center h-[50vh] bg-offWhite">
@@ -72,13 +72,35 @@
     },
     data() {
       return {
+        windowWidth: window.innerWidth,
         blackColor: 'black',
         walletAddr: '',
         address: '',
         textColor: 'blue'
       }
     },
+    computed: {
+      deviceWidth() {
+        return this.windowWidth;
+      }
+    },
+    created() {
+      window.addEventListener("resize", this.handleResize);
+    },
+    destroyed() {
+      window.removeEventListener("resize", this.handleResize);
+    },
     methods: {
+      handleResize() {
+        this.windowWidth = window.innerWidth;
+      },
+      shortenAddr(addr: string) {
+        if (this.windowWidth <= 768) {
+          if (addr.length < 10) return addr;
+          return `${addr.slice(0, 8)}...${addr.slice(addr.length - 8)}`;
+        }
+        return addr;
+      },
       async mintForVerified() {
         const { getSigner } = useEthers()
         const signer = getSigner()

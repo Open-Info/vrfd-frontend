@@ -1,8 +1,6 @@
 import web3 from "./web3";
 import Web3 from 'web3';
 
-const address = "0x53560A19F50fbe55a06418938ffd97428CDDd9Db";
-
 const abi = [
   {
     "inputs": [
@@ -584,10 +582,10 @@ const abi = [
 ];
 
 export const OIFlaggedContract = () => {
-  const _web3 : any = new Web3(import.meta.env.VITE_TEST_BSC_RPC_URL as string);
-  return new _web3.eth.Contract(abi, address);
+  const _web3 : any = new Web3(import.meta.env.VITE_BSC_RPC_URL as string);
+  return new _web3.eth.Contract(abi, import.meta.env.VITE_FLAGGED_CONTRACT_ADDR);
 }
 
 export const OIFlaggedSignedContract = (signer: any) => {
-  return new web3.eth.Contract(abi, address, signer);
+  return new web3.eth.Contract(abi, import.meta.env.VITE_FLAGGED_CONTRACT_ADDR, signer);
 }

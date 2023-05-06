@@ -8,9 +8,9 @@
     </div>
     <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
       <div class="relative flex items-center">
-        <i @click="copyAddress"
+        <i @click="pasteFromClipboard"
           class="hover:bg-blue hover:text-black cursor-pointer border-[1px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-regular fa-clipboard"></i>
-        <input type="text" id="search" name="search" placeholder="0x0000000000000000000000000000000000000000"
+        <input type="text" id="search" name="search" :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')"
           v-model="address" @keyup.enter="handleSearch"
           class="bg-transparent text-black font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]" />
         <i @click="handleSearch"
@@ -56,12 +56,34 @@
     },
     data() {
       return {
+        windowWidth: window.innerWidth,
         address: '',
         textColor: 'blue',
         footerColor: "white"
       }
     },
+    computed: {
+      deviceWidth() {
+        return this.windowWidth;
+      }
+    },
+    created() {
+      window.addEventListener("resize", this.handleResize);
+    },
+    destroyed() {
+      window.removeEventListener("resize", this.handleResize);
+    },
     methods: {
+      handleResize() {
+        this.windowWidth = window.innerWidth;
+      },
+      shortenAddr(addr: string) {
+        if (this.windowWidth <= 768) {
+          if (addr.length < 10) return addr;
+          return `${addr.slice(0, 8)}...${addr.slice(addr.length - 8)}`;
+        }
+        return addr;
+      },
       async handleSearch() {
 
         const store = useStore()
@@ -147,8 +169,13 @@
 
         this.$router.push({ name: 'address', params: { addr: this.address}})
       },
-      copyAddress() {
-        navigator.clipboard.writeText(this.address);
+      async pasteFromClipboard() {
+        try {
+          const text = await navigator.clipboard.readText();
+          this.address = text;
+        } catch (error) {
+          console.error('Error pasting text from clipboard:', error);
+        }
       }
     }
   }
