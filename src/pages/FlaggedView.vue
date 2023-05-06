@@ -56,11 +56,10 @@ export default {
     // Each Column Definition results in one Column.
     const columnDefs = reactive({
       value: [
-        { field: "votes" },
-        { field: "address" },
-        // { field: "ens" },
-        { field: "date" },
-        { field: "id" },
+        { field: "votes", flex: 1.5 },
+        { field: "address", flex: 5.5 },
+        { field: "date", flex: 2 },
+        { field: "id", flex: 1 },
       ],
     });
 
@@ -83,7 +82,7 @@ export default {
         const data = await getAddrsFromStatus("flagged");
         rowData.value = data.addresses.map((item: any) => ({
           votes: item.votes,
-          address: item.address,
+          address: shortenAddr(item.address),
           // ens: item.ens,
           date: item.createdAt,
           id: item.token_id,
@@ -126,9 +125,9 @@ export default {
 
 <style lang="scss">
 .ag-theme-alpine {
-  --ag-background-color: #363b3e;
+  --ag-background-color: "black-color";
   --ag-header-foreground-color: #F7766A;
-  --ag-header-background-color: #363b3e;
+  --ag-header-background-color: "black-color";
 
   --ag-font-size: 32px;
   --ag-line-height: 36px;
@@ -146,34 +145,10 @@ export default {
 
       .ag-header-cell {
         text-transform: uppercase;
-        // border-right: 1px solid rgb(116, 124, 129);
       }
 
-      .ag-header-cell:nth-child(1) {
-        width: 15% !important;
-        left: 0 !important;
-        padding-left: 20px;
-        padding-right: 10px !important;
-      }
-
-      .ag-header-cell:nth-child(2) {
-        width: 55% !important;
-        left: 15% !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-header-cell:nth-child(3) {
-        width: 20% !important;
-        left: 70% !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-header-cell:nth-child(4) {
-        width: 10% !important;
-        left: 90% !important;
-        padding-left: 0px !important;
+      .ag-header-cell:not(:first-child) {
+        padding: 0;
       }
     }
 
@@ -182,38 +157,15 @@ export default {
         display: flex;
         align-items: center;
         border: none;
-        // border-right: 1px solid rgb(116, 124, 129);
       }
 
-      .ag-cell:nth-child(1) {
-        width: 15% !important;
-        left: 0 !important;
+      .ag-cell:first-child {
         color: #F7766A;
-        padding-left: 20px;
-        padding-right: 10px !important;
       }
 
-      .ag-cell:nth-child(2) {
-        width: 55% !important;
-        left: 15% !important;
+      .ag-cell:not(:first-child) {
         color: white;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-cell:nth-child(3) {
-        width: 20% !important;
-        left: 70% !important;
-        color: white;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-cell:nth-child(4) {
-        width: 10% !important;
-        left: 90% !important;
-        color: white;
-        padding-left: 0px !important;
+        padding: 0;
       }
 
       .ag-row-odd {
@@ -230,6 +182,50 @@ export default {
       color: white;
       margin-right: 35px;
     }
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .ag-paging-panel {
+    display: none;
+  }
+
+  .ag-theme-alpine {
+    height: 623px !important;
+  }
+
+  .ag-header-cell:nth-child(1) {
+    width: 35% !important;
+  }
+
+  .ag-header-cell:nth-child(2) {
+    width: 60% !important;
+    left: 35% !important;
+  }
+
+  .ag-header-cell:nth-child(3) {
+    display: none;
+  }
+
+  .ag-header-cell:nth-child(4) {
+    display: none;
+  }
+
+  .ag-cell:nth-child(1) {
+    width: 35% !important;
+  }
+
+  .ag-cell:nth-child(2) {
+    width: 60% !important;
+    left: 35% !important;
+  }
+
+  .ag-cell:nth-child(3) {
+    display: none !important;
+  }
+
+  .ag-cell:nth-child(4) {
+    display: none !important;
   }
 }
 </style>

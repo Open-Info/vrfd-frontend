@@ -59,11 +59,11 @@ export default {
     // Each Column Definition results in one Column.
     const columnDefs = reactive({
       value: [
-        { field: "votes", valueFormatter: (parmas: any) =>  Math.sign(parmas.value) >= 0 ? '+' + Math.abs(parmas.value) : -Math.abs(parmas.valueber)},
-        { field: "address" },
+        { field: "votes", flex: 1.5, valueFormatter: (parmas: any) =>  Math.sign(parmas.value) >= 0 ? '+' + Math.abs(parmas.value) : -Math.abs(parmas.valueber)},
+        { field: "address", flex: 5.5 },
         // { field: "ens" },
-        { field: "date" },
-        { field: "id" },
+        { field: "date", flex: 2 },
+        { field: "id", flex: 1 },
       ],
     });
 
@@ -101,7 +101,7 @@ export default {
     });
 
     function shortenAddr(addr: string) {
-      if (deviceWidth.value <= 768) {
+      if (deviceWidth.value <= 1100) {
         if (addr.length < 10) return addr;
         return `${addr.slice(0, 5)}...${addr.slice(addr.length - 5)}`;
       }
@@ -129,15 +129,14 @@ export default {
 
 <style lang="scss">
 .green {
-  --ag-header-foreground-color: #00b689 !important;
+  --ag-header-foreground-color: #00B689 !important;
 
   .ag-cell:nth-child(1) {
-    color: #00b689 !important;
+    color: #00B689 !important;
   }
 }
+
 .ag-theme-alpine {
-  --ag-background-color: #363b3e;
-  --ag-header-background-color: #363b3e;
 
   --ag-font-size: 32px;
   --ag-line-height: 36px;
@@ -157,33 +156,6 @@ export default {
         text-transform: uppercase;
         // border-right: 1px solid rgb(116, 124, 129);
       }
-
-      .ag-header-cell:nth-child(1) {
-        width: 15% !important;
-        left: 0 !important;
-        padding-left: 20px;
-        padding-right: 10px !important;
-      }
-
-      .ag-header-cell:nth-child(2) {
-        width: 55% !important;
-        left: 15% !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-header-cell:nth-child(3) {
-        width: 20% !important;
-        left: 70% !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-header-cell:nth-child(4) {
-        width: 10% !important;
-        left: 90% !important;
-        padding-left: 0px !important;
-      }
     }
 
     .ag-body {
@@ -191,37 +163,6 @@ export default {
         display: flex;
         align-items: center;
         border: none;
-        // border-right: 1px solid rgb(116, 124, 129);
-      }
-
-      .ag-cell:nth-child(1) {
-        width: 15% !important;
-        left: 0 !important;
-        padding-left: 20px;
-        padding-right: 10px !important;
-      }
-
-      .ag-cell:nth-child(2) {
-        width: 55% !important;
-        left: 15% !important;
-        color: white;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-cell:nth-child(3) {
-        width: 20% !important;
-        left: 70% !important;
-        color: white;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-cell:nth-child(4) {
-        width: 10% !important;
-        left: 90% !important;
-        color: white;
-        padding-left: 0px !important;
       }
 
       .ag-row-odd {
