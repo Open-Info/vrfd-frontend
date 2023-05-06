@@ -584,7 +584,7 @@ const abi = [
 ];
 
 export const OIFlaggedContract = () => {
-  const _web3 : any = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
+  const _web3 : any = new Web3(import.meta.env.VITE_TEST_BSC_RPC_URL as string);
   return new _web3.eth.Contract(abi, address);
 }
 

@@ -9,7 +9,7 @@
       <div class="relative">
         <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[5px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
         <input type="text" id="search" name="search" :value="$route.params.addr" readonly
-          class="text-black font-normal text-[32px] leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000000]" />
+          class="text-black font-normal text-[32px] leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000]" />
       </div>
     </div>
     <div class="flex flex-col md:justify-start justify-between items-center h-[50vh] bg-offWhite">

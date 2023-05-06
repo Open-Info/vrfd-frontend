@@ -17,34 +17,34 @@
       <div class="relative">
         <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
         <input type="text" id="search" name="search" :value="$route.params.addr" readonly
-          class="text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000000]" />
+          class="text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000]" />
       </div>
-      <button class="md:hidden text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000000]">
+      <button class="md:hidden text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000]">
         <i class="fas fa-share-alt"></i>
       </button>
     </div>
     <div class="m_md:hidden flex bg-offBlack justify-center pt-[70px]">
       <button
-        class="font-['Handjet'] bg-red font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000000] border-black border-[3px] py-[5px] px-[12px]">
+        class="font-['Handjet'] bg-red font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
         AKA
       </button>
       <button
-        class="text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000000]">
+        class="text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000]">
         <i class="fas fa-share-nodes"></i>
       </button>
     </div>
     <div class="flex flex-col justify-between md:justify-start items-center md:h-[40vh] h-[50vh] bg-offBlack">
       <div class="flex justify-between items-center md:w-[300px] w-[400px] md:pt-[30px] md:mb-[100px] pt-[75px]">
         <button @click="downvote"
-          class="shadow-[8px_8px_0px_#000000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-red text-center border-silver border-[4px] py-[9px] px-[12px]">
+          class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-red text-center border-silver border-[4px] py-[9px] px-[12px]">
           second
         </button>
         <button
-          class="md:hidden font-['Handjet'] bg-red font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000000] border-black border-[3px] py-[5px] px-[12px]">
+          class="md:hidden font-['Handjet'] bg-red font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
           AKA
         </button>
         <router-link v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" to="/"
-          class="shadow-[8px_8px_0px_#000000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">dispute</router-link>
+          class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">dispute</router-link>
         <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="revoke"
           class="bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">
           revoke

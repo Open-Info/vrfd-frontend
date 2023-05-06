@@ -17,20 +17,20 @@
       <div class="relative">
         <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
         <input type="text" id="search" name="search" :value="$route.params.addr" readonly
-          class="text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000000]" />
+          class="text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000]" />
       </div>
       <button
-        class="md:hidden text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000000]">
+        class="md:hidden text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000]">
         <i class="fas fa-share-nodes"></i>
       </button>
     </div>
     <div class="m_md:hidden flex bg-offWhite justify-center pt-[70px]">
       <button
-        class="font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000000] border-black border-[3px] py-[5px] px-[12px]">
+        class="font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
         AKA
       </button>
       <button
-        class="text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000000]">
+        class="text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000]">
         <i class="fas fa-share-nodes"></i>
       </button>
     </div>
@@ -43,7 +43,7 @@
           </button>
         </div>
         <button
-          class="md:hidden font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000000] border-black border-[3px] py-[5px] px-[12px]">
+          class="md:hidden font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
           AKA
         </button>
         <div v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"
@@ -104,7 +104,8 @@ export default {
       votes: 0
     };
   },
-  mounted() {
+  async mounted() {
+
     getVotes(this.$route.params.addr as string)
       .then(res => {
         if (res.success) {

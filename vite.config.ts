@@ -4,6 +4,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import { version as pkgVersion } from './package.json'
+import commonjs from '@rollup/plugin-commonjs';
 
 process.env.VITE_APP_VERSION = pkgVersion
 if (process.env.NODE_ENV === 'production') {
@@ -13,6 +14,7 @@ if (process.env.NODE_ENV === 'production') {
 export default defineConfig({
   plugins: [
     vue(),
+    commonjs(),
     AutoImport({
       imports: [
         'vue',

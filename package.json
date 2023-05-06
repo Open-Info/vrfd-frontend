@@ -10,9 +10,9 @@
     "test:ci": "vitest"
   },
   "dependencies": {
-    "@ensdomains/ensjs": "^3.0.0-alpha.62",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/units": "^5.7.0",
+    "@rollup/plugin-commonjs": "^24.1.0",
     "@types/prismjs": "^1.26.0",
     "@vueuse/core": "^9.13.0",
     "@vueuse/head": "1.0.22",
@@ -23,7 +23,8 @@
     "@web3-onboard/walletconnect": "^2.3.5",
     "ag-grid-community": "^29.2.0",
     "ag-grid-vue3": "^29.2.0",
-    "ethers": "^6.3.0",
+    "ethjs": "^0.4.0",
+    "ethjs-ens": "^2.0.1",
     "node-sass": "^8.0.0",
     "pinia": "2.0.28",
     "prismjs": "^1.29.0",
