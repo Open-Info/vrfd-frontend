@@ -19,18 +19,18 @@
     </div>
     <div class="flex flex-col justify-between items-center md:h-[65vh] h-[50vh] bg-offBlack">
       <div class="flex justify-between md:flex-col gap-[30px] items-center min-w-[400px] pt-[75px]">
-        <a href="/view/verified"
+        <router-link to="/view/verified"
           class="hover:bg-green hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-green text-center border-green border-[4px] py-[12px] px-[24px]">verified
           <p>addresses</p>
-        </a>
-        <a href="/view/verified"
+        </router-link>
+        <a href="#"
           class="hover:bg-yellow hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-yellow text-center border-yellow border-[4px] py-[12px] px-[24px]">certified
           <p>addresses</p>
         </a>
-        <a href="/view/flagged"
+        <router-link to="/view/flagged"
           class="hover:bg-red hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-red text-center border-red border-[4px] py-[12px] px-[24px]">flagged
           <p>addresses</p>
-        </a>
+        </router-link>
       </div>
       <Footer :textColor="footerColor" />
     </div>
@@ -43,7 +43,6 @@
   import 'vue3-toastify/dist/index.css'
   import { useStore } from '../store'
 
-  import WalletConnectionButton from "@/components/WalletConnectionButton.vue"
   import Header from "@/pages/layouts/Header.vue"
   import Footer from "@/pages/layouts/Footer.vue"
   import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'
@@ -54,7 +53,6 @@
     components: {
       Header,
       Footer,
-      WalletConnectionButton
     },
     data() {
       return {

@@ -1,9 +1,7 @@
 <template>
   <div class="relative">
     <div class="flex flex-col justify-between h-[50vh] bg-offBlack pb-[60px]">
-      <Header :textColor="textColor">
-        <WalletConnectionButton :textColor="textColor" />
-      </Header>
+      <Header :textColor=textColor />
       <div class="flex md:flex-col justify-center md:items-center">
         <h1 class=" md:mb-[30px] flex font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-red text-center">
           Flagged
@@ -17,7 +15,7 @@
     </div>
     <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
       <div class="relative">
-        <a href="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></a>
+        <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
         <input type="text" id="search" name="search" :value="$route.params.addr" readonly
           class="text-black font-normal bg-red text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000000]" />
       </div>
@@ -45,8 +43,8 @@
           class="md:hidden font-['Handjet'] bg-red font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000000] border-black border-[3px] py-[5px] px-[12px]">
           AKA
         </button>
-        <a v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" href="/" target="_blank"
-          class="shadow-[8px_8px_0px_#000000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">dispute</a>
+        <router-link v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" to="/"
+          class="shadow-[8px_8px_0px_#000000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">dispute</router-link>
         <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="revoke"
           class="bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">
           revoke
@@ -75,7 +73,9 @@ watch(walletAddr, (newWalletAddr) => {
 import "@/assets/sass/style.scss";
 import { toast } from "vue3-toastify";
 import { OWNER_ADDR } from "@/helpers/constants";
-import WalletConnectionButton from "@/components/WalletConnectionButton.vue";
+import Header from "@/pages/layouts/Header.vue";
+import Footer from "@/pages/layouts/Footer.vue";
+import MobileFooter from "@/pages/layouts/MobileFooter.vue";
 import { useEthers } from "@/composables/useEthers";
 import { OIFlaggedSignedContract } from "@/contracts/OIFlaggedInstance";
 import { voteAddress, getVotes } from "@/api";
@@ -83,7 +83,9 @@ import { voteAddress, getVotes } from "@/api";
 export default {
   name: "Flagged",
   components: {
-    WalletConnectionButton,
+    Footer,
+    Header,
+    MobileFooter
   },
   data() {
     return {

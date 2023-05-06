@@ -1,9 +1,7 @@
 <template>
   <div class="relative">
     <div class="flex flex-col justify-between h-[50vh] bg-green pb-[60px]">
-      <Header :textColor=textColor>
-        <WalletConnectionButton :textColor=textColor />
-      </Header>
+      <Header :textColor=textColor />
       <div class="flex md:flex-col justify-center md:items-center">
         <h1 class="flex font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-black text-center">
           VRFD
@@ -17,7 +15,7 @@
     </div>
     <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
       <div class="relative">
-        <a href="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></a>
+        <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
         <input type="text" id="search" name="search" :value="$route.params.addr" readonly
           class="text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000000]" />
       </div>
@@ -38,8 +36,7 @@
     </div>
     <div class="flex flex-col justify-between md:justify-start items-center md:h-[40vh] h-[50vh] bg-offWhite">
       <div class="flex justify-between items-center md:w-[300px] w-[400px] md:pt-[30px] md:mb-[100px] pt-[75px]">
-        <div
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
+        <div class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-t-[12px] border-l-[12px] border-transparent">
           <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
             class="cursor-pointer bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             <a href="/" target="_blank">report</a>
@@ -87,7 +84,6 @@ import { toast } from "vue3-toastify";
 import "@/assets/sass/style.scss";
 import { OWNER_ADDR } from "@/helpers/constants";
 import { useEthers } from "@/composables/useEthers";
-import WalletConnectionButton from "@/components/WalletConnectionButton.vue";
 import Header from "../pages/layouts/Header.vue";
 import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
@@ -97,11 +93,13 @@ import { voteAddress, getVotes } from "@/api";
 export default {
   name: "Flagged",
   components: {
-    WalletConnectionButton,
+    Header,
+    Footer,
     MobileFooter
   },
   data() {
     return {
+      ensName: null,
       textColor: 'black',
       votes: 0
     };

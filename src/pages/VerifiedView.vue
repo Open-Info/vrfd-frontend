@@ -1,10 +1,8 @@
 <template>
   <div class="bg-offBlack">
-    <Header :textColor=textColor>
-      <WalletConnectionButton :textColor=textColor />
-    </Header>
+    <Header :textColor=textColor />
     <div class="flex flex-col items-center bg-offBlack h-full min-h-screen py-[54px]">
-      <div class="mb-[44px] md:hidden">
+      <div class="mb-[70px] md:hidden">
         <input type="text" id="search" name="search" v-model="searchQuery"
           class="bg-transparent text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]"
           placeholder="0x0000000000000000000000000000000000000000" />

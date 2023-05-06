@@ -14,7 +14,7 @@ if (window.ethereum) {
   console.log(
     'Non-Ethereum browser detected. You should consider trying MetaMask!'
   );
-  window.web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545")
+  window.web3 = new Web3(import.meta.env.VITE_TEST_BSC_RPC_URL as string)
 }
 
 export default web3;
