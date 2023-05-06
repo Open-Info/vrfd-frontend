@@ -45,36 +45,13 @@ export default {
   },
   data() {
     return {
-      windowWidth: window.innerWidth,
       textColor: "blue",
       footerColor: "white"
     }
   },
-  computed: {
-    deviceWidth() {
-      return this.windowWidth;
-    }
-  },
-  created() {
-    window.addEventListener("resize", this.handleResize);
-  },
-  destroyed() {
-    window.removeEventListener("resize", this.handleResize);
-  },
-  methods: {
-    handleResize() {
-      this.windowWidth = window.innerWidth;
-    },
-    shortenAddr(addr: string) {
-      if (this.windowWidth <= 768) {
-        if (addr.length < 10) return addr;
-        return `${addr.slice(0, 8)}...${addr.slice(addr.length - 8)}`;
-      }
-      return addr;
-    }
-  },
   setup() {
     const searchQuery = ref("");
+    const windowWidth = ref(window.innerWidth);
     const rowData = reactive({
       value: [],
     }); // Set rowData to Array of Objects, one Object per Row
@@ -97,12 +74,23 @@ export default {
       flex: 1,
     };
 
+    function handleResize() {
+      windowWidth.value = window.innerWidth;
+    }
+
+    const deviceWidth = computed(() => windowWidth.value);
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
+    });
+
     onMounted(async () => {
+      window.addEventListener('resize', handleResize);
       try {
         const data = await getAddrsFromStatus("verified");
         rowData.value = data.addresses.map((item: any) => ({
           votes: item.votes,
-          address: item.address,
+          address: shortenAddr(item.address),
           // ens: item.ens,
           date: item.createdAt,
           id: item.token_id,
@@ -112,6 +100,14 @@ export default {
       }
     });
 
+    function shortenAddr(addr: string) {
+      if (deviceWidth.value <= 768) {
+        if (addr.length < 10) return addr;
+        return `${addr.slice(0, 5)}...${addr.slice(addr.length - 5)}`;
+      }
+      return addr;
+    };
+
     const searchData = computed(() => {
       return rowData.value.filter(
         (data: any) => data.address.indexOf(searchQuery.value) != -1
@@ -119,11 +115,13 @@ export default {
     });
 
     return {
+      deviceWidth,
       columnDefs,
       rowData,
       defaultColDef,
       searchQuery,
       searchData,
+      shortenAddr
     };
   },
 };
