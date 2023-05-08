@@ -8,10 +8,10 @@
                 </li>
                 <li class="md:hidden" @click="showMenu"
                     :class="`relative ml-[42px] hover:shadow-[6px_6px_0px_#000] border-[4px] border-transparent hover:border-[#000] py-[10px] px-[20px] cursor-pointer hover:bg-blue text-${textColor} hover:text-[#000]`">
-                    <a href="#" class="font-[700] text-[23px] leading-[26px] font-['Handjet']">
+                    <p class="font-[700] text-[23px] leading-[26px] font-['Handjet']">
                         View Top
                         <i class="text-[15px] fa-solid fa-chevron-down"></i>
-                    </a>
+                    </p>
                     <ul v-if="dropdown" class="absolute -bottom-[220px] -left-[3px]">
                         <li
                             class="mb-[18px] shadow-[6px_6px_0px_#000] border-[4px] border-[#000] py-[10px] px-[20px] cursor-pointer bg-blue text-blue text-[#000]">

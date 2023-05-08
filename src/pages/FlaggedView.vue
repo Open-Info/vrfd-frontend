@@ -10,7 +10,8 @@
       <div class="ag-grid lg:w-[800px] w-[1062px] border-[3px] border-dashed border-red py-[42px]">
         <ag-grid-vue class="ag-theme-alpine" style="width: 100%; height: 700px" :columnDefs="columnDefs.value"
           :rowData="searchData" :defaultColDef="defaultColDef" :rowHeight="68" :headerHeight="68" :pagination="true"
-          :paginationPageSize="8">
+          :paginationPageSize="8" :rowSelection="rowSelection" @grid-ready="onGridReady"
+          @selection-changed="onSelectionChanged">
         </ag-grid-vue>
       </div>
     </div>
@@ -24,6 +25,7 @@
 <script lang="ts">
 import { AgGridVue } from "ag-grid-vue3"; // the AG Grid Vue Component
 import { reactive, onMounted, ref } from "vue";
+import router from "@/router";
 
 import Header from "@/pages/layouts/Header.vue";
 import Footer from "@/pages/layouts/Footer.vue";
@@ -43,7 +45,10 @@ export default {
   data() {
     return {
       textColor: "blue",
-      footerColor: "white"
+      footerColor: "white",
+      rowSelection: null as string | null,
+      gridApi: null as any | null,
+      gridColumnApi: null,
     }
   },
   setup() {
@@ -100,7 +105,7 @@ export default {
       if (deviceWidth.value <= 1100 && 865 <= deviceWidth.value) {
         if (addr.length < 10) return addr;
         return `${addr.slice(0, 15)}...${addr.slice(addr.length - 15)}`;
-      } 
+      }
       if (deviceWidth.value <= 865) {
         return `${addr.slice(0, 7)}...${addr.slice(addr.length - 7)}`;
       }
@@ -123,6 +128,29 @@ export default {
       shortenAddr
     };
   },
+
+  created() {
+    this.rowSelection = 'single';
+  },
+
+  methods: {
+    onSelectionChanged() {
+      const selectedRows = this.gridApi.getSelectedRows();
+      // router.push(`/${selectedRows[0].address}`)
+      window.open(`/${selectedRows[0].address}`, '_blank');
+    },
+
+    onGridReady(params: any) {
+      this.gridApi = params.api;
+      this.gridColumnApi = params.columnApi;
+
+      const updateData = (data: any) => params.api.setRowData(data);
+
+      fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
+        .then((resp) => resp.json())
+        .then((data) => updateData(data));
+    },
+  }
 };
 </script>
 
