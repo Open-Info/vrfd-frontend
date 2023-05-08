@@ -1,9 +1,7 @@
 <template>
   <div class="relative">
     <div class="flex flex-col justify-between h-[50vh] bg-green pb-[60px]">
-      <Header :textColor=textColor>
-        <WalletConnectionButton :textColor=textColor />
-      </Header>
+      <Header :textColor=textColor />
       <div class="flex md:flex-col justify-center md:items-center">
         <h1 class="flex font-['Handjet'] text-[150px] leading-[168px] font-bold text-black text-center">
           VRFD
@@ -17,22 +15,24 @@
     </div>
     <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
       <div class="relative">
-        <a href="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></a>
-        <input type="text" id="search" name="search" :value="$route.params.addr" readonly
-          class="text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000000]" />
+        <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
+        <input @click="redirectToBSCLink" type="text" id="search" name="search" :value="shortenAddr($route.params.addr as string)" readonly
+          class="cursor-pointer text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] font-['Handjet'] text-center py-[9px] px-[22px] md:w-[320px] w-[620px] shadow-[8px_8px_0px_#000]" />
       </div>
       <button
-        class="md:hidden text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000000]">
+        @click="copyToClipboard"
+        class="md:hidden text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000]">
         <i class="fas fa-share-nodes"></i>
       </button>
     </div>
     <div class="m_md:hidden flex bg-offWhite justify-center pt-[70px]">
       <button
-        class="font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000000] border-black border-[3px] py-[5px] px-[12px]">
+        class="font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
         AKA
       </button>
       <button
-        class="text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000000]">
+        @click="copyToClipboard"
+        class="text-black font-normal bg-green text-[32px] border-[3px] border-black leading-[36px] py-[9px] px-[22px] ml-[22px] shadow-[8px_8px_0px_#000]">
         <i class="fas fa-share-nodes"></i>
       </button>
     </div>
@@ -48,7 +48,7 @@
           </button>
         </div>
         <button
-          class="md:hidden font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000000] border-black border-[3px] py-[5px] px-[12px]">
+          class="md:hidden font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
           AKA
         </button>
         <div v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"
@@ -89,7 +89,6 @@ import { toast } from "vue3-toastify";
 import "@/assets/sass/style.scss";
 import { OWNER_ADDR } from "@/helpers/constants";
 import { useEthers } from "@/composables/useEthers";
-import WalletConnectionButton from "@/components/WalletConnectionButton.vue";
 import Header from "../pages/layouts/Header.vue";
 import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
@@ -99,18 +98,30 @@ import { voteAddress, getVotes } from "@/api";
 export default {
   name: "Verified",
   components: {
-    WalletConnectionButton,
     Header,
     Footer,
     MobileFooter
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
+      ensName: null,
       textColor: 'black',
       votes: 0
     };
   },
-  mounted() {
+  computed: {
+    deviceWidth() {
+      return this.windowWidth;
+    }
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+  async mounted() {
     getVotes(this.$route.params.addr as string)
       .then(res => {
         if (res.success) {
@@ -124,6 +135,16 @@ export default {
       })
   },
   methods: {
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    },
+    shortenAddr(addr: string) {
+      if (this.windowWidth <= 768) {
+        if (addr.length < 10) return addr;
+        return `${addr.slice(0, 8)}...${addr.slice(addr.length - 8)}`;
+      }
+      return addr;
+    },
     async upvote() {
       const { getSigner } = useEthers();
       let address;
@@ -165,7 +186,6 @@ export default {
           });
       }
     },
-    
     async revoke() {
       const { getSigner } = useEthers();
       const signer = getSigner();
@@ -204,6 +224,16 @@ export default {
         }
       }
     },
+    copyToClipboard() {
+      navigator.clipboard.writeText(this.$route.params.addr as string).then(() => {
+        console.log('Text copied to clipboard');
+      }).catch((error) => {
+        console.error('Error copying text to clipboard:', error);
+      });
+    },
+    redirectToBSCLink() {
+      window.open(`${import.meta.env.VITE_BSCSCAN_URL}/token/${import.meta.env.VITE_VERIFIED_CONTRACT_ADDR}?a=${this.$route.params.addr}`, '_blank');
+    }
   },
 };
 </script>

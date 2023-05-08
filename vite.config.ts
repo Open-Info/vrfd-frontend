@@ -31,11 +31,11 @@ export default defineConfig({
     Components({
       dirs: ['src/components'],
       extensions: ['vue'],
-    }),
+    })
   ],
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
     },
-  },
+  }
 })

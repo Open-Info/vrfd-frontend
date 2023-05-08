@@ -1,18 +1,17 @@
 <template>
   <div class="bg-offBlack">
-    <Header :textColor=textColor>
-      <WalletConnectionButton :textColor=textColor />
-    </Header>
+    <Header :textColor=textColor />
     <div class="flex flex-col items-center bg-offBlack h-full min-h-screen py-[54px]">
-      <div class="mb-[44px] md:hidden">
+      <div class="mb-[70px] md:hidden">
         <input type="text" id="search" name="search" v-model="searchQuery"
-          class="bg-offBlack text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]"
-          placeholder="0x0000000000000000000000000000000000000000" />
+          class="bg-transparent text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]"
+          :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')" />
       </div>
-      <div class="lg:w-[366px] w-[1062px] border-[3px] border-dashed border-green py-[42px]">
+      <div class="ag-grid lg:w-[800px] w-[1062px] border-[3px] border-dashed border-green py-[42px]">
         <ag-grid-vue class="ag-theme-alpine green" style="width: 100%; height: 700px" :columnDefs="columnDefs.value"
           :rowData="searchData" :defaultColDef="defaultColDef" :rowHeight="68" :headerHeight="68" :pagination="true"
-          :paginationPageSize="8">
+          :paginationPageSize="8" :rowSelection="rowSelection" @grid-ready="onGridReady"
+          @selection-changed="onSelectionChanged">
         </ag-grid-vue>
       </div>
     </div>
@@ -26,6 +25,7 @@
 <script lang="ts">
 import { AgGridVue } from "ag-grid-vue3"; // the AG Grid Vue Component
 import { reactive, onMounted, ref } from "vue";
+import router from "@/router";
 
 import Header from "@/pages/layouts/Header.vue"
 import Footer from "@/pages/layouts/Footer.vue"
@@ -48,11 +48,15 @@ export default {
   data() {
     return {
       textColor: "blue",
-      footerColor: "white"
+      footerColor: "white",
+      rowSelection: null as string | null,
+      gridApi: null as any | null,
+      gridColumnApi: null,
     }
   },
   setup() {
     const searchQuery = ref("");
+    const windowWidth = ref(window.innerWidth);
     const rowData = reactive({
       value: [],
     }); // Set rowData to Array of Objects, one Object per Row
@@ -60,11 +64,11 @@ export default {
     // Each Column Definition results in one Column.
     const columnDefs = reactive({
       value: [
-        { field: "votes", valueFormatter: (parmas: any) =>  Math.sign(parmas.value) >= 0 ? '+' + Math.abs(parmas.value) : -Math.abs(parmas.valueber)},
-        { field: "address" },
+        { field: "votes", flex: 1.5, valueFormatter: (parmas: any) =>  Math.sign(parmas.value) >= 0 ? '+' + Math.abs(parmas.value) : -Math.abs(parmas.valueber)},
+        { field: "address", flex: 5.5 },
         // { field: "ens" },
-        { field: "date" },
-        { field: "id" },
+        { field: "date", flex: 2 },
+        { field: "id", flex: 1 },
       ],
     });
 
@@ -75,12 +79,23 @@ export default {
       flex: 1,
     };
 
+    function handleResize() {
+      windowWidth.value = window.innerWidth;
+    }
+
+    const deviceWidth = computed(() => windowWidth.value);
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
+    });
+
     onMounted(async () => {
+      window.addEventListener('resize', handleResize);
       try {
         const data = await getAddrsFromStatus("verified");
         rowData.value = data.addresses.map((item: any) => ({
           votes: item.votes,
-          address: item.address,
+          address: shortenAddr(item.address),
           // ens: item.ens,
           date: item.createdAt,
           id: item.token_id,
@@ -90,6 +105,17 @@ export default {
       }
     });
 
+    function shortenAddr(addr: string) {
+      if (deviceWidth.value <= 1100 && 865 <= deviceWidth.value) {
+        if (addr.length < 10) return addr;
+        return `${addr.slice(0, 15)}...${addr.slice(addr.length - 15)}`;
+      } 
+      if (deviceWidth.value <= 865) {
+        return `${addr.slice(0, 7)}...${addr.slice(addr.length - 7)}`;
+      }
+      return addr;
+    };
+
     const searchData = computed(() => {
       return rowData.value.filter(
         (data: any) => data.address.indexOf(searchQuery.value) != -1
@@ -97,27 +123,51 @@ export default {
     });
 
     return {
+      deviceWidth,
       columnDefs,
       rowData,
       defaultColDef,
       searchQuery,
       searchData,
+      shortenAddr
     };
   },
+
+  created() {
+    this.rowSelection = 'single';
+  },
+
+  methods: {
+    onSelectionChanged() {
+      const selectedRows = this.gridApi.getSelectedRows();
+      // router.push(`/${selectedRows[0].address}`);
+      window.open(`/${selectedRows[0].address}`, '_blank');
+    },
+
+    onGridReady(params: any) {
+      this.gridApi = params.api;
+      this.gridColumnApi = params.columnApi;
+
+      const updateData = (data: any) => params.api.setRowData(data);
+
+      fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
+        .then((resp) => resp.json())
+        .then((data) => updateData(data));
+    },
+  }
 };
 </script>
 
 <style lang="scss">
 .green {
-  --ag-header-foreground-color: #00b689 !important;
+  --ag-header-foreground-color: #00B689 !important;
 
   .ag-cell:nth-child(1) {
-    color: #00b689 !important;
+    color: #00B689 !important;
   }
 }
+
 .ag-theme-alpine {
-  --ag-background-color: #363b3e;
-  --ag-header-background-color: #363b3e;
 
   --ag-font-size: 32px;
   --ag-line-height: 36px;
@@ -137,33 +187,6 @@ export default {
         text-transform: uppercase;
         // border-right: 1px solid rgb(116, 124, 129);
       }
-
-      .ag-header-cell:nth-child(1) {
-        width: 15% !important;
-        left: 0 !important;
-        padding-left: 20px;
-        padding-right: 10px !important;
-      }
-
-      .ag-header-cell:nth-child(2) {
-        width: 55% !important;
-        left: 15% !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-header-cell:nth-child(3) {
-        width: 20% !important;
-        left: 70% !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-header-cell:nth-child(4) {
-        width: 10% !important;
-        left: 90% !important;
-        padding-left: 0px !important;
-      }
     }
 
     .ag-body {
@@ -171,37 +194,6 @@ export default {
         display: flex;
         align-items: center;
         border: none;
-        // border-right: 1px solid rgb(116, 124, 129);
-      }
-
-      .ag-cell:nth-child(1) {
-        width: 15% !important;
-        left: 0 !important;
-        padding-left: 20px;
-        padding-right: 10px !important;
-      }
-
-      .ag-cell:nth-child(2) {
-        width: 55% !important;
-        left: 15% !important;
-        color: white;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-cell:nth-child(3) {
-        width: 20% !important;
-        left: 70% !important;
-        color: white;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-cell:nth-child(4) {
-        width: 10% !important;
-        left: 90% !important;
-        color: white;
-        padding-left: 0px !important;
       }
 
       .ag-row-odd {

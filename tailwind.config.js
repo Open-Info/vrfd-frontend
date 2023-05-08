@@ -5,19 +5,19 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,ts}'],
   theme: {
-    colors: {
-      blue: "#30B1FD",
-      black: "#232020",
-      offBlack: "#363B3E",
-      white: "#FFFFFF",
-      offWhite: "#FFF4F3",
-      yellow: "#EBEA67",
-      red: "#F7766A",
-      green: "#00B689",
-      grey: "#747C81",
-      silver: "#B8B8B8"
-    },
     extend: {
+      colors: {
+        blue: "#30B1FD",
+        black: "#232020",
+        offBlack: "#363B3E",
+        white: "#FFF",
+        offWhite: "#FFF4F3",
+        yellow: "#EBEA67",
+        red: "#F7766A",
+        green: "#00B689",
+        grey: "#747C81",
+        silver: "#B8B8B8"
+      },
       screens: {
         '2xl': { 'max': '1535px' },
         // => @media (max-width: 1535px) { ... }

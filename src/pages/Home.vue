@@ -8,9 +8,9 @@
     </div>
     <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
       <div class="relative flex items-center">
-        <i @click="copyAddress"
+        <i @click="pasteFromClipboard"
           class="hover:bg-blue hover:text-black cursor-pointer border-[1px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-regular fa-clipboard"></i>
-        <input type="text" id="search" name="search" placeholder="0x0000000000000000000000000000000000000000"
+        <input type="text" id="search" name="search" :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')"
           v-model="address" @keyup.enter="handleSearch"
           class="bg-offBlack text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]" />
         <i @click="handleSearch"
@@ -19,18 +19,18 @@
     </div>
     <div class="flex flex-col justify-between items-center md:h-[65vh] h-[50vh] bg-offBlack">
       <div class="flex justify-between md:flex-col gap-[30px] items-center min-w-[400px] pt-[75px]">
-        <a href="/view/verified"
+        <router-link to="/view/verified"
           class="hover:bg-green hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-green text-center border-green border-[4px] py-[12px] px-[24px]">verified
           <p>addresses</p>
-        </a>
-        <a href="/view/verified"
+        </router-link>
+        <a href="#"
           class="hover:bg-yellow hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-yellow text-center border-yellow border-[4px] py-[12px] px-[24px]">certified
           <p>addresses</p>
         </a>
-        <a href="/view/flagged"
+        <router-link to="/view/flagged"
           class="hover:bg-red hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-red text-center border-red border-[4px] py-[12px] px-[24px]">flagged
           <p>addresses</p>
-        </a>
+        </router-link>
       </div>
       <Footer :textColor="footerColor" />
     </div>
@@ -53,16 +53,37 @@
     components: {
       Header,
       Footer,
-      WalletConnectionButton
     },
     data() {
       return {
+        windowWidth: window.innerWidth,
         address: '',
         textColor: 'blue',
         footerColor: "white"
       }
     },
+    computed: {
+      deviceWidth() {
+        return this.windowWidth;
+      }
+    },
+    created() {
+      window.addEventListener("resize", this.handleResize);
+    },
+    destroyed() {
+      window.removeEventListener("resize", this.handleResize);
+    },
     methods: {
+      handleResize() {
+        this.windowWidth = window.innerWidth;
+      },
+      shortenAddr(addr: string) {
+        if (this.windowWidth <= 768) {
+          if (addr.length < 10) return addr;
+          return `${addr.slice(0, 8)}...${addr.slice(addr.length - 8)}`;
+        }
+        return addr;
+      },
       async handleSearch() {
 
         const store = useStore()
@@ -148,8 +169,13 @@
 
         this.$router.push({ name: 'address', params: { addr: this.address}})
       },
-      copyAddress() {
-        navigator.clipboard.writeText(this.address);
+      async pasteFromClipboard() {
+        try {
+          const text = await navigator.clipboard.readText();
+          this.address = text;
+        } catch (error) {
+          console.error('Error pasting text from clipboard:', error);
+        }
       }
     }
   }

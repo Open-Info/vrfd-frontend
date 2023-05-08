@@ -1,18 +1,17 @@
 <template>
   <div class="bg-offBlack">
-    <Header :textColor=textColor>
-      <WalletConnectionButton :textColor=textColor />
-    </Header>
-    <div class="flex flex-col items-center bg-offBlack h-full min-h-screen py-[54px]">
-      <div class="mb-[44px] md:hidden">
+    <Header :textColor=textColor />
+    <div class="flex flex-col items-center bg-offBlack h-full py-[54px]">
+      <div class="mb-[70px] md:hidden">
         <input type="text" id="search" name="search" v-model="searchQuery"
-          class="bg-offBlack text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]"
-          placeholder="0x0000000000000000000000000000000000000000" />
+          class="bg-transparent text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]"
+          :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')" />
       </div>
-      <div class="lg:w-[366px] w-[1062px] border-[3px] border-dashed border-red py-[42px]">
+      <div class="ag-grid lg:w-[800px] w-[1062px] border-[3px] border-dashed border-red py-[42px]">
         <ag-grid-vue class="ag-theme-alpine" style="width: 100%; height: 700px" :columnDefs="columnDefs.value"
           :rowData="searchData" :defaultColDef="defaultColDef" :rowHeight="68" :headerHeight="68" :pagination="true"
-          :paginationPageSize="8">
+          :paginationPageSize="8" :rowSelection="rowSelection" @grid-ready="onGridReady"
+          @selection-changed="onSelectionChanged">
         </ag-grid-vue>
       </div>
     </div>
@@ -26,10 +25,10 @@
 <script lang="ts">
 import { AgGridVue } from "ag-grid-vue3"; // the AG Grid Vue Component
 import { reactive, onMounted, ref } from "vue";
+import router from "@/router";
 
-import Header from "../pages/layouts/Header.vue";
-import Footer from "../pages/layouts/Footer.vue";
-import WalletConnectionButton from "@/components/WalletConnectionButton.vue";
+import Header from "@/pages/layouts/Header.vue";
+import Footer from "@/pages/layouts/Footer.vue";
 import MobileFooter from "./layouts/MobileFooter.vue";
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
@@ -39,7 +38,6 @@ export default {
   name: "App",
   components: {
     AgGridVue,
-    WalletConnectionButton,
     Header,
     Footer,
     MobileFooter
@@ -47,10 +45,14 @@ export default {
   data() {
     return {
       textColor: "blue",
-      footerColor: "white"
+      footerColor: "white",
+      rowSelection: null as string | null,
+      gridApi: null as any | null,
+      gridColumnApi: null,
     }
   },
   setup() {
+    const windowWidth = ref(window.innerWidth);
     const searchQuery = ref("");
     const rowData = reactive({
       value: [],
@@ -59,11 +61,10 @@ export default {
     // Each Column Definition results in one Column.
     const columnDefs = reactive({
       value: [
-        { field: "votes" },
-        { field: "address" },
-        // { field: "ens" },
-        { field: "date" },
-        { field: "id" },
+        { field: "votes", flex: 1.5 },
+        { field: "address", flex: 5.5 },
+        { field: "date", flex: 2 },
+        { field: "id", flex: 1 },
       ],
     });
 
@@ -74,12 +75,19 @@ export default {
       flex: 1,
     };
 
+    function handleResize() {
+      windowWidth.value = window.innerWidth;
+    }
+
+    const deviceWidth = computed(() => windowWidth.value);
+
     onMounted(async () => {
+      window.addEventListener('resize', handleResize);
       try {
         const data = await getAddrsFromStatus("flagged");
         rowData.value = data.addresses.map((item: any) => ({
           votes: item.votes,
-          address: item.address,
+          address: shortenAddr(item.address),
           // ens: item.ens,
           date: item.createdAt,
           id: item.token_id,
@@ -89,6 +97,21 @@ export default {
       }
     });
 
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
+    });
+
+    function shortenAddr(addr: string) {
+      if (deviceWidth.value <= 1100 && 865 <= deviceWidth.value) {
+        if (addr.length < 10) return addr;
+        return `${addr.slice(0, 15)}...${addr.slice(addr.length - 15)}`;
+      }
+      if (deviceWidth.value <= 865) {
+        return `${addr.slice(0, 7)}...${addr.slice(addr.length - 7)}`;
+      }
+      return addr;
+    };
+
     const searchData = computed(() => {
       return rowData.value.filter(
         (data: any) => data.address.indexOf(searchQuery.value) != -1
@@ -96,21 +119,46 @@ export default {
     });
 
     return {
+      windowWidth,
       columnDefs,
       rowData,
       defaultColDef,
       searchQuery,
       searchData,
+      shortenAddr
     };
   },
+
+  created() {
+    this.rowSelection = 'single';
+  },
+
+  methods: {
+    onSelectionChanged() {
+      const selectedRows = this.gridApi.getSelectedRows();
+      // router.push(`/${selectedRows[0].address}`)
+      window.open(`/${selectedRows[0].address}`, '_blank');
+    },
+
+    onGridReady(params: any) {
+      this.gridApi = params.api;
+      this.gridColumnApi = params.columnApi;
+
+      const updateData = (data: any) => params.api.setRowData(data);
+
+      fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
+        .then((resp) => resp.json())
+        .then((data) => updateData(data));
+    },
+  }
 };
 </script>
 
 <style lang="scss">
 .ag-theme-alpine {
-  --ag-background-color: #363b3e;
+  --ag-background-color: "black-color";
   --ag-header-foreground-color: #F7766A;
-  --ag-header-background-color: #363b3e;
+  --ag-header-background-color: "black-color";
 
   --ag-font-size: 32px;
   --ag-line-height: 36px;
@@ -128,34 +176,10 @@ export default {
 
       .ag-header-cell {
         text-transform: uppercase;
-        // border-right: 1px solid rgb(116, 124, 129);
       }
 
-      .ag-header-cell:nth-child(1) {
-        width: 15% !important;
-        left: 0 !important;
-        padding-left: 20px;
-        padding-right: 10px !important;
-      }
-
-      .ag-header-cell:nth-child(2) {
-        width: 55% !important;
-        left: 15% !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-header-cell:nth-child(3) {
-        width: 20% !important;
-        left: 70% !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-header-cell:nth-child(4) {
-        width: 10% !important;
-        left: 90% !important;
-        padding-left: 0px !important;
+      .ag-header-cell:not(:first-child) {
+        padding: 0;
       }
     }
 
@@ -164,38 +188,15 @@ export default {
         display: flex;
         align-items: center;
         border: none;
-        // border-right: 1px solid rgb(116, 124, 129);
       }
 
-      .ag-cell:nth-child(1) {
-        width: 15% !important;
-        left: 0 !important;
+      .ag-cell:first-child {
         color: #F7766A;
-        padding-left: 20px;
-        padding-right: 10px !important;
       }
 
-      .ag-cell:nth-child(2) {
-        width: 55% !important;
-        left: 15% !important;
+      .ag-cell:not(:first-child) {
         color: white;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-cell:nth-child(3) {
-        width: 20% !important;
-        left: 70% !important;
-        color: white;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      }
-
-      .ag-cell:nth-child(4) {
-        width: 10% !important;
-        left: 90% !important;
-        color: white;
-        padding-left: 0px !important;
+        padding: 0;
       }
 
       .ag-row-odd {
@@ -212,6 +213,54 @@ export default {
       color: white;
       margin-right: 35px;
     }
+  }
+}
+
+@media screen and (max-width: 865px) {
+  .ag-paging-panel {
+    display: none;
+  }
+
+  .ag-grid {
+    width: 366px;
+  }
+
+  .ag-theme-alpine {
+    height: 623px !important;
+  }
+
+  .ag-header-cell:nth-child(1) {
+    width: 35% !important;
+  }
+
+  .ag-header-cell:nth-child(2) {
+    width: 60% !important;
+    left: 35% !important;
+  }
+
+  .ag-header-cell:nth-child(3) {
+    display: none;
+  }
+
+  .ag-header-cell:nth-child(4) {
+    display: none;
+  }
+
+  .ag-cell:nth-child(1) {
+    width: 35% !important;
+  }
+
+  .ag-cell:nth-child(2) {
+    width: 60% !important;
+    left: 35% !important;
+  }
+
+  .ag-cell:nth-child(3) {
+    display: none !important;
+  }
+
+  .ag-cell:nth-child(4) {
+    display: none !important;
   }
 }
 </style>
