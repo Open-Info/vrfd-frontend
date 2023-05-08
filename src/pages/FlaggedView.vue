@@ -7,7 +7,7 @@
           class="bg-transparent text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]"
           :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')" />
       </div>
-      <div class="lg:w-[366px] w-[1062px] border-[3px] border-dashed border-red py-[42px]">
+      <div class="ag-grid lg:w-[800px] w-[1062px] border-[3px] border-dashed border-red py-[42px]">
         <ag-grid-vue class="ag-theme-alpine" style="width: 100%; height: 700px" :columnDefs="columnDefs.value"
           :rowData="searchData" :defaultColDef="defaultColDef" :rowHeight="68" :headerHeight="68" :pagination="true"
           :paginationPageSize="8">
@@ -97,9 +97,12 @@ export default {
     });
 
     function shortenAddr(addr: string) {
-      if (deviceWidth.value <= 768) {
+      if (deviceWidth.value <= 1100 && 865 <= deviceWidth.value) {
         if (addr.length < 10) return addr;
-        return `${addr.slice(0, 5)}...${addr.slice(addr.length - 5)}`;
+        return `${addr.slice(0, 15)}...${addr.slice(addr.length - 15)}`;
+      } 
+      if (deviceWidth.value <= 865) {
+        return `${addr.slice(0, 7)}...${addr.slice(addr.length - 7)}`;
       }
       return addr;
     };
@@ -185,9 +188,13 @@ export default {
   }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 865px) {
   .ag-paging-panel {
     display: none;
+  }
+
+  .ag-grid {
+    width: 366px;
   }
 
   .ag-theme-alpine {
