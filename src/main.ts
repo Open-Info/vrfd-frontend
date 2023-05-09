@@ -6,7 +6,7 @@ import { init } from "./composables/useOnboard";
 
 import { createHead } from '@vueuse/head'
 import { createPinia } from 'pinia'
-// import VueGtag from "vue-gtag";
+import VueGtag from "vue-gtag";
 import { createApp } from 'vue'
 import App from './App.vue'
 import './assets/index.postcss'
@@ -62,9 +62,9 @@ init(onboardOptions);
 
 const app = createApp(App)
 
-// app.use(VueGtag, {
-//   config: {id: "G-RXN4ZCNTCH"}
-// })
+app.use(VueGtag, {
+  config: {id: "G-RXN4ZCNTCH"}
+})
 
 app.use(createPinia())
 app.use(router)
