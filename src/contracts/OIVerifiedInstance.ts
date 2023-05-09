@@ -583,7 +583,6 @@ const abi = [
 
 
 export const OIVerifiedContract = () => {
-  console.log('============>aaa', import.meta.env.VITE_BSC_RPC_URL)
   const _web3 : any = new Web3(import.meta.env.VITE_BSC_RPC_URL as string);
   return new _web3.eth.Contract(abi, import.meta.env.VITE_VERIFIED_CONTRACT_ADDR);
 }
