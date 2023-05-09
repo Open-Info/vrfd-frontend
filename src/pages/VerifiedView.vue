@@ -1,7 +1,7 @@
 <template>
   <div class="bg-offBlack">
     <Header :textColor=textColor />
-    <div class="flex flex-col items-center bg-offBlack h-full min-h-screen py-[54px]">
+    <div class="view flex flex-col items-center bg-offBlack h-full justify-center py-[54px]">
       <div class="mb-[70px] md:hidden">
         <input type="text" id="search" name="search" v-model="searchQuery"
           class="bg-transparent text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]"
@@ -15,10 +15,9 @@
         </ag-grid-vue>
       </div>
     </div>
-    <div class="flex justify-center pb-[50px]">
+    <div class="m_md:hidden flex justify-center pb-[50px]">
       <MobileFooter :textColor=textColor />
     </div>
-    <Footer :textColor=footerColor />
   </div>
 </template>
 
@@ -147,12 +146,6 @@ export default {
     onGridReady(params: any) {
       this.gridApi = params.api;
       this.gridColumnApi = params.columnApi;
-
-      const updateData = (data: any) => params.api.setRowData(data);
-
-      fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
-        .then((resp) => resp.json())
-        .then((data) => updateData(data));
     },
   }
 };
@@ -165,6 +158,10 @@ export default {
   .ag-cell:nth-child(1) {
     color: #00B689 !important;
   }
+}
+
+.view {
+  min-height: calc(100vh - 74px);
 }
 
 .ag-theme-alpine {
