@@ -24,7 +24,6 @@
     "ag-grid-vue3": "^29.3.4",
     "ethjs": "^0.4.0",
     "ethjs-ens": "^2.0.1",
-    "fs": "0.0.1-security",
     "node-sass": "^8.0.0",
     "pinia": "2.0.28",
     "prismjs": "^1.29.0",
