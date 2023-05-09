@@ -55,11 +55,7 @@ export default {
     };
   },
   mounted() {
-    fetch('/VERSION')
-      .then(response => response.text())
-      .then(version => this.version = version.trim())
-      .catch(error => console.error(error));
-
+   this.version = import.meta.env.VITE_APP_VERSION
   }
 };
 </script>
