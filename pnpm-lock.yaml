@@ -43,9 +43,6 @@ dependencies:
   ethjs-ens:
     specifier: ^2.0.1
     version: 2.0.1
-  fs:
-    specifier: 0.0.1-security
-    version: 0.0.1-security
   node-sass:
     specifier: ^8.0.0
     version: 8.0.0
@@ -1303,7 +1300,7 @@ packages:
       pinia: '>=2.0.19'
     dependencies:
       pinia: 2.0.28(typescript@4.9.4)(vue@3.2.45)
-      vue-demi: 0.14.0(vue@3.2.45)
+      vue-demi: 0.14.1(vue@3.2.45)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -1901,7 +1898,7 @@ packages:
       '@types/web-bluetooth': 0.0.16
       '@vueuse/metadata': 9.13.0
       '@vueuse/shared': 9.13.0(vue@3.2.45)
-      vue-demi: 0.14.0(vue@3.2.45)
+      vue-demi: 0.14.1(vue@3.2.45)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -1927,7 +1924,7 @@ packages:
       rxjs: '>=6.0.0'
     dependencies:
       '@vueuse/shared': 9.13.0(vue@3.2.45)
-      vue-demi: 0.14.0(vue@3.2.45)
+      vue-demi: 0.14.1(vue@3.2.45)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -1936,7 +1933,7 @@ packages:
   /@vueuse/shared@9.13.0(vue@3.2.45):
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
     dependencies:
-      vue-demi: 0.14.0(vue@3.2.45)
+      vue-demi: 0.14.1(vue@3.2.45)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -2867,7 +2864,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001486
-      electron-to-chromium: 1.4.385
+      electron-to-chromium: 1.4.388
       node-releases: 2.0.10
       update-browserslist-db: 1.0.11(browserslist@4.21.5)
     dev: true
@@ -3720,8 +3717,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /electron-to-chromium@1.4.385:
-    resolution: {integrity: sha512-L9zlje9bIw0h+CwPQumiuVlfMcV4boxRjFIWDcLfFqTZNbkwOExBzfmswytHawObQX4OUhtNv8gIiB21kOurIg==}
+  /electron-to-chromium@1.4.388:
+    resolution: {integrity: sha512-xZ0y4zjWZgp65okzwwt00f2rYibkFPHUv9qBz+Vzn8cB9UXIo9Zc6Dw81LJYhhNt0G/vR1OJEfStZ49NKl0YxQ==}
     dev: true
 
   /elliptic@6.5.4:
@@ -4800,10 +4797,6 @@ packages:
   /fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
-  /fs@0.0.1-security:
-    resolution: {integrity: sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==}
-    dev: false
-
   /fsevents@2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -5044,7 +5037,7 @@ packages:
     dependencies:
       css.escape: 1.5.1
       he: 1.2.0
-      node-fetch: 2.6.10
+      node-fetch: 2.6.11
       webidl-conversions: 7.0.0
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
@@ -6294,8 +6287,8 @@ packages:
     resolution: {integrity: sha512-Ntyt4AIXyaLIuMHF6IOoTakB3K+RWxwtsHNRxllEoA6vPwP9o4866g6YWDLUdnucilZhmkxiHwHr11gAENw+QA==}
     dev: false
 
-  /node-fetch@2.6.10:
-    resolution: {integrity: sha512-5YytjUVbwzjE/BX4N62vnPPkGNxlJPwdA9/ArUc4pcM6cYS4Hinuv4VazzwjMGgnWuiQqcemOanib/5PpcsGug==}
+  /node-fetch@2.6.11:
+    resolution: {integrity: sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==}
     engines: {node: 4.x || >=6.0.0}
     peerDependencies:
       encoding: ^0.1.0
@@ -6677,7 +6670,7 @@ packages:
       '@vue/devtools-api': 6.5.0
       typescript: 4.9.4
       vue: 3.2.45
-      vue-demi: 0.14.0(vue@3.2.45)
+      vue-demi: 0.14.1(vue@3.2.45)
 
   /pino-abstract-transport@0.5.0:
     resolution: {integrity: sha512-+KAgmVeqXYbTtU2FScx1XS3kNyfZ5TrXY07V96QnUSFqo2gAqlvmaxH67Lj7SWazqsMabf+58ctdTcBgnOLUOQ==}
@@ -8711,8 +8704,8 @@ packages:
       vue: 3.2.45
     dev: false
 
-  /vue-demi@0.14.0(vue@3.2.45):
-    resolution: {integrity: sha512-gt58r2ogsNQeVoQ3EhoUAvUsH9xviydl0dWJj7dabBC/2L4uBId7ujtCwDRD0JhkGsV1i0CtfLAeyYKBht9oWg==}
+  /vue-demi@0.14.1(vue@3.2.45):
+    resolution: {integrity: sha512-rt+yuCtXvscYot9SQQj3WKZJVSriPNqVkpVBNEHPzSgBv7QIYzsS410VqVgvx8f9AAPgjg+XPKvmV3vOqqkJQQ==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
