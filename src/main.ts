@@ -63,7 +63,7 @@ init(onboardOptions);
 const app = createApp(App)
 
 app.use(VueGtag, {
-  config: {id: "G-RXN4ZCNTCH"}
+  config: {id: "G-Z2WTHPKQQ4"}
 })
 
 app.use(createPinia())

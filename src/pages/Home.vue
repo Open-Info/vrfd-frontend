@@ -3,16 +3,16 @@
     <div class="flex flex-col justify-between md:h-[35vh] h-[50vh] bg-offBlack pb-[60px]">
       <Header class="md:hidden" :textColor=textColor />
       <h1
-        class="md:mt-[50px] font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-blue text-center mb-[9px]">
+        class="md:mt-[50px] font-['Handjet'] text-[150px] leading-[168px] font-bold text-blue text-center mb-[9px]">
         Search</h1>
     </div>
-    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
+    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
       <div class="relative flex items-center">
         <i @click="pasteFromClipboard"
           class="hover:bg-blue hover:text-black cursor-pointer border-[1px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-regular fa-clipboard"></i>
         <input type="text" id="search" name="search" :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')"
           v-model="address" @keyup.enter="handleSearch"
-          class="bg-transparent text-black font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]" />
+          class="bg-offBlack text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]" />
         <i @click="handleSearch"
           class="hover:bg-blue hover:text-black cursor-pointer border-[1px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-solid fa-arrow-right"></i>
       </div>
@@ -42,7 +42,7 @@
   import { toast } from 'vue3-toastify'
   import 'vue3-toastify/dist/index.css'
   import { useStore } from '../store'
-
+  import WalletConnectionButton from "@/components/WalletConnectionButton.vue"
   import Header from "@/pages/layouts/Header.vue"
   import Footer from "@/pages/layouts/Footer.vue"
   import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'

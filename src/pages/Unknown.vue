@@ -2,10 +2,10 @@
   <div class="relative">
     <div class="flex flex-col justify-between h-[50vh] bg-offBlack pb-[60px]">
       <Header :textColor="textColor" /> 
-      <h1 class="font-['Handjet'] font-normal md:text-[100px] text-[150px] leading-[168px] font-bold text-white text-center mb-[9px]">
+      <h1 class="font-['Handjet'] font-normal md:text-[100px] text-[150px] leading-[168px] text-white text-center mb-[9px]">
         Unknown</h1>
     </div>
-    <div class="flex absolute top-1/2 left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
+    <div class="flex absolute top-1/2 left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
       <div class="relative">
         <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[5px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
         <input type="text" id="search" name="search" :value="shortenAddr($route.params.addr as string)" readonly
@@ -22,7 +22,7 @@
           </button>
         </div>
         <div
-        class="md:w-1/2 hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
+        class="md:w-1/2 hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
           <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
             class="md:w-full bg-green font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             <a href="https://bit.ly/get-vrfd" target="_blank">register</a>
@@ -64,7 +64,7 @@
   import { OIFlaggedContract, OIFlaggedSignedContract } from '@/contracts/OIFlaggedInstance'
 
   export default {
-    name: 'Flagged',
+    name: 'Unknown',
     components: {
       Header,
       Footer,

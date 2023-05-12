@@ -3,17 +3,17 @@
     <div class="flex flex-col justify-between h-[50vh] bg-offBlack pb-[60px]">
       <Header :textColor=textColor />
       <div class="flex md:flex-col justify-center md:items-center">
-        <h1 class=" md:mb-[30px] flex font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-red text-center">
+        <h1 class=" md:mb-[30px] flex font-['Handjet'] text-[150px] leading-[168px] font-bold text-red text-center">
           Flagged
         </h1>
         <div class="flex flex-col justify-end pb-[27px]">
           <p class="font-['Handjet'] font-normal text-[40px] leading-[45px] text-red md:ml-0 ml-[31px]">
-            {{ votes }} times
+            {{ votes }} time(s)
           </p>
         </div>
       </div>
     </div>
-    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
+    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
       <div class="relative">
         <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
         <input @click="redirectToBSCLink" type="text" id="search" name="search" :value="shortenAddr($route.params.addr as string)" readonly
@@ -86,9 +86,9 @@ watch(walletAddr, (newWalletAddr) => {
 import "@/assets/sass/style.scss";
 import { toast } from "vue3-toastify";
 import { OWNER_ADDR } from "@/helpers/constants";
-import Header from "@/pages/layouts/Header.vue";
-import Footer from "@/pages/layouts/Footer.vue";
-import MobileFooter from "@/pages/layouts/MobileFooter.vue";
+import Header from "../pages/layouts/Header.vue";
+import Footer from "../pages/layouts/Footer.vue";
+import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { useEthers } from "@/composables/useEthers";
 import { OIFlaggedSignedContract } from "@/contracts/OIFlaggedInstance";
 import { voteAddress, getVotes, getENS } from "@/api";
@@ -96,8 +96,8 @@ import { voteAddress, getVotes, getENS } from "@/api";
 export default {
   name: "Flagged",
   components: {
-    Footer,
     Header,
+    Footer,
     MobileFooter
   },
   data() {

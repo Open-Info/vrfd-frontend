@@ -3,17 +3,17 @@
     <div class="flex flex-col justify-between h-[50vh] bg-green pb-[60px]">
       <Header :textColor=textColor />
       <div class="flex md:flex-col justify-center md:items-center">
-        <h1 class="flex font-['Handjet'] font-normal text-[150px] leading-[168px] font-bold text-black text-center">
+        <h1 class="flex font-['Handjet'] text-[150px] leading-[168px] font-bold text-black text-center">
           VRFD
         </h1>
         <div class="flex flex-col justify-end pb-[27px]">
           <p class="font-['Handjet'] font-normal text-[40px] leading-[45px] text-black md:ml-0 ml-[31px]">
-            {{ votes }} times
+            {{ votes }} time(s)
           </p>
         </div>
       </div>
     </div>
-    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] -translate-y-[50%]">
+    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
       <div class="relative">
         <router-link to="/"><i class="absolute -translate-y-[50%] top-1/2 md:left-[7px] left-[15px] text-[20px] z-50 fa-solid fa-xmark"></i></router-link>
         <input @click="redirectToBSCLink" type="text" id="search" name="search" :value="shortenAddr($route.params.addr as string)" readonly
@@ -43,10 +43,13 @@
     </div>
     <div class="flex flex-col justify-between md:justify-start items-center md:h-[40vh] h-[50vh] bg-offWhite">
       <div class="flex justify-between items-center md:w-[300px] w-[400px] md:pt-[30px] md:mb-[100px] pt-[75px]">
-        <div class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-t-[12px] border-l-[12px] border-transparent">
+        <div
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
           <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
             class="cursor-pointer bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
-            <a href="/" target="_blank">report</a>
+            <a href="https://bit.ly/mint-flag" target="_blank">
+              report
+            </a>
           </button>
         </div>
         <button
@@ -59,14 +62,14 @@
           </div>
         </button>
         <div v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
           <button @click="revoke"
             class="cursor-pointer bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             revoke
           </button>
         </div>
         <div
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
           <button @click="upvote"
             class="bg-green font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             second
@@ -103,7 +106,7 @@ import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
 import { voteAddress, getVotes, getENS } from "@/api";
 
 export default {
-  name: "Flagged",
+  name: "Verified",
   components: {
     Header,
     Footer,
