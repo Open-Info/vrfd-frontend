@@ -27,8 +27,13 @@
     </div>
     <div class="m_md:hidden flex bg-offWhite justify-center pt-[70px]">
       <button
-        class="font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
-        AKA
+        class="font-['Handjet'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
+        <div v-if="ens !== 'no alias'">
+          <span class="font-[700]">AKA </span>{{ ens }}
+        </div>
+        <div v-else>
+          no alias
+        </div>
       </button>
       <button
         @click="copyToClipboard"
@@ -45,8 +50,13 @@
           </button>
         </div>
         <button
-          class="md:hidden font-['Handjet'] bg-green font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
-          AKA
+          class="font-['Handjet'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
+          <div v-if="ens !== 'no alias'">
+            <span class="font-[700]">AKA </span>{{ ens }}
+          </div>
+          <div v-else>
+            no alias
+          </div>
         </button>
         <div v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"
           class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent border-t-[12px] border-l-[12px]">
@@ -90,7 +100,7 @@ import Header from "../pages/layouts/Header.vue";
 import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
-import { voteAddress, getVotes } from "@/api";
+import { voteAddress, getVotes, getENS } from "@/api";
 
 export default {
   name: "Flagged",
@@ -104,7 +114,8 @@ export default {
       windowWidth: window.innerWidth,
       ensName: null,
       textColor: 'black',
-      votes: 0
+      votes: 0,
+      ens: 'no alias'
     };
   },
   computed: {
@@ -112,7 +123,7 @@ export default {
       return this.windowWidth;
     }
   },
-  created() {
+  async created() {
     window.addEventListener("resize", this.handleResize);
   },
   destroyed() {
@@ -125,6 +136,18 @@ export default {
           this.votes = res.votes;
         } else {
           console.log('getVotes api failed');
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
+
+      getENS(this.$route.params.addr as string)
+      .then(res => {
+        if (res.name) {
+          this.ens = res.name
+        } else {
+          this.ens = 'no alias'
         }
       })
       .catch(e => {
