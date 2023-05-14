@@ -29,7 +29,7 @@
           </button>
         </div>
         <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="mintForFlagged"
-          class="bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint
+          class="mr-3 bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint
           for flagged</button>
         <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="mintForVerified"
           class="bg-green font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint
@@ -49,7 +49,7 @@
   const { walletAddr } = storeToRefs(store)
 
   watch(walletAddr, (newWalletAddr) => {
-    console.log(newWalletAddr)
+    store.setWalletAddr(newWalletAddr);
   })
 </script>
 
