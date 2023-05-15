@@ -32,6 +32,7 @@ const props = defineProps<{
 }>()
 
 watch(connectedWallet, (newWalletConnected) => {
+  console.log('=========>', newWalletConnected);
   if (newWalletConnected != null) {
     store.setWalletAddr(newWalletConnected?.accounts[0].address)
   } else {

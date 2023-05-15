@@ -27,8 +27,13 @@
     </div>
     <div class="m_md:hidden flex bg-offBlack justify-center pt-[70px]">
       <button
-        class="font-['Handjet'] bg-red font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
-        AKA
+        class="font-['Handjet'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
+        <div v-if="ens !== 'no alias'">
+          <span class="font-[700]">AKA </span>{{ ens }}
+        </div>
+        <div v-else>
+          no alias
+        </div>
       </button>
       <button
         @click="copyToClipboard"
@@ -43,8 +48,13 @@
           second
         </button>
         <button
-          class="md:hidden font-['Handjet'] bg-red font-[700] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
-          AKA
+          class="font-['Handjet'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
+          <div v-if="ens !== 'no alias'">
+            <span class="font-[700]">AKA </span>{{ ens }}
+          </div>
+          <div v-else>
+            no alias
+          </div>
         </button>
         <router-link v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" to="/"
           class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">dispute</router-link>
@@ -81,7 +91,7 @@ import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { useEthers } from "@/composables/useEthers";
 import { OIFlaggedSignedContract } from "@/contracts/OIFlaggedInstance";
-import { voteAddress, getVotes } from "@/api";
+import { voteAddress, getVotes, getENS } from "@/api";
 
 export default {
   name: "Flagged",
@@ -95,7 +105,8 @@ export default {
       windowWidth: window.innerWidth,
       textColor: "blue",
       footerColor: "white",
-      votes: 0
+      votes: 0,
+      ens: "no alias"
     };
   },
   computed: {
@@ -116,6 +127,18 @@ export default {
           this.votes = res.votes;
         } else {
           console.log('getVotes api failed');
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
+
+      getENS(this.$route.params.addr as string)
+      .then(res => {
+        if (res.name) {
+          this.ens = res.name
+        } else {
+          this.ens = 'no alias'
         }
       })
       .catch(e => {

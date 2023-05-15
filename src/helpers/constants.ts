@@ -18,4 +18,4 @@ export const API_POST_OPTION: any = {
   }
 };
 
-export const OWNER_ADDR = import.meta.env.VITE_FLAGGED_CONTRACT_ADDR
+export const OWNER_ADDR = import.meta.env.VITE_OWNER_ADDR
