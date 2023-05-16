@@ -27,18 +27,18 @@
                         </router-link>
                     </ul>
                 </li>
-                <a href="https://open-info.gitbook.io/verified-app/" target="_blank"
+                <a href="https://docs.vrfd.info/" target="_blank"
                     class="font-[700] text-[23px] leading-[26px] font-['Handjet']">
                     <li class="md:hidden"
                         :class="`ml-[42px] hover:shadow-[6px_6px_0px_#000] border-[4px] border-transparent hover:border-[#000] py-[10px] px-[20px] cursor-pointer hover:bg-blue text-${textColor} hover:text-[#000]`">
                         User Manual
                     </li>
                 </a>
-                <a href="https://open-info.gitbook.io/oi-litepaper" target="_blank"
+                <a href="https://whitepaper.vrfd.info" target="_blank"
                     class="font-[700] text-[23px] leading-[26px] font-['Handjet']">
                     <li class="md:hidden"
                         :class="`ml-[42px] hover:shadow-[6px_6px_0px_#000] border-[4px] border-transparent hover:border-[#000] py-[10px] px-[20px] cursor-pointer hover:bg-blue text-${textColor} hover:text-[#000]`">
-                        Learn More
+                        Whitepaper
                     </li>
                 </a>
             </ul>
