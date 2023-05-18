@@ -147,7 +147,7 @@ export default {
 
       getENS(this.$route.params.addr as string)
       .then(res => {
-        if (res.name) {
+        if (res.success) {
           this.ens = res.name
         } else {
           this.ens = 'no alias'

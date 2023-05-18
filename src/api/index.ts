@@ -5,6 +5,7 @@ import {
   VOTE_API,
   VOTES_GET_API,
   API_POST_OPTION,
+  ENS_API
 } from "@/helpers/constants";
 
 export const checkAddress = async (addr: string) => {
@@ -42,14 +43,8 @@ export const getVotes = async (addr: string) => {
 
 export const getENS = async (addr: string) => {
   const result = await fetch(
-    `https://deep-index.moralis.io/api/v2/resolve/${addr}/reverse`,
-    {
-      ...API_GET_OPTION,
-      headers: {
-        ...API_GET_OPTION.headers,
-        "X-API-Key": import.meta.env.VITE_MORALIS_KEY,
-      },
-    }
+    `${ENS_API}?address=${addr}`,
+    API_GET_OPTION
   );
   return result.json();
 };
