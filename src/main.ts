@@ -13,7 +13,7 @@ import './assets/index.postcss'
 import router from './router'
 
 const head = createHead({
-  title: 'Verified'
+  title: 'VRFD'
   // meta - An array of meta tags
   // link - An array of link tags
   // script - An array of script tags
