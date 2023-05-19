@@ -56,6 +56,9 @@ export default {
   setup() {
     const searchQuery = ref("");
     const windowWidth = ref(window.innerWidth);
+    const addressList = reactive({
+      value: []
+    })
     const rowData = reactive({
       value: [],
     }); // Set rowData to Array of Objects, one Object per Row
@@ -90,17 +93,24 @@ export default {
 
     onMounted(async () => {
       window.addEventListener('resize', handleResize);
+
       try {
         const data = await getAddrsFromStatus("verified");
-        rowData.value = data.addresses.map((item: any) => ({
-          votes: item.votes,
-          address: shortenAddr(item.address),
-          // ens: item.ens,
-          date: item.createdAt,
-          id: item.token_id,
-        }));
+        if (data.success) {
+          addressList.value = data.addresses.map((item: any) => ({
+            address: item.address
+          }));
+
+          rowData.value = data.addresses.map((item: any) => ({
+            votes: item.votes,
+            address: shortenAddr(item.address),
+            // ens: item.ens,
+            date: item.createdAt,
+            id: item.token_id,
+          }));
+        }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     });
 
@@ -128,7 +138,8 @@ export default {
       defaultColDef,
       searchQuery,
       searchData,
-      shortenAddr
+      shortenAddr,
+      addressList
     };
   },
 
@@ -138,9 +149,13 @@ export default {
 
   methods: {
     onSelectionChanged() {
-      const selectedRows = this.gridApi.getSelectedRows();
-      // router.push(`/${selectedRows[0].address}`);
-      window.open(`/${selectedRows[0].address}`, '_blank');
+      const selectedNodes = this.gridApi.getSelectedNodes();
+      const index = selectedNodes.map(function(node: any) {
+        return node.rowIndex;
+      });
+      const address: any = this.addressList.value[index]
+      console.log("index", address.address)
+      window.open(`/${address.address}`, '_blank');
     },
 
     onGridReady(params: any) {

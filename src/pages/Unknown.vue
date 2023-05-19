@@ -22,7 +22,7 @@
           </button>
         </div>
         <div
-        class="md:w-1/2 hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
+        class="md:w-1/2 hover:border-t-[12px] hover:border-l-[12px] border-l-[12px] border-t-[12px] hover:border-black border-transparent">
           <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
             class="md:w-full bg-green font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             <a href="https://bit.ly/get-vrfd" target="_blank">register</a>

@@ -48,7 +48,7 @@
           second
         </button>
         <button
-          class="font-['Handjet'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
+          class="md:hidden font-['Handjet'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
           <div v-if="ens !== 'no alias'">
             <span class="font-[700]">AKA </span>{{ ens }}
           </div>
@@ -63,7 +63,7 @@
           revoke
         </button>
       </div>
-      <img class="md:hidden" src="../assets/images/flagged.png" alt="" />
+      <img class="md:hidden w-[103px] h-[85px]" src="../assets/images/flagged.png" alt="" />
       <MobileFooter :textColor=textColor />
       <Footer :textColor=footerColor />
     </div>
