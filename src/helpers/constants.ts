@@ -2,6 +2,7 @@ export const FLAG_CHECK_API = 'https://vrfd.dev/scala/flag_check' // FLAG_CHECK_
 export const ADDR_VIEW_API = 'https://vrfd.dev/api/db/view' // ADDR_VIEW_API
 export const VOTE_API = 'https://vrfd.dev/api/db'
 export const VOTES_GET_API = 'https://vrfd.dev/api/db/votes'
+export const ENS_API = 'https://vrfd.dev/api/db/ens_name'
 
 export const API_GET_OPTION: any = {
   method: 'GET',

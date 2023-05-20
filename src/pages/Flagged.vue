@@ -63,7 +63,7 @@
           revoke
         </button>
       </div>
-      <img class="md:hidden" src="../assets/images/flagged.png" alt="" />
+      <img class="md:hidden w-[103px] h-[85px]" src="../assets/images/flagged.png" alt="" />
       <MobileFooter :textColor=textColor />
       <Footer :textColor=footerColor />
     </div>
@@ -135,7 +135,7 @@ export default {
 
       getENS(this.$route.params.addr as string)
       .then(res => {
-        if (res.name) {
+        if (res.success) {
           this.ens = res.name
         } else {
           this.ens = 'no alias'

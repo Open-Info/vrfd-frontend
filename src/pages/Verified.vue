@@ -44,7 +44,7 @@
     <div class="flex flex-col justify-between md:justify-start items-center md:h-[40vh] h-[50vh] bg-offWhite">
       <div class="flex justify-between items-center md:w-[300px] w-[400px] md:pt-[30px] md:mb-[100px] pt-[75px]">
         <div
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-l-[12px] border-t-[12px] border-transparent">
           <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
             class="cursor-pointer bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             <a href="https://bit.ly/mint-flag" target="_blank">
@@ -53,7 +53,7 @@
           </button>
         </div>
         <button
-          class="font-['Handjet'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
+          class="md:hidden font-['Handjet'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
           <div v-if="ens !== 'no alias'">
             <span class="font-[700]">AKA </span>{{ ens }}
           </div>
@@ -62,14 +62,14 @@
           </div>
         </button>
         <div v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-l-[12px] border-t-[12px] border-transparent">
           <button @click="revoke"
             class="cursor-pointer bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             revoke
           </button>
         </div>
         <div
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-transparent">
+          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-l-[12px] border-t-[12px] border-transparent">
           <button @click="upvote"
             class="bg-green font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
             second
@@ -147,7 +147,7 @@ export default {
 
       getENS(this.$route.params.addr as string)
       .then(res => {
-        if (res.name) {
+        if (res.success) {
           this.ens = res.name
         } else {
           this.ens = 'no alias'
