@@ -47,9 +47,9 @@ const onboardOptions = {
   wallets: [walletConnect, injected, trust],
   chains: chains,
   appMetadata: {
-    name: "OI Verification App",
+    name: "VRFD",
     icon: "<svg><svg/>",
-    description: "Open Information",
+    description: "Open Info",
     recommendedInjectedWallets: [
       { name: "MetaMask", url: "https://metamask.io" },
       { name: "Coinbase", url: "https://wallet.coinbase.com/" },
