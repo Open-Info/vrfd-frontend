@@ -1,7 +1,7 @@
 <template>
     <footer :class="`m_md:hidden flex text-${textColor} font-['Handjet'] text-[23px] font-normal leading-[26px] tracking-[1.6px] flex justify-between w-[300px]`">
-        <a href="https://open-info.gitbook.io/verified-app/" target="_blank" class="block">User-Manual</a>
-        <a href="https://open-info.gitbook.io/oi-litepaper/" target="_blank" class="block">Litepaper</a>
+        <a href="https://docs.vrfd.info/" target="_blank" class="block">User Manual</a>
+        <a href="https://whitepaper.vrfd.info/" target="_blank" class="block">Whitepaper</a>
     </footer>
 </template>
 
