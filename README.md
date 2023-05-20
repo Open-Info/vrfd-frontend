@@ -1,10 +1,10 @@
-# vrfd.info Frontend Repository
+# app.vrfd.info Frontend Repository
 
 ## ETH address verification app.
 
 See dApp [user-manual](https://open-info.gitbook.io/verified-app/).
 
-Public `master` branch live [here](https://vrfd.info/).
+Public `master` branch live [here](https://app.vrfd.info/).
 
 Testing `develop` branch live [here](https://vrfd-develop.vercel.app/).
 
