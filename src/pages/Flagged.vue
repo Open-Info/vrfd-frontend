@@ -26,8 +26,9 @@
       </button>
     </div>
     <div class="m_md:hidden flex bg-offBlack justify-center pt-[70px]">
+      <!-- Mobile view of ENS -->
       <button
-        class="font-['Handjet'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
+        class="font-['Handjet'] bg-red font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
         <div v-if="ens !== 'no alias'">
           <span class="font-[700]">AKA </span>{{ ens }}
         </div>
@@ -47,17 +48,22 @@
           class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-red bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-red text-center border-silver border-[4px] py-[9px] px-[12px]">
           second
         </button>
-        <button
-          class="font-['Handjet'] bg-red font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
+        <!-- Desktop view of ENS -->
+        <div
+          class="md:hidden font-['Handjet'] bg-red font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
           <div v-if="ens !== 'no alias'">
             <span class="font-[700]">AKA </span>{{ ens }}
           </div>
           <div v-else>
             no alias
           </div>
+        </div>
+        <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
+          class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">
+          <a href="https://bit.ly/get-vrfd" target="_blank">
+            dispute
+          </a>
         </button>
-        <router-link v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()" to="/"
-          class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">dispute</router-link>
         <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="revoke"
           class="bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">
           revoke
