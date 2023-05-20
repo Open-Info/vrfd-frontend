@@ -44,7 +44,7 @@
     <div class="flex flex-col justify-between md:justify-start items-center md:h-[40vh] h-[50vh] bg-offBlack">
       <div class="flex justify-between items-center md:w-[300px] w-[400px] md:pt-[30px] md:mb-[100px] pt-[75px]">
         <button @click="downvote"
-          class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-red text-center border-silver border-[4px] py-[9px] px-[12px]">
+          class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-red bg-transparent font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-red text-center border-silver border-[4px] py-[9px] px-[12px]">
           second
         </button>
         <button
