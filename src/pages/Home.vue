@@ -11,7 +11,8 @@
         <i @click="pasteFromClipboard"
           class="hover:bg-blue hover:text-black cursor-pointer border-[1px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-regular fa-clipboard"></i>
         <input type="text" id="search" name="search" :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')"
-          v-model="address" @keyup.enter="handleSearch"
+          v-model.trim="address" @keyup.enter="handleSearch" 
+          @input="handleInputChange"
           class="bg-offBlack text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]" />
         <i @click="handleSearch"
           class="hover:bg-blue hover:text-black cursor-pointer border-[1px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-solid fa-arrow-right"></i>
@@ -84,6 +85,10 @@
         }
         return addr;
       },
+
+      handleInputChange() {
+      this.address = this.address.replace(/\s/g, ''); // Remove white spaces from the address
+    },
       async handleSearch() {
 
         const store = useStore()
