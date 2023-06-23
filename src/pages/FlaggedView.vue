@@ -4,10 +4,10 @@
     <div class="view flex flex-col items-center bg-offBlack h-full justify-center py-[54px]">
       <div class="mb-[70px] md:hidden">
         <input type="text" id="search" name="search" v-model="searchQuery"
-          class="bg-transparent text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] px-[22px] min-w-[620px] rounded-[14px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]"
+          class="bg-offBlack text-offWhite font-normal text-[32px] leading-[36px] drop-shadow-[6px_6px_0px_rgba(0,0,0,0.25)] font-['VT323'] text-center placeholder-grey py-[9px] px-[22px] min-w-[620px]"
           :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')" />
       </div>
-      <div class="ag-grid lg:w-[800px] w-[1062px] border-[3px] border-dashed border-red py-[42px]">
+      <div class="ag-grid lg:w-[800px] w-[1062px] border-[3px] drop-shadow-[4px_4px_0px_rgba(0,0,0,0.25)] border-dashed border-red py-[42px]">
         <ag-grid-vue class="ag-theme-alpine" style="width: 100%; height: 700px" :columnDefs="columnDefs.value"
           :rowData="searchData" :defaultColDef="defaultColDef" :rowHeight="68" :headerHeight="68" :pagination="true"
           :paginationPageSize="8" :rowSelection="rowSelection" @grid-ready="onGridReady"
@@ -169,7 +169,7 @@ export default {
 
   --ag-font-size: 32px;
   --ag-line-height: 36px;
-  --ag-font-family: "Handjet";
+  --ag-font-family: "VT323";
 
   .ag-root-wrapper {
     border: none;

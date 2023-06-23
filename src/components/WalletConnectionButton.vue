@@ -1,7 +1,7 @@
 <template>
   <div v-if="!walletAddr" @click="$event => connectWallet()"
     :class="`hover:shadow-[6px_6px_0px_#000] border-[4px] border-transparent hover:border-[#000] py-[10px] px-[20px] cursor-pointer hover:bg-blue text-${textColor} hover:text-[#000]`">
-    <p class="font-[700] text-[23px] leading-[26px] font-['Handjet']">Connect Wallet</p>
+    <p class="font-[400] text-[23px] leading-[26px] font-['VT323']">Connect Wallet</p>
   </div>
 </template>
 
