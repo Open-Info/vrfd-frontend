@@ -1,35 +1,35 @@
 <template>
   <div class="relative">
-    <div class="flex flex-col justify-between md:h-[35vh] h-[50vh] bg-offBlack pb-[60px]">
+    <div class="flex flex-col justify-between md:h-[35vh]  h-[50vh] bg-offBlack pb-[60px]">
       <Header class="md:hidden" :textColor=textColor />
       <h1
-        class="md:mt-[50px] font-['Handjet'] text-[150px] leading-[168px] font-bold text-blue text-center mb-[9px]">
+        class="md:mt-[50px] font-['Handjet'] text-[150px] drop-shadow-[5px_5px_0px_rgba(0,0,0,0.31)] leading-[168px] font-bold text-blue text-center mb-[9px]">
         Search</h1>
     </div>
-    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
+    <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%] drop-shadow-[8px_8px_0px_rgba(0,0,0,0.5)]">
       <div class="relative flex items-center">
         <i @click="pasteFromClipboard"
-          class="hover:bg-blue hover:text-black cursor-pointer border-[1px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-regular fa-clipboard"></i>
+          class="hover:bg-blue hover:text-black bg-offBlack cursor-pointer border-[2px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-regular fa-clipboard"></i>
         <input type="text" id="search" name="search" :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')"
           v-model.trim="address" @keyup.enter="handleSearch" 
           @input="handleInputChange"
-          class="bg-offBlack text-offWhite font-normal text-[32px] leading-[36px] font-['Handjet'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.25)]" />
+          class="bg-offBlack focus:outline-0 text-offWhite font-normal text-[32px] border-t-2 border-b-2 border-[#6B7280] leading-[36px] font-['VT323'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px]" />
         <i @click="handleSearch"
-          class="hover:bg-blue hover:text-black cursor-pointer border-[1px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-solid fa-arrow-right"></i>
+          class="hover:bg-blue hover:text-black bg-offBlack cursor-pointer border-[2px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-solid fa-arrow-right"></i>
       </div>
     </div>
     <div class="flex flex-col justify-between items-center md:h-[65vh] h-[50vh] bg-offBlack">
       <div class="flex justify-between md:flex-col gap-[30px] items-center min-w-[400px] pt-[75px]">
         <router-link to="/view/verified"
-          class="hover:bg-green hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-green text-center border-green border-[4px] py-[12px] px-[24px]">verified
+          class="hover:bg-green hover:border-black hover:text-black font-['Handjet'] shadow-[8px_8px_0px_rgba(0,0,0,0.5)] font-normal text-[23px] leading-[26px] text-green text-center border-green border-[4px] py-[12px] px-[24px]">verified
           <p>addresses</p>
         </router-link>
         <a href="#"
-          class="hover:bg-yellow hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-yellow text-center border-yellow border-[4px] py-[12px] px-[24px]">certified
+          class="hover:bg-yellow hover:border-black hover:text-black font-['Handjet'] shadow-[8px_8px_0px_rgba(0,0,0,0.5)] font-normal text-[23px] leading-[26px] text-yellow text-center border-yellow border-[4px] py-[12px] px-[24px]">certified
           <p>addresses</p>
         </a>
         <router-link to="/view/flagged"
-          class="hover:bg-red hover:border-black hover:text-black font-['Ubuntu Condensed'] shadow-[8px_8px_0px_#232020] font-normal text-[23px] leading-[26px] text-red text-center border-red border-[4px] py-[12px] px-[24px]">flagged
+          class="hover:bg-red hover:border-black hover:text-black font-['Handjet'] shadow-[8px_8px_0px_rgba(0,0,0,0.5)] font-normal text-[23px] leading-[26px] text-red text-center border-red border-[4px] py-[12px] px-[24px]">flagged
           <p>addresses</p>
         </router-link>
       </div>

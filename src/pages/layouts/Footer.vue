@@ -1,18 +1,18 @@
 <template>
   <footer
-    class="md:hidden flex justify-between items-center px-[50px] w-[100%] h-[147px] shadow-[inset_0_8px_4px_rgba(0,0,0,0.25)]"
+    class="md:hidden flex justify-between items-center px-[50px] w-[100%] h-[147px] border-black border-t-2"
   >
     <div class="text-[23px] leading-[26px] font-[400] text-center">
       <p :class="`text-${textColor} font-['Ubuntu Condensed']`">Our socials</p>
       <a href="https://twitter.com/_vrfd" target="_blank" class="block">
         <span
-          class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-blue"
+          class="font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-blue"
           >Twitter</span
         >
       </a>
       <a href="https://t.me/oi_vrfd" target="_blank" class="block">
         <span
-          class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-blue"
+          class="font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-blue"
           >Telegram</span
         >
       </a>
@@ -26,7 +26,7 @@
         by
         <a href="https://github.com/open-info/" target="_blank">
           <span
-            class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-blue"
+            class="font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-blue"
             >Open Info</span
           >.
         </a>
@@ -38,7 +38,7 @@
       </p>
       <a href="https://bit.ly/oi-feedback" target="_blank">
         <span
-          class="font-normal font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-blue"
+          class="font-[23px] leading-[26px] font-['Ubuntu Condensed'] text-blue"
           >Submit Feedback</span
         >
       </a>
