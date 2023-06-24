@@ -49,6 +49,8 @@
   import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'
   import { OIFlaggedContract } from '@/contracts/OIFlaggedInstance'
   import { checkAddress } from '@/api'
+  import { ethers } from 'ethers'
+  import {Config} from './config'
   export default {
     name: 'Home',
     components: {
@@ -89,6 +91,17 @@
       handleInputChange() {
       this.address = this.address.replace(/\s/g, ''); // Remove white spaces from the address
     },
+
+    async resolveENS(domain: string) {
+      try {
+        const provider = new ethers.providers.AlchemyProvider('mainnet', Config.alchemyApiKey);
+        const address = await provider.resolveName(domain);
+        return address;
+      } catch (error) {
+        console.error('Error resolving ENS domain:', error);
+        throw error;
+      }
+    },
       async handleSearch() {
 
         const store = useStore()
@@ -98,12 +111,25 @@
         let flag = 'unknown'
 
         try {
-          let balance = await OIVerifiedContract().methods.balanceOf(this.address).call()
+
+          if (ethers.utils.isAddress(this.address)){
+            let balance = await OIVerifiedContract().methods.balanceOf(this.address).call()
           if (Number(balance) != 0) {
             store.setState('verified')
             flag = 'verified'
+            }
+          }else {
+            const resolvedAddress = await this.resolveENS(this.address);
+          if (resolvedAddress) {
+            let balance = await OIVerifiedContract().methods.balanceOf(resolvedAddress).call();
+            if (Number(balance) != 0) {
+              store.setState('verified');
+              flag = 'verified';
+              this.address = resolvedAddress;
+            }
           }
-        } catch (error: any) {
+        }
+      }catch (error: any) {
           if (error.code == 'INVALID_ARGUMENT') {
             toast("Invalid Address!", {
               autoClose: 1000,
@@ -120,6 +146,9 @@
             return;
           }
         }
+          
+      
+          
         
         if (flag == 'unknown') {
           try {
