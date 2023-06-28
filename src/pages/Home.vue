@@ -49,8 +49,6 @@
   import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'
   import { OIFlaggedContract } from '@/contracts/OIFlaggedInstance'
   import { checkAddress } from '@/api'
-  import { ethers } from 'ethers'
-  import {Config} from './config'
   export default {
     name: 'Home',
     components: {
@@ -91,45 +89,32 @@
       handleInputChange() {
       this.address = this.address.replace(/\s/g, ''); // Remove white spaces from the address
     },
+      // SEARCH STATE MACHINE. WORKS AS FOLLOWS:
+      // 1. Check if given address own:
+      // 2. The Verfied NFT, or
+      // 3. The Flagged NFT.
+      // 4. Thereafter, checks for flagged by association using the checkAddress() API
+      // 
+      // If any of the steps are true, the remaining steps are skipped and the appropriate page loaded.
 
-    async resolveENS(domain: string) {
-      try {
-        const provider = new ethers.providers.AlchemyProvider('mainnet', Config.alchemyApiKey);
-        const address = await provider.resolveName(domain);
-        return address;
-      } catch (error) {
-        console.error('Error resolving ENS domain:', error);
-        throw error;
-      }
-    },
       async handleSearch() {
 
         const store = useStore()
 
         store.setSearchAddr(this.address)
 
+        // by default the address is assumed to be unknown
         let flag = 'unknown'
 
         try {
 
-          if (ethers.utils.isAddress(this.address)){
-            let balance = await OIVerifiedContract().methods.balanceOf(this.address).call()
+          // 1. check if the address owns VRFD NFT
+          let balance = await OIVerifiedContract().methods.balanceOf(this.address).call()
           if (Number(balance) != 0) {
             store.setState('verified')
             flag = 'verified'
-            }
-          }else {
-            const resolvedAddress = await this.resolveENS(this.address);
-          if (resolvedAddress) {
-            let balance = await OIVerifiedContract().methods.balanceOf(resolvedAddress).call();
-            if (Number(balance) != 0) {
-              store.setState('verified');
-              flag = 'verified';
-              this.address = resolvedAddress;
-            }
           }
-        }
-      }catch (error: any) {
+        } catch (error: any) {
           if (error.code == 'INVALID_ARGUMENT') {
             toast("Invalid Address!", {
               autoClose: 1000,
@@ -146,12 +131,12 @@
             return;
           }
         }
-          
-      
-          
-        
+
+        // will only execute if address is still unknown
         if (flag == 'unknown') {
           try {
+
+            // 2. Check if the address owns FLAG NFT
             let balance = await OIFlaggedContract().methods.balanceOf(this.address).call()
             if (Number(balance) != 0) {
               flag = 'flagged'
@@ -176,8 +161,11 @@
           }
         }
 
+        // will only execute if address is still unknown
         if (flag == 'unknown') {
           try {
+
+            // 3. Check for flag by association via backend
             let res = await checkAddress(this.address)
             console.log(res.flagged)
             if (res.flagged) {
@@ -196,10 +184,6 @@
             return;
           }
         }
-        
-        // flag = 'flagged'
-        // store.setState('flagged')
-        // localStorage.setItem('state', 'flagged')
 
         this.$router.push({ name: 'address', params: { addr: this.address}})
       },
