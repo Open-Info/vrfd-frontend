@@ -101,11 +101,30 @@
   const store = useStore();
   store.setSearchAddr(this.address);
 
-  // Resolve ENS link
-  const resolvedAddress = await resolveENS(this.address);
-  if (resolvedAddress && resolvedAddress.success) {
-    this.address = resolvedAddress.address;
-  }
+
+  //Check if address is valid
+  const isENS= this.address.endsWith('.eth');
+
+  // Resolve ENS link if it is an ENS address
+  if (isENS) {
+    try {
+      const resolvedAddress = await resolveENS(this.address);
+      if (resolvedAddress && resolvedAddress.success) {
+        this.address = resolvedAddress.address;
+    }else {
+        throw new Error('ENS not found!');
+      }
+  } catch (error: any) {
+      toast(error.message, {
+        autoClose: 1000,
+        theme: 'dark',
+        type: 'error'
+      });
+      return;
+    }
+}
+  
+
 
   // by default the address is assumed to be unknown
   let flag = 'unknown';
