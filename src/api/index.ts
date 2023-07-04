@@ -52,7 +52,7 @@ export const getENS = async (addr: string) => {
 
 export const resolveENS = async (addr: string) => {
   const result = await fetch(
-    `${ENS_RESOLVE}?address=${addr}`,
+    `${ENS_RESOLVE}?ens=${addr}`,
     API_GET_OPTION
   );
   return result.json();

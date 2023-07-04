@@ -48,7 +48,7 @@
   import Footer from "@/pages/layouts/Footer.vue"
   import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'
   import { OIFlaggedContract } from '@/contracts/OIFlaggedInstance'
-  import { checkAddress } from '@/api'
+  import { checkAddress, resolveENS } from '@/api'
   export default {
     name: 'Home',
     components: {
@@ -98,95 +98,115 @@
       // If any of the steps are true, the remaining steps are skipped and the appropriate page loaded.
 
       async handleSearch() {
+  const store = useStore();
+  store.setSearchAddr(this.address);
 
-        const store = useStore()
 
-        store.setSearchAddr(this.address)
+  //Check if address is valid
+  const isENS= this.address.endsWith('.eth');
 
-        // by default the address is assumed to be unknown
-        let flag = 'unknown'
+  // Resolve ENS link if it is an ENS address
+  if (isENS) {
+    try {
+      const resolvedAddress = await resolveENS(this.address);
+      if (resolvedAddress && resolvedAddress.success) {
+        this.address = resolvedAddress.address;
+    }else {
+        throw new Error('ENS not found!');
+      }
+  } catch (error: any) {
+      toast(error.message, {
+        autoClose: 1000,
+        theme: 'dark',
+        type: 'error'
+      });
+      return;
+    }
+}
+  
 
-        try {
 
-          // 1. check if the address owns VRFD NFT
-          let balance = await OIVerifiedContract().methods.balanceOf(this.address).call()
-          if (Number(balance) != 0) {
-            store.setState('verified')
-            flag = 'verified'
-          }
-        } catch (error: any) {
-          if (error.code == 'INVALID_ARGUMENT') {
-            toast("Invalid Address!", {
-              autoClose: 1000,
-              theme: 'dark',
-              type: 'error'
-            });
-            return;
-          } else {
-            toast("Unexpected Error!", {
-              autoClose: 1000,
-              theme: 'dark',
-              type: 'error'
-            });
-            return;
-          }
-        }
+  // by default the address is assumed to be unknown
+  let flag = 'unknown';
 
-        // will only execute if address is still unknown
-        if (flag == 'unknown') {
-          try {
+  try {
+    // check if the address owns VRFD NFT
+    let balance = await OIVerifiedContract().methods.balanceOf(this.address).call();
+    if (Number(balance) != 0) {
+      store.setState('verified');
+      flag = 'verified';
+    }
+  } catch (error: any) {
+    if (error.code == 'INVALID_ARGUMENT') {
+      toast("Invalid Address!", {
+        autoClose: 1000,
+        theme: 'dark',
+        type: 'error'
+      });
+      return;
+    } else {
+      toast("Unexpected Error!", {
+        autoClose: 1000,
+        theme: 'dark',
+        type: 'error'
+      });
+      return;
+    }
+  }
 
-            // 2. Check if the address owns FLAG NFT
-            let balance = await OIFlaggedContract().methods.balanceOf(this.address).call()
-            if (Number(balance) != 0) {
-              flag = 'flagged'
-              store.setState('flagged')
-            }
-          } catch (error: any) {
-            if (error.code == 'INVALID_ARGUMENT') {
-              toast("Invalid Address!", {
-                autoClose: 1000,
-                theme: 'dark',
-                type: 'error'
-              });
-              return;
-            } else {
-              toast("Unexpected Error!", {
-                autoClose: 1000,
-                theme: 'dark',
-                type: 'error'
-              });
-              return;
-            }
-          }
-        }
+  // will only execute if address is still unknown
+  if (flag == 'unknown') {
+    try {
+      // Check if the address owns FLAG NFT
+      let balance = await OIFlaggedContract().methods.balanceOf(this.address).call();
+      if (Number(balance) != 0) {
+        flag = 'flagged';
+        store.setState('flagged');
+      }
+    } catch (error: any) {
+      if (error.code == 'INVALID_ARGUMENT') {
+        toast("Invalid Address!", {
+          autoClose: 1000,
+          theme: 'dark',
+          type: 'error'
+        });
+        return;
+      } else {
+        toast("Unexpected Error!", {
+          autoClose: 1000,
+          theme: 'dark',
+          type: 'error'
+        });
+        return;
+      }
+    }
+  }
 
-        // will only execute if address is still unknown
-        if (flag == 'unknown') {
-          try {
+  // will only execute if address is still unknown
+  if (flag == 'unknown') {
+    try {
+      // Check for flag by association via backend
+      let res = await checkAddress(this.address);
+      console.log(res.flagged);
+      if (res.flagged) {
+        flag = 'flagged';
+        store.setState('flagged');
+      } else {
+        flag = 'unknown';
+        store.setState('unknown');
+      }
+    } catch (error: any) {
+      toast("Unexpected Error!", {
+        autoClose: 1000,
+        theme: 'dark',
+        type: 'error'
+      });
+      return;
+    }
+  }
 
-            // 3. Check for flag by association via backend
-            let res = await checkAddress(this.address)
-            console.log(res.flagged)
-            if (res.flagged) {
-              flag = 'flagged'
-              store.setState('flagged')
-            } else {
-              flag = 'unknown'
-              store.setState('unknown')
-            }
-          } catch (error: any) {
-            toast("Unexpected Error!", {
-              autoClose: 1000,
-              theme: 'dark',
-              type: 'error'
-            });
-            return;
-          }
-        }
-
-        this.$router.push({ name: 'address', params: { addr: this.address}})
-      },
+  this.$router.push({ name: 'address', params: { addr: this.address } });
+},
       async pasteFromClipboard() {
         try {
           const text = await navigator.clipboard.readText();
