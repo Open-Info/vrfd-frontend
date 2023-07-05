@@ -89,6 +89,7 @@
       handleInputChange() {
       this.address = this.address.replace(/\s/g, ''); // Remove white spaces from the address
     },
+
       // SEARCH STATE MACHINE. WORKS AS FOLLOWS:
       // 1. Check if given address own:
       // 2. The Verfied NFT, or
@@ -96,13 +97,11 @@
       // 4. Thereafter, checks for flagged by association using the checkAddress() API
       // 
       // If any of the steps are true, the remaining steps are skipped and the appropriate page loaded.
-
       async handleSearch() {
   const store = useStore();
   store.setSearchAddr(this.address);
 
-
-  //Check if address is valid
+  //Check if address is valid ENS
   const isENS= this.address.endsWith('.eth');
 
   // Resolve ENS link if it is an ENS address
@@ -123,12 +122,9 @@
       return;
     }
 }
-  
-
 
   // by default the address is assumed to be unknown
   let flag = 'unknown';
-
   try {
     // check if the address owns VRFD NFT
     let balance = await OIVerifiedContract().methods.balanceOf(this.address).call();
