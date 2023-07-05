@@ -5,7 +5,8 @@ import {
   VOTE_API,
   VOTES_GET_API,
   API_POST_OPTION,
-  ENS_API
+  ENS_API,
+  ENS_RESOLVE
 } from "@/helpers/constants";
 
 export const checkAddress = async (addr: string) => {
@@ -44,6 +45,14 @@ export const getVotes = async (addr: string) => {
 export const getENS = async (addr: string) => {
   const result = await fetch(
     `${ENS_API}?address=${addr}`,
+    API_GET_OPTION
+  );
+  return result.json();
+};
+
+export const resolveENS = async (addr: string) => {
+  const result = await fetch(
+    `${ENS_RESOLVE}?ens=${addr}`,
     API_GET_OPTION
   );
   return result.json();
