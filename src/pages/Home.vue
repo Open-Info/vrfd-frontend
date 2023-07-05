@@ -14,6 +14,16 @@
           v-model.trim="address" @keyup.enter="handleSearch" 
           @input="handleInputChange"
           class="bg-offBlack focus:outline-0 text-offWhite font-normal text-[32px] border-t-2 border-b-2 border-[#6B7280] leading-[36px] font-['VT323'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px]" />
+         <!-- Rectangle container -->
+    <div class="absolute bottom-[-1px] mb-[-1px] left-0 w-full h-[17px] ">
+    <!-- Mini rectangles -->
+    <div class="flex items-center gap-2 w-full px-[70px] border-t-2 py-[3px] border-[#6B7280]">
+      <template v-for="index in 27">
+    <div class="w-4 h-1 bg-[#44494C]"></div>
+  </template>
+    </div>
+  </div>
+
         <i @click="handleSearch"
           class="hover:bg-blue hover:text-black bg-offBlack cursor-pointer border-[2px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-solid fa-arrow-right"></i>
       </div>
@@ -89,7 +99,6 @@
       handleInputChange() {
       this.address = this.address.replace(/\s/g, ''); // Remove white spaces from the address
     },
-
       // SEARCH STATE MACHINE. WORKS AS FOLLOWS:
       // 1. Check if given address own:
       // 2. The Verfied NFT, or
@@ -97,11 +106,13 @@
       // 4. Thereafter, checks for flagged by association using the checkAddress() API
       // 
       // If any of the steps are true, the remaining steps are skipped and the appropriate page loaded.
+
       async handleSearch() {
   const store = useStore();
   store.setSearchAddr(this.address);
 
-  //Check if address is valid ENS
+
+  //Check if address is valid
   const isENS= this.address.endsWith('.eth');
 
   // Resolve ENS link if it is an ENS address
@@ -122,9 +133,12 @@
       return;
     }
 }
+  
+
 
   // by default the address is assumed to be unknown
   let flag = 'unknown';
+
   try {
     // check if the address owns VRFD NFT
     let balance = await OIVerifiedContract().methods.balanceOf(this.address).call();
