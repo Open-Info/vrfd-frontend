@@ -14,15 +14,15 @@
           v-model.trim="address" @keyup.enter="handleSearch" 
           @input="handleInputChange"
           class="bg-offBlack focus:outline-0 text-offWhite font-normal text-[32px] border-t-2 border-b-2 border-[#6B7280] leading-[36px] font-['VT323'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px]" />
-         <!-- Rectangle container -->
-    <div class="absolute bottom-[-1px] mb-[-1px] left-0 w-full h-[17px] ">
-    <!-- Mini rectangles -->
-    <div class="flex items-center gap-2 w-full px-[70px] border-t-2 py-[3px] border-[#6B7280]">
-      <template v-for="index in 27">
-    <div class="w-4 h-1 bg-[#44494C]"></div>
-  </template>
-    </div>
-  </div>
+              <!-- Rectangle container -->
+          <div class="absolute bottom-[-1px] mb-[-1px] left-0 w-full h-[17px] ">
+              <!-- Mini rectangles -->
+            <div class="flex items-center gap-2 w-full px-[70px] border-t-2 py-[3px] border-[#6B7280]">
+              <template v-for="index in 27">
+                <div class="w-[17px] h-[6px] bg-[#44494C]"></div>
+              </template>
+            </div>
+          </div>
 
         <i @click="handleSearch"
           class="hover:bg-blue hover:text-black bg-offBlack cursor-pointer border-[2px] border-[#6B7280] p-[17px] text-[20px] text-blue z-50 fa-solid fa-arrow-right"></i>
