@@ -6,11 +6,7 @@
         <h1 class="flex font-['Handjet'] drop-shadow-[4px_4px_0px_rgba(0,0,0,0.25)] text-[150px] leading-[168px] font-bold text-black text-center">
           VRFD
         </h1>
-        <div class="flex flex-col justify-end pb-[27px]">
-          <p class="font-['VT323'] font-normal text-[40px] leading-[45px] text-black md:ml-0 ml-[31px]">
-            {{ votes }} time(s)
-          </p>
-        </div>
+        <votes :votes="votes" />
       </div>
     </div>
     <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
@@ -98,6 +94,8 @@ import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
 import { voteAddress, getVotes, getENS } from "@/api";
+import Votes from '../components/Votes.vue';
+
 
 
 export default {
@@ -105,7 +103,8 @@ export default {
   components: {
     Header,
     Footer,
-    MobileFooter
+    MobileFooter,
+    Votes
   },
   data() {
     return {
