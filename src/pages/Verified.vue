@@ -103,16 +103,16 @@ export default {
   components: {
     Header,
     Footer,
-    MobileFooter
+    MobileFooter,
+    Votes
   },
   data() {
     return {
       windowWidth: window.innerWidth,
       ensName: null,
       textColor: 'black',
-      votes: Math.floor(Math.random() * 10), // Initialize with a random number
-      ens: 'no alias',
-      randomVotesInterval: null as ReturnType<typeof setInterval> | null
+      votes: 0,
+      ens: 'no alias'
     };
   },
   computed: {
@@ -122,60 +122,38 @@ export default {
   },
   async created() {
     window.addEventListener("resize", this.handleResize);
-    this.startRandomVotesCycle();
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
-    this.stopRandomVotesCycle();
   },
   async mounted() {
-    // Fetch actual data and update votes and ens properties
-    this.fetchData();
+    getVotes(this.$route.params.addr as string)
+      .then(res => {
+        if (res.success) {
+          this.votes = res.votes;
+        } else {
+          console.log('getVotes api failed');
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
+
+      getENS(this.$route.params.addr as string)
+      .then(res => {
+        if (res.success) {
+          this.ens = res.name
+        } else {
+          this.ens = 'no alias'
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
   },
   methods: {
-    async fetchData() {
-      const addr = this.$route.params.addr as string;
-      
-      // Fetch votes
-      getVotes(addr)
-        .then(res => {
-          if (res.success) {
-            this.votes = res.votes;
-            this.stopRandomVotesCycle(); // Stop the interval
-          } else {
-            console.log('getVotes api failed');
-          }
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-      // Fetch ENS
-      getENS(addr)
-        .then(res => {
-          if (res.success) {
-            this.ens = res.name
-          } else {
-            this.ens = 'no alias'
-          }
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
     handleResize() {
       this.windowWidth = window.innerWidth;
-    },
-    startRandomVotesCycle() {
-      this.randomVotesInterval = setInterval(() => {
-        this.votes = Math.floor(Math.random() * 10);
-      }, 10); // Change the interval duration as desired (in milliseconds)
-    },
-    stopRandomVotesCycle() {
-      if (this.randomVotesInterval) {
-        clearInterval(this.randomVotesInterval);
-        this.randomVotesInterval = null;
-      }
     },
     shortenAddr(addr: string) {
       if (this.windowWidth <= 768) {
