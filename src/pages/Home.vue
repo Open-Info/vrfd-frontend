@@ -30,7 +30,7 @@
                   'bg-[#44494C]': index > progress,
                   'bg-green': index <= progress
                 }"
-                class="w-[17px] h-[6px]"
+                class="w-[17px] h-[6px] transition-width duration-500 ease-in-out"
               ></div>
             </template>
           </div>
@@ -125,12 +125,29 @@ export default {
     async handleSearch() {
       const store = useStore()
       store.setSearchAddr(this.address)
+      // Define the total number of steps and the duration for the loading animation
+      const totalSteps = 27;
+      const animationDuration = 200; // in milliseconds
 
-      this.progress = 1 // Update progress bar to Step 1
+      // Calculate the increment value for each step
+      const increment = totalSteps / animationDuration;
+
+
+      // Helper function to increment the progress value with a delay
+        const incrementProgress = () => {
+          if (this.progress < totalSteps) {
+            this.progress += increment;
+            setTimeout(incrementProgress, 30); // Adjust the delay as needed for a smooth animation
+          }
+        };
+
+        incrementProgress(); 
+
+      this.progress = 5 // Update progress bar to Step 1
 
       // Step 2: Resolve ENS link if it is an ENS address
       if (this.address.endsWith('.eth')) {
-        this.progress = 5 // Update progress bar to Step 2
+        this.progress = 1 // Update progress bar to Step 2
         try {
           const resolvedAddress = await resolveENS(this.address)
           if (resolvedAddress && resolvedAddress.success) {
@@ -149,7 +166,7 @@ export default {
         }
       }
 
-      this.progress = 8 // Update progress bar to Step 3
+      this.progress = 10 // Update progress bar to Step 3
 
       // Step 4: Check if the address owns VRFD NFT
       try {
@@ -177,7 +194,7 @@ export default {
         }
       }
 
-      this.progress = 16 // Update progress bar to Step 4
+      this.progress = 15// Update progress bar to Step 4
 
       // Step 5: Check if the address owns FLAG NFT
       try {
@@ -226,7 +243,7 @@ export default {
         return
       }
 
-      this.progress = 27 // Update progress bar to complete
+      this.progress = 27// Update progress bar to complete
 
       this.$router.push({ name: 'address', params: { addr: this.address } })
     },
