@@ -2,7 +2,7 @@
   <div class="flex flex-col justify-end pb-[27px]">
     <div v-if="isLoading">
       <p class="font-['VT323'] font-normal text-[40px] leading-[45px] text-black md:ml-0 ml-[31px]">
-        <span class="text-gray-500">{{ displayVotes }}</span> time(s)
+        <span class="opacity-25">{{ displayVotes }}</span> time(s)
       </p>
     </div>
     <div v-else>

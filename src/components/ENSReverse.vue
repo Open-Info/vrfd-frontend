@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="isLoading">
-      <span class="font-[700]  mr-1">AKA</span><span class="text-gray-500">{{ randomNumbers }}</span>.eth
+    <div v-if="isLoading" class="w-[160px]">
+      <span class="font-[700]">AKA</span><span class="opacity-25">{{ randomNumbers }}</span>.eth
     </div>
     <div v-else>
       <div v-if="alias !== 'no alias'">
@@ -49,4 +49,3 @@ export default {
   }
 };
 </script>
-
