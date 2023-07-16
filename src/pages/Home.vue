@@ -22,8 +22,10 @@
           @input="handleInputChange"
           class="bg-offBlack focus:outline-0 text-offWhite font-normal text-[32px] border-t-2 border-b-2 border-[#6B7280] leading-[36px] font-['VT323'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px]"
         />
-        <div class="absolute bottom-[-1px] mb-[-1px] left-0 w-full h-[17px]">
-          <div class="flex items-center gap-2 w-full border-t-2 py-[3px] border-[#6B7280]">
+
+        <!--desktop Loading bar-->
+        <div class="absolute bottom-[-1px] mb-[-1px] left-0 w-full h-[17px] md:hidden">
+          <div class="flex items-center gap-2 w-full px-[70px] border-t-2 py-[3px] border-[#6B7280]">
             <template v-for="index in 27">
               <div
                 :class="{
@@ -31,6 +33,21 @@
                   'bg-green': index <= progress
                 }"
                 class="w-[17px] h-[6px] transition-width duration-500 ease-in-out"
+              ></div>
+            </template>
+          </div>
+        </div>
+
+        <!--mobile loading bar-->
+        <div class="absolute bottom-[-1px] mb-[-1px] left-0 w-full h-[17px] hidden md:block">
+          <div class="flex items-center gap-1 justify-center align-items-center px-[60px] w-full border-t-2 py-[3px] border-[#6B7280]">
+            <template v-for="index in 27">
+              <div
+                :class="{
+                  'bg-[#44494C]': index > progress,
+                  'bg-green': index <= progress
+                }"
+                class="w-[6px] h-[6px] transition-width duration-500 ease-in-out"
               ></div>
             </template>
           </div>
