@@ -87,6 +87,7 @@
   </div>
 </template>
 
+
 <script lang="ts">
 import '@/assets/sass/style.scss'
 import { toast } from 'vue3-toastify'
@@ -111,7 +112,9 @@ export default {
       address: '',
       textColor: 'blue',
       footerColor: 'white',
-      progress: 0 // Progress bar value
+      progress: 0, // Progress bar value
+      errorOccurred: false, // Flag to track if an error occurred
+      progressTimeout: null as null | ReturnType<typeof setTimeout>  // Reference to the loading bar animation timeout
     }
   },
   computed: {
@@ -149,22 +152,19 @@ export default {
       // Calculate the increment value for each step
       const increment = totalSteps / animationDuration;
 
-
       // Helper function to increment the progress value with a delay
-        const incrementProgress = () => {
-          if (this.progress < totalSteps) {
-            this.progress += increment;
-            setTimeout(incrementProgress, 30); // Adjust the delay as needed for a smooth animation
-          }
-        };
+      const incrementProgress = () => {
+        if (this.progress < totalSteps) {
+          this.progress += increment;
+          this.progressTimeout = setTimeout(incrementProgress, 30); // Save the timeout reference to progressTimeout
+        }
+      };
 
-        incrementProgress(); 
-
-      this.progress = 5 // Update progress bar to Step 1
+      incrementProgress();
 
       // Step 2: Resolve ENS link if it is an ENS address
       if (this.address.endsWith('.eth')) {
-        this.progress = 1 // Update progress bar to Step 2
+        this.progress = 1; // Update progress bar to Step 2
         try {
           const resolvedAddress = await resolveENS(this.address)
           if (resolvedAddress && resolvedAddress.success) {
@@ -178,12 +178,13 @@ export default {
             theme: 'dark',
             type: 'error'
           })
-          this.progress = 0 // Reset progress bar if an error occurs
-          return
+          this.clearProgressTimeout(); // Clear the loading bar animation when there is an error
+          this.errorOccurred = true; // Set the error flag to true
+          return;
         }
       }
 
-      this.progress = 10 // Update progress bar to Step 3
+      this.progress = 10; // Update progress bar to Step 3
 
       // Step 4: Check if the address owns VRFD NFT
       try {
@@ -198,20 +199,19 @@ export default {
             theme: 'dark',
             type: 'error'
           })
-          this.progress = 0 // Reset progress bar if an error occurs
-          return
         } else {
           toast('Unexpected Error!', {
             autoClose: 1000,
             theme: 'dark',
             type: 'error'
           })
-          this.progress = 0 // Reset progress bar if an error occurs
-          return
         }
+        this.clearProgressTimeout(); // Clear the loading bar animation when there is an error
+        this.errorOccurred = true; // Set the error flag to true
+        return;
       }
 
-      this.progress = 15// Update progress bar to Step 4
+      this.progress = 15; // Update progress bar to Step 4
 
       // Step 5: Check if the address owns FLAG NFT
       try {
@@ -226,20 +226,19 @@ export default {
             theme: 'dark',
             type: 'error'
           })
-          this.progress = 0 // Reset progress bar if an error occurs
-          return
         } else {
           toast('Unexpected Error!', {
             autoClose: 1000,
             theme: 'dark',
             type: 'error'
           })
-          this.progress = 0 // Reset progress bar if an error occurs
-          return
         }
+        this.clearProgressTimeout(); // Clear the loading bar animation when there is an error
+        this.errorOccurred = true; // Set the error flag to true
+        return;
       }
 
-      this.progress = 20 // Update progress bar to Step 5
+      this.progress = 20; // Update progress bar to Step 5
 
       // Step 6: Check for flag by association via backend
       try {
@@ -256,25 +255,34 @@ export default {
           theme: 'dark',
           type: 'error'
         })
-        this.progress = 0 // Reset progress bar if an error occurs
-        return
+        this.clearProgressTimeout(); // Clear the loading bar animation when there is an error
+        this.errorOccurred = true; // Set the error flag to true
+        return;
       }
 
-      this.progress = 27// Update progress bar to complete
+      this.progress = 27; // Update progress bar to complete
 
-      this.$router.push({ name: 'address', params: { addr: this.address } })
+      this.$router.push({ name: 'address', params: { addr: this.address } });
     },
-async pasteFromClipboard() {
-        try {
-          const text = await navigator.clipboard.readText();
-          this.address = text;
-        } catch (error) {
-          console.error('Error pasting text from clipboard:', error);
-        }
-      }
 
+    clearProgressTimeout() {
+      // Clear the progressTimeout when there is an error or the search is complete
+      if (this.progressTimeout) {
+        clearTimeout(this.progressTimeout);
+        this.progressTimeout = null; // Reset progressTimeout to null after clearing the timeout
+      }
+    },
+
+    async pasteFromClipboard() {
+      try {
+        const text = await navigator.clipboard.readText();
+        this.address = text;
+      } catch (error) {
+        console.error('Error pasting text from clipboard:', error);
+        this.errorOccurred = true; // Set the error flag to true
+      }
+    }
   }
 }
 </script>
-
  
