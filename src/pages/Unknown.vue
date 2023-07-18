@@ -14,26 +14,34 @@
     </div>
     <div class="flex flex-col md:justify-start justify-between items-center h-[50vh] bg-offWhite">
       <div class="flex justify-between items-center md:gap-[30px] md:mb-[100px] md:w-[320px] w-[420px] pt-[75px]">
-        <div
-          class="md:w-1/2 hover:border-t-[12px] border-transparent hover:border-l-[12px] hover:border-black border-t-[12px] border-l-[12px]">
-          <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
-            class="md:w-[140px] bg-red font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
-            <a href="https://bit.ly/mint-flag" target="_blank">report</a>
-          </button>
+        <div>
+          <div v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()">
+            <a href="https://bit.ly/mint-flag" target="_blank"
+                class="cursor-pointer bg-red font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px] hover:brightness-90">
+              report
+            </a>
+          </div>
+          <div v-else>
+            <button @click="mintForFlagged"
+              class="cursor-pointer bg-red font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px] hover:brightness-90">
+              mint FLAG
+            </button>
+          </div>
         </div>
-        <div
-        class="md:w-1/2 hover:border-t-[12px] hover:border-l-[12px] border-l-[12px] border-t-[12px] hover:border-black border-transparent">
-          <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
-            class="md:w-full bg-green font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
-            <a href="https://bit.ly/get-vrfd" target="_blank">register</a>
-          </button>
+        <div>
+          <div v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()">
+            <a href="https://bit.ly/get-vrfd" target="_blank"
+               class="cursor-pointer bg-green font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px] hover:brightness-90">
+               register
+            </a>
+          </div>
+          <div v-else>
+            <button @click="mintForVerified"
+              class="cursor-pointer bg-green font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px] hover:brightness-90">
+              mint VRFD
+            </button>
+          </div>
         </div>
-        <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="mintForFlagged"
-          class="mr-3 bg-red font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint
-          for flagged</button>
-        <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="mintForVerified"
-          class="bg-green font-['Ubuntu Condensed'] font-normal text-[23px] leading-[26px] text-black text-center border-black rounded-[20px] border-[4px] py-[9px] px-[12px]">Mint
-          for verified</button>
       </div>
       <MobileFooter :textColor=blackColor />
       <Footer :textColor="blackColor" />

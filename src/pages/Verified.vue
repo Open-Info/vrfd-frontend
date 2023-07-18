@@ -6,11 +6,7 @@
         <h1 class="flex font-['Handjet'] drop-shadow-[4px_4px_0px_rgba(0,0,0,0.25)] text-[150px] leading-[168px] font-bold text-black text-center">
           VRFD
         </h1>
-        <div class="flex flex-col justify-end pb-[27px]">
-          <p class="font-['VT323'] font-normal text-[40px] leading-[45px] text-black md:ml-0 ml-[31px]">
-            {{ votes }} time(s)
-          </p>
-        </div>
+        <votes :votes="votes" />
       </div>
     </div>
     <div class="flex absolute left-1/2 transform -translate-y-[50%] -translate-x-[50%]">
@@ -28,13 +24,8 @@
     <div class="m_md:hidden flex bg-offWhite justify-center pt-[70px]">
       <!-- Mobile view of ENS -->
       <button
-        class="font-['VT323'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
-        <div v-if="ens !== 'no alias'">
-          <span class="font-[700]">AKA </span>{{ ens }}
-        </div>
-        <div v-else>
-          no alias
-        </div>
+        class="font-['VT323'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
+        <EnsReverse :alias="ens" />
       </button>
       <button
         @click="copyToClipboard"
@@ -44,36 +35,29 @@
     </div>
     <div class="flex flex-col justify-between md:justify-start items-center md:h-[40vh] h-[50vh] bg-offWhite">
       <div class="flex justify-between items-center md:w-[300px] w-[400px] md:pt-[30px] md:mb-[100px] pt-[75px]">
-        <div
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-l-[12px] border-t-[12px] border-transparent">
-          <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
-            class="cursor-pointer bg-red font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
-            <a href="https://bit.ly/mint-flag" target="_blank">
+        <div>
+          <div v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()">
+            <a href="https://bit.ly/mint-flag" target="_blank"
+                class="cursor-pointer bg-red font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px] hover:brightness-90">
               report
             </a>
-          </button>
-        </div>
-        <!-- Desktop view of ENS -->
-        <div
-          class="md:hidden font-['VT323'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
-          <div v-if="ens !== 'no alias'">
-            <span class="font-[700]">AKA </span>{{ ens }}
           </div>
           <div v-else>
-            no alias
+            <button @click="revoke"
+              class="cursor-pointer bg-red font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px] hover:brightness-90">
+              revoke
+            </button>
           </div>
         </div>
-        <div v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()"
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-l-[12px] border-t-[12px] border-transparent">
-          <button @click="revoke"
-            class="cursor-pointer bg-red font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
-            revoke
-          </button>
-        </div>
+
+        <!-- Desktop view of ENS -->
         <div
-          class="hover:border-t-[12px] hover:border-l-[12px] hover:border-black border-l-[12px] border-t-[12px] border-transparent">
+            class="md:hidden font-['VT323'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
+            <EnsReverse :alias="ens" />
+        </div>
+        <div>
           <button @click="upvote"
-            class="bg-green font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]">
+            class="bg-green font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]  hover:brightness-90">
             second
           </button>
         </div>
@@ -87,6 +71,8 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useStore } from "../store";
+import EnsReverse from '../components/ENSReverse.vue';
+
 
 const store = useStore();
 const { walletAddr } = storeToRefs(store);
@@ -106,13 +92,17 @@ import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
 import { voteAddress, getVotes, getENS } from "@/api";
+import Votes from '../components/Votes.vue';
+
+
 
 export default {
   name: "Verified",
   components: {
     Header,
     Footer,
-    MobileFooter
+    MobileFooter,
+    Votes
   },
   data() {
     return {
