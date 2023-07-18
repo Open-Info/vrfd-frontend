@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col justify-end pb-[27px]">
     <div v-if="isLoading">
-      <p class="font-['VT323'] font-normal text-[40px] leading-[45px] text-black md:ml-0 ml-[31px]">
+      <p class="font-['VT323'] font-normal text-[40px] leading-[45px] text-black md:ml-0 ml-[31px]" :style="{color:color}">
         <span class="opacity-25">{{ displayVotes }}</span> time(s)
       </p>
     </div>
     <div v-else>
       <div v-if="votes !== null">
-        <p class="font-['VT323'] font-normal text-[40px] leading-[45px] text-black md:ml-0 ml-[31px]">
+        <p class="font-['VT323'] font-normal text-[40px] leading-[45px] text-black md:ml-0 ml-[31px]" :style="{color:color}">
           {{ votes }} time(s)
         </p>
       </div>
@@ -21,6 +21,9 @@ export default {
     votes: {
       type: Number,
       required: true
+    },
+    color: {
+      type: String,
     }
   },
   data() {
