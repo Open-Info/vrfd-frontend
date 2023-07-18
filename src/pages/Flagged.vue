@@ -24,7 +24,7 @@
     <div class="m_md:hidden flex bg-offBlack justify-center pt-[70px]">
       <!-- Mobile view of ENS -->
       <button
-        class="font-['VT323'] bg-red font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
+        class="font-['VT323'] bg-red font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
         <EnsReverse :alias="ens" />
       </button>
       <button
@@ -41,19 +41,23 @@
         </button>
         <!-- Desktop view of ENS -->
         <div
-          class="md:hidden font-['VT323'] bg-red font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px]">
+          class="md:hidden font-['VT323'] bg-red font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
           <EnsReverse :alias="ens" />
         </div>
-        <button v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()"
-          class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['VT323'] font-[400] text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">
-          <a href="https://bit.ly/get-vrfd" target="_blank">
-            dispute
-          </a>
-        </button>
-        <button v-if="store.getWalletAddr?.toLowerCase() == OWNER_ADDR.toLowerCase()" @click="revoke"
-          class="bg-transparent font-['VT323'] font-[400] text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">
-          revoke
-        </button>
+        <div>
+          <div v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()">
+            <a href="https://bit.ly/get-vrfd" target="_blank"
+              class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['VT323'] font-[400] text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">
+              dispute
+            </a>
+          </div>
+          <div v-else>
+            <button @click="revoke"
+              class="shadow-[8px_8px_0px_#000] hover:border-black hover:text-black hover:bg-green bg-transparent font-['VT323'] font-[400] text-[23px] leading-[26px] text-green text-center border-silver border-[4px] py-[9px] px-[12px]">
+              revoke
+            </button>
+          </div>
+        </div>
       </div>
       <img class="md:hidden w-[103px] h-[85px]" src="../assets/images/flagged.png" alt="" />
       <MobileFooter :textColor=textColor />

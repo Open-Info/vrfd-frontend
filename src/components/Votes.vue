@@ -48,7 +48,7 @@ export default {
     startRandomVotesCycle() {
       this.randomVotesInterval = setInterval(() => {
         this.displayVotes = Math.floor(Math.random() * 10);
-      }, 20);
+      }, 60);
     }
   },
   beforeDestroy() {

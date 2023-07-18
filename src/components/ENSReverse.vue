@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div v-if="isLoading" class="w-[160px]">
-      <span class="font-[700]">AKA</span><span class="opacity-25">{{ randomNumbers }}</span>.eth
+    <div v-if="isLoading" class="w-full flex items-center justify-center h-full">
+      <div class="flex justify-between">
+        <span class="font-[700] fixed">AKA</span>
+        <span class="opacity-25" style="width: 130px; display: inline-block; text-align: right">{{ randomNumbers }}</span>.eth
+      </div>
     </div>
     <div v-else>
       <div v-if="alias !== 'no alias'">
@@ -40,8 +43,8 @@ export default {
   methods: {
     startRandomNumbersCycle() {
       this.randomNumbersInterval = setInterval(() => {
-        this.randomNumbers = Math.floor(Math.random() * 1000000).toString();
-      }, 20);
+        this.randomNumbers = Math.floor(Math.random() * 900000 + 100000).toString();
+      }, 60);
     }
   },
   beforeDestroy() {
