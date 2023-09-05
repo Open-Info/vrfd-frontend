@@ -51,10 +51,11 @@
         </div>
 
         <!-- Desktop view of ENS -->
-        <div
+        <button @click="showModal"
             class="md:hidden font-['VT323'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
             <EnsReverse :alias="ens" />
-        </div>
+      </button>
+      <Modal v-show="isModalVisible" @close="closeModal" class="absolute inset-0 flex items-center justify-center" />
         <div>
           <button @click="upvote"
             class="bg-green font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]  hover:brightness-90">
@@ -93,6 +94,7 @@ import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
 import { voteAddress, getVotes, getENS } from "@/api";
 import Votes from '../components/Votes.vue';
+import Modal from '../components/Modal.vue';
 
 
 
@@ -102,10 +104,12 @@ export default {
     Header,
     Footer,
     MobileFooter,
-    Votes
+    Votes,
+    Modal,
   },
   data() {
     return {
+      isModalVisible: false,
       windowWidth: window.innerWidth,
       ensName: null,
       textColor: 'black',
@@ -150,6 +154,13 @@ export default {
       })
   },
   methods: {
+    showModal() {
+      this.isModalVisible = true;
+    },
+
+    closeModal() {
+      this.isModalVisible = false;
+    },
     handleResize() {
       this.windowWidth = window.innerWidth;
     },
