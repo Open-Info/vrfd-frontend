@@ -23,7 +23,7 @@
     </div>
     <div class="m_md:hidden flex bg-offBlack justify-center pt-[70px]">
       <!-- Mobile view of ENS -->
-      <button
+      <button @click="showFlaggedModal"
         class="font-['VT323'] bg-red font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
         <EnsReverse :alias="ens" />
       </button>
@@ -40,10 +40,11 @@
           second
         </button>
         <!-- Desktop view of ENS -->
-        <div
+        <button @click="showFlaggedModal"
           class="md:hidden font-['VT323'] bg-red font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
           <EnsReverse :alias="ens" />
-        </div>
+        </button>
+        <ENSModal v-show="isModalVisible" :type="modalType" :token="token" @close="closeModal"  class="absolute inset-0 flex items-center justify-center" />
         <div>
           <div v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()">
             <a href="https://bit.ly/get-vrfd" target="_blank"
@@ -88,8 +89,9 @@ import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { useEthers } from "@/composables/useEthers";
 import { OIFlaggedSignedContract } from "@/contracts/OIFlaggedInstance";
-import { voteAddress, getVotes, getENS } from "@/api";
+import { voteAddress, getVotes, getENS, flaggedENS } from "@/api";
 import Votes from '../components/Votes.vue';
+import ENSModal from '../components/ENSModal.vue';
 
 export default {
   name: "Flagged",
@@ -101,11 +103,14 @@ export default {
   },
   data() {
     return {
+      isModalVisible: false,
       windowWidth: window.innerWidth,
       textColor: "blue",
       footerColor: "white",
       votes: 0,
       ens: "no alias",
+      modalType: '',
+      token: '',
     };
   },
   computed: {
@@ -143,8 +148,27 @@ export default {
       .catch(e => {
         console.log(e);
       })
+
+      flaggedENS(this.$route.params.addr as string)
+      .then(res => {
+        if (res) {
+          this.token = "tornado.eth"
+        } else {
+          console.log("Network Error")
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
   },
   methods: {
+    showFlaggedModal() {
+      this.isModalVisible = true;
+      this.modalType = 'flagged';
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
     handleResize() {
       this.windowWidth = window.innerWidth;
     },

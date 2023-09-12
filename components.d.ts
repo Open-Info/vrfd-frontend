@@ -7,7 +7,9 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ENSModal: typeof import('./src/components/ENSModal.vue')['default']
     ENSReverse: typeof import('./src/components/ENSReverse.vue')['default']
+    FlaggedModal: typeof import('./src/components/FlaggedModal.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Modal: typeof import('./src/components/Modal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
