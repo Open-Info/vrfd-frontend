@@ -160,7 +160,7 @@ export default {
       .then(res => {
         if (res) {
           this.token = 'vrfd.eth';
-          // this.content = res.attributes;
+          this.content = res.attributes;
         } else {
           console.log("Network Error")
         }

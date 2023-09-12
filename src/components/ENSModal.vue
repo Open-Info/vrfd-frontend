@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       ensInfo: [],
-      mustInfo: [
+      vrfdInfo: [
         {
           name: "twitter",
           value: "@unknown"
@@ -73,7 +73,26 @@ export default {
           name: "google",
           value: "@unknown"
         },
-      ]
+      ],
+      flaggedInfo: [
+        {
+          name: "Type",
+          value: "@unknown"
+        },
+        {
+          name: "reported by",
+          value: "@unknown,"
+        },
+        {
+          name: "seconded by",
+          value: "@unknown,"
+        },
+        {
+          name: "Proof",
+          value: "@unknown,"
+        }
+      ],
+      flaggedType: [],
     }
   },
   props: {
@@ -100,7 +119,7 @@ export default {
     content(newVal, oldVal) {
       var returnVal = [];
       if (this.type === "verified") {
-        this.mustInfo.map((val, idx) => {
+        this.vrfdInfo.map((val, idx) => {
           if (newVal.length === 0) {
             returnVal.push({
               name: val.name,
@@ -108,7 +127,6 @@ export default {
             })
           }
           else if ((newVal.findIndex((c, i) => {
-            console.log('2', c)
             return c.trait_type.toLowerCase() === val.name;
           }))) {
             returnVal.push({
@@ -124,7 +142,28 @@ export default {
         })
         this.ensInfo = returnVal;
       } else if (this.type === "flagged") {
-
+        this.flaggedInfo.map((val, idx) => {
+          if (newVal.length === 0) {
+            returnVal.push({
+              name: val.name,
+              value: "@unknown"
+            })
+          }
+          else if ((newVal.findIndex((c, i) => {
+            return c.trait_type.toLowerCase() === val.name;
+          }))) {
+            returnVal.push({
+              name: c.trait_type.toLowerCase(),
+              value: c.value,
+            })
+          } else {
+            returnVal.push({
+              name: val.name,
+              value: "@unknown"
+            })
+          }
+        })
+        this.ensInfo = returnVal;
       }
     }
   }

@@ -44,7 +44,7 @@
           class="md:hidden font-['VT323'] bg-red font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
           <EnsReverse :alias="ens" />
         </button>
-        <ENSModal v-show="isModalVisible" :type="modalType" :token="token" @close="closeModal"  class="absolute inset-0 flex items-center justify-center" />
+        <ENSModal v-show="isModalVisible" :type="modalType" :token="token" :content="[...content]" @close="closeModal"  class="absolute inset-0 flex items-center justify-center" />
         <div>
           <div v-if="store.getWalletAddr?.toLowerCase() != OWNER_ADDR.toLowerCase()">
             <a href="https://bit.ly/get-vrfd" target="_blank"
@@ -111,6 +111,7 @@ export default {
       ens: "no alias",
       modalType: '',
       token: '',
+      content: [],
     };
   },
   computed: {
@@ -153,6 +154,7 @@ export default {
       .then(res => {
         if (res) {
           this.token = "tornado.eth"
+          this.content = res.attributes
         } else {
           console.log("Network Error")
         }
