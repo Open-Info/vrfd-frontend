@@ -13,10 +13,14 @@
             </div>
             <div class="relative max-h-[100px] overflow-y-auto scrollbar-hide">
                 <slot name="body">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Voluptatibus qui nihil laborum quaerat blanditiis nemo explicabo
-                    voluptatum ea architecto corporis quo vitae, velit temporibus
-                    eaque quisquam in quis provident necessitatibus.
+                    <div class="grid grid-cols-2 gap-3 mt-2">
+                        <div class="text-center px-5">telegram</div><div class="text-center">{{ telegram }}</div>
+                        <div class="text-center px-5">twitter</div><div class="text-center">{{ twitter }}</div>
+                        <div class="text-center px-5">linkedin</div><div class="text-center">{{ linkedin }}</div>
+                        <div class="text-center px-5">tiktok</div><div class="text-center">{{ tiktok }}</div>
+                        <div class="text-center px-5">facebook</div><div class="text-center">{{ facebook }}</div>
+                        <div class="text-center px-5">instagram</div><div class="text-center">{{ instagram }}</div>
+                    </div>
                 </slot>
             </div>
             <slot name="footer"></slot>
@@ -43,5 +47,31 @@ export default {
             this.$emit('close');
         },
     },
+    props: {
+        telegram: {
+            type: String,
+            default: '@unknown'
+        },
+        twitter: {
+            type: String,
+            default: '@unknown'
+        },
+        tiktok: {
+            type: String,
+            default: '@unknown'
+        },
+        linkedin: {
+            type: String,
+            default: '@unknown'
+        },
+        facebook: {
+            type: String,
+            default: '@unknown'
+        },
+        instagram: {
+            type: String,
+            default: '@unknown'
+        }
+    }
 };
 </script>

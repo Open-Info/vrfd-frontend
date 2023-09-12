@@ -55,7 +55,7 @@
             class="md:hidden font-['VT323'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
             <EnsReverse :alias="ens" />
       </button>
-      <Modal v-show="isModalVisible" @close="closeModal" class="absolute inset-0 flex items-center justify-center" />
+      <Modal v-show="isModalVisible" @close="closeModal" class="absolute inset-0 flex items-center justify-center" :telegram="telegram" :twitter="twitter" :tiktok="tiktok" :linkedin="linkedin" :facebook="facebook" :instagram="instagram" />
         <div>
           <button @click="upvote"
             class="bg-green font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]  hover:brightness-90">
@@ -92,7 +92,7 @@ import Header from "../pages/layouts/Header.vue";
 import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
-import { voteAddress, getVotes, getENS } from "@/api";
+import { voteAddress, getVotes, getENS, verifiedENS } from "@/api";
 import Votes from '../components/Votes.vue';
 import Modal from '../components/Modal.vue';
 
@@ -114,7 +114,14 @@ export default {
       ensName: null,
       textColor: 'black',
       votes: 0,
-      ens: 'no alias'
+      ens: 'no alias',
+      twitter: '@unknown',
+      telegram: '@unknown',
+      tiktok: '@unknown',
+      linkedin: '@unknown',
+      facebook: '@unknown',
+      instagram: '@unknown',
+      google: '@unknown'
     };
   },
   computed: {
@@ -143,10 +150,29 @@ export default {
 
       getENS(this.$route.params.addr as string)
       .then(res => {
-        if (res.success) {
-          this.ens = res.name
+        if (res) {
+          this.ens = res.name;
+          console.log(res);
         } else {
           this.ens = 'no alias'
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
+
+      verifiedENS(this.$route.params.addr as string)
+      .then(res => {
+        if (res) {
+          this.telegram = res.attributes[1].value;
+          this.twitter = res.attributes[0].value;
+          this.tiktok = res.attributes[2].value;
+          this.linkedin = res.attributes[4].value;
+          this.facebook = res.attributes[5].value;
+          this.instagram = res.attributes[6].value;
+          console.log(res.attributes);
+        } else {
+          console.log("Network Error")
         }
       })
       .catch(e => {
