@@ -1,7 +1,8 @@
 <template>
   <div class="modal-backdrop">
     <div
-      class="modal max-w-sm p-6 mx-4 font-['VT323'] font-normal text-[23px] leading-[26px] text-black border-black border-[3px] shadow-[8px_8px_0px_rgba(0,0,0,0.5)]" :class="type">
+      class="modal max-w-sm p-6 mx-4 font-['VT323'] font-normal text-[23px] leading-[26px] text-black border-black border-[3px] shadow-[8px_8px_0px_rgba(0,0,0,0.5)]"
+      :class="type">
       <div>
         <slot name="header"></slot>
         <button type="button" class="btn-close" @click="close">
@@ -12,10 +13,14 @@
         <slot name="subtitle">{{ token }}</slot>
       </div>
       <div class="relative max-h-[100px] overflow-y-auto scrollbar-hide">
-        <slot name="body">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-          
+        <slot v-for="info in ensInfo" name="body">
+          <div class="grid grid-cols-2 gap-3 mt-2">
+            <div class="text-center px-3">{{info.name}}</div><div class="text-center">{{info.value }}</div>
+          </div>
         </slot>
+        <!-- <slot v-if="type == 'flagged'" name="body">
+          {{ "Hello World" }}
+        </slot> -->
       </div>
       <slot name="footer"></slot>
     </div>
@@ -36,6 +41,41 @@
 <script>
 export default {
   name: 'ENSModal',
+  data() {
+    return {
+      ensInfo: [],
+      mustInfo: [
+        {
+          name: "twitter",
+          value: "@unknown"
+        },
+        {
+          name: "telegram",
+          value: "@unknown"
+        },
+        {
+          name: "tiktok",
+          value: "@unknown"
+        },
+        {
+          name: "linkedin",
+          value: "@unknown"
+        },
+        {
+          name: "facebook",
+          value: "@unknown"
+        },
+        {
+          name: "instagram",
+          value: "@unknown"
+        },
+        {
+          name: "google",
+          value: "@unknown"
+        },
+      ]
+    }
+  },
   props: {
     type: {
       type: String,
@@ -44,21 +84,59 @@ export default {
     token: {
       type: String,
       required: true
-    }
+    },
+    content: {
+      type: Array,
+      default: [],
+      required: true
+    },
   },
   methods: {
     close() {
       this.$emit('close');
     },
+  },
+  watch: {
+    content(newVal, oldVal) {
+      var returnVal = [];
+      if (this.type === "verified") {
+        this.mustInfo.map((val, idx) => {
+          if (newVal.length === 0) {
+            returnVal.push({
+              name: val.name,
+              value: "@unknown"
+            })
+          }
+          else if ((newVal.findIndex((c, i) => {
+            console.log('2', c)
+            return c.trait_type.toLowerCase() === val.name;
+          }))) {
+            returnVal.push({
+              name: c.trait_type.toLowerCase(),
+              value: c.value,
+            })
+          } else {
+            returnVal.push({
+              name: val.name,
+              value: "@unknown"
+            })
+          }
+        })
+        this.ensInfo = returnVal;
+      } else if (this.type === "flagged") {
+
+      }
+    }
   }
 };
 </script>
 
 <style>
-  .flagged {
-    background-color: #F7766A;
-  }
-  .verified {
-    background-color: #00B689;
-  }
+.flagged {
+  background-color: #F7766A;
+}
+
+.verified {
+  background-color: #00B689;
+}
 </style>
