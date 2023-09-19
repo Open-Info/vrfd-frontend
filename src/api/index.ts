@@ -60,6 +60,7 @@ export const resolveENS = async (addr: string) => {
   return result.json();
 };
 
+<<<<<<< HEAD
 export const verifiedENS = async (addr: string) => {
   const result = await fetch(`${VERIFIED_INFO}/1`, API_GET_OPTION);
   return result.json();
@@ -67,5 +68,14 @@ export const verifiedENS = async (addr: string) => {
 
 export const flaggedENS = async (addr: string) => {
   const result = await fetch(`${FLAGGED_INFO}/17`, API_GET_OPTION);
+=======
+export const getMetadataForVerified = async (addr: string) => {
+  const result = await fetch(`${VERIFIED_INFO}/${addr}`, API_GET_OPTION);
+  return result.json();
+};
+
+export const getMetadataForFlagged = async (addr: string) => {
+  const result = await fetch(`${FLAGGED_INFO}/${addr}`, API_GET_OPTION);
+>>>>>>> dcab31d4cafbf20abc29b7c049498c5d16ceb680
   return result.json();
 };

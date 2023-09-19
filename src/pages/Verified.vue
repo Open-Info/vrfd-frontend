@@ -92,7 +92,7 @@ import Header from "../pages/layouts/Header.vue";
 import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
-import { voteAddress, getVotes, getENS, verifiedENS } from "@/api";
+import { voteAddress, getVotes, getENS, getMetadataForVerified } from "@/api";
 import Votes from '../components/Votes.vue';
 import ENSModal from '../components/ENSModal.vue';
 
@@ -156,7 +156,7 @@ export default {
         console.log(e);
       })
 
-      verifiedENS(this.$route.params.addr as string)
+      getMetadataForVerified(this.$route.params.addr as string)
       .then(res => {
         if (res) {
           this.token = 'vrfd.eth';

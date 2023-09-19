@@ -89,7 +89,7 @@ import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { useEthers } from "@/composables/useEthers";
 import { OIFlaggedSignedContract } from "@/contracts/OIFlaggedInstance";
-import { voteAddress, getVotes, getENS, flaggedENS } from "@/api";
+import { voteAddress, getVotes, getENS, getMetadataForFlagged } from "@/api";
 import Votes from '../components/Votes.vue';
 import ENSModal from '../components/ENSModal.vue';
 
@@ -150,7 +150,7 @@ export default {
         console.log(e);
       })
 
-      flaggedENS(this.$route.params.addr as string)
+      getMetadataForFlagged(this.$route.params.addr as string)
       .then(res => {
         if (res) {
           this.token = "tornado.eth"
