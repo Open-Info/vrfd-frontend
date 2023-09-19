@@ -61,11 +61,11 @@ export const resolveENS = async (addr: string) => {
 };
 
 export const verifiedENS = async (addr: string) => {
-  const result = await fetch(`${VERIFIED_INFO}/${addr}`, API_GET_OPTION);
+  const result = await fetch(`${VERIFIED_INFO}/1`, API_GET_OPTION);
   return result.json();
 };
 
 export const flaggedENS = async (addr: string) => {
-  const result = await fetch(`${FLAGGED_INFO}/${addr}`, API_GET_OPTION);
+  const result = await fetch(`${FLAGGED_INFO}/17`, API_GET_OPTION);
   return result.json();
 };

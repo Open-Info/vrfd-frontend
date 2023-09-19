@@ -12,15 +12,13 @@
       <div class="text-center text-[25px]">
         <slot name="subtitle">{{ token }}</slot>
       </div>
-      <div class="relative max-h-[100px] overflow-y-auto scrollbar-hide">
+      <div class="relative max-h-[100px] overflow-y-auto overflow-x-hidden scrollbar-hide">
         <slot v-for="info in ensInfo" name="body">
           <div class="grid grid-cols-2 gap-3 mt-2">
-            <div class="text-center px-3">{{info.name}}</div><div class="text-center">{{info.value }}</div>
+            <div class="text-center px-3  flex items-center justify-center">{{ info.name }}</div>
+            <div class="text-center">{{ info.value }}</div>
           </div>
         </slot>
-        <!-- <slot v-if="type == 'flagged'" name="body">
-          {{ "Hello World" }}
-        </slot> -->
       </div>
       <slot name="footer"></slot>
     </div>
@@ -36,6 +34,10 @@
 .scrollbar-hide::-webkit-scrollbar-thumb {
   background-color: transparent;
 }
+
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
 </style>
 
 <script>
@@ -47,49 +49,49 @@ export default {
       vrfdInfo: [
         {
           name: "twitter",
-          value: "@unknown"
+          value: "unknown"
         },
         {
           name: "telegram",
-          value: "@unknown"
+          value: "unknown"
         },
         {
           name: "tiktok",
-          value: "@unknown"
+          value: "unknown"
         },
         {
           name: "linkedin",
-          value: "@unknown"
+          value: "unknown"
         },
         {
           name: "facebook",
-          value: "@unknown"
+          value: "unknown"
         },
         {
           name: "instagram",
-          value: "@unknown"
+          value: "unknown"
         },
         {
           name: "google",
-          value: "@unknown"
+          value: "unknown"
         },
       ],
       flaggedInfo: [
         {
           name: "Type",
-          value: "@unknown"
+          value: "unknown"
         },
         {
           name: "reported by",
-          value: "@unknown,"
+          value: "unknown,"
         },
         {
           name: "seconded by",
-          value: "@unknown,"
+          value: "unknown,"
         },
         {
           name: "Proof",
-          value: "@unknown,"
+          value: "unknown,"
         }
       ],
       flaggedType: [],
@@ -117,27 +119,37 @@ export default {
   },
   watch: {
     content(newVal, oldVal) {
+      console.log("->>>>>>>", newVal);
       var returnVal = [];
       if (this.type === "verified") {
         this.vrfdInfo.map((val, idx) => {
           if (newVal.length === 0) {
             returnVal.push({
               name: val.name,
-              value: "@unknown"
+              value: "unknown"
             })
           }
-          else if ((newVal.findIndex((c, i) => {
-            return c.trait_type.toLowerCase() === val.name;
-          }))) {
-            returnVal.push({
-              name: c.trait_type.toLowerCase(),
-              value: c.value,
+          else {
+            let idx = newVal.findIndex((c, i) => {
+              return c.trait_type.toLowerCase() === val.name
             })
-          } else {
-            returnVal.push({
-              name: val.name,
-              value: "@unknown"
-            })
+            if (idx == -1) {
+              returnVal.push({
+                name: val.name,
+                value: "unknown"
+              })
+            } else {
+              if (val.name === "google") {
+                returnVal.push({
+                  name: newVal[idx].trait_type.toLowerCase(),
+                  value: newVal[idx].value,
+                })
+              }
+              else returnVal.push({
+                name: newVal[idx].trait_type.toLowerCase(),
+                value: '@' + newVal[idx].value,
+              })
+            }
           }
         })
         this.ensInfo = returnVal;
@@ -146,21 +158,58 @@ export default {
           if (newVal.length === 0) {
             returnVal.push({
               name: val.name,
-              value: "@unknown"
+              value: "unknown"
             })
           }
-          else if ((newVal.findIndex((c, i) => {
-            return c.trait_type.toLowerCase() === val.name;
-          }))) {
-            returnVal.push({
-              name: c.trait_type.toLowerCase(),
-              value: c.value,
+          else {
+            var type = [];
+            newVal.map((flgVal, idx) => {
+              if (flgVal.value === true) {
+                type.push(flgVal.trait_type.toLowerCase())
+              }
             })
-          } else {
-            returnVal.push({
-              name: val.name,
-              value: "@unknown"
+            let idx = newVal.findIndex((c, i) => {
+              return c.trait_type.toLowerCase() === val.name
             })
+            if (idx == -1) {
+              if (val.name === "Type") {
+                if (type.length === 0) {
+                  returnVal.push({
+                    name: val.name,
+                    value: "unknown"
+                  })
+                } else {
+                  returnVal.push({
+                    name: val.name,
+                    value: type.join(", ")
+                  })
+                }
+              } else {
+                returnVal.push({
+                  name: val.name,
+                  value: "unknown"
+                })
+              }
+            } else {
+              if (val.name === "Type") {
+                if (type.length === 0) {
+                  returnVal.push({
+                    name: val.name,
+                    value: "unknown"
+                  })
+                } else {
+                  returnVal.push({
+                    name: val.name,
+                    value: type.join(", ")
+                  })
+                }
+              } else {
+                returnVal.push({
+                  name: val.name,
+                  value: newVal[idx].value
+                })
+              }
+            }
           }
         })
         this.ensInfo = returnVal;
