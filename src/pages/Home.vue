@@ -87,202 +87,220 @@
   </div>
 </template>
 
+<script setup lang="ts">
+  import '@/assets/sass/style.scss'
+  import { toast } from 'vue3-toastify'
+  import 'vue3-toastify/dist/index.css'
+  import { useStore } from '@/store'
+  import Header from '@/pages/layouts/Header.vue'
+  import Footer from '@/pages/layouts/Footer.vue'
+  import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'
+  import { OIFlaggedContract } from '@/contracts/OIFlaggedInstance'
+  import { checkAddress } from '@/api'
+  import { useEnsAddress } from 'vagmi'
+  import { ref, onMounted, onBeforeUnmount } from 'vue'
+  import { useRouter } from 'vue-router'
 
-<script lang="ts">
-import '@/assets/sass/style.scss'
-import { toast } from 'vue3-toastify'
-import 'vue3-toastify/dist/index.css'
-import { useStore } from '../store'
-import WalletConnectionButton from '@/components/WalletConnectionButton.vue'
-import Header from '@/pages/layouts/Header.vue'
-import Footer from '@/pages/layouts/Footer.vue'
-import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'
-import { OIFlaggedContract } from '@/contracts/OIFlaggedInstance'
-import { checkAddress, resolveENS } from '@/api'
+  const windowWidth = ref(window.innerWidth)
+  const address = ref('')
+  const textColor = ref('blue')
+  const footerColor = ref('white')
+  const progress = ref(0)
+  const errorOccurred = ref(false)
+  const progressTimeout = ref<any>(null);
 
-export default {
-  name: 'Home',
-  components: {
-    Header,
-    Footer
-  },
-  data() {
-    return {
-      windowWidth: window.innerWidth,
-      address: '',
-      textColor: 'blue',
-      footerColor: 'white',
-      progress: 0, // Progress bar value
-      errorOccurred: false, // Flag to track if an error occurred
-      progressTimeout: null as null | ReturnType<typeof setTimeout>  // Reference to the loading bar animation timeout
+  const router = useRouter()
+  const store = useStore()
+  const { searchAddr } = storeToRefs(store)
+
+  const { data: ensName, isError, isLoading, refetch} = useEnsAddress({
+    name: searchAddr,
+    enabled: false,
+    onSuccess(data) {
+      store.setReservedAddr(data !== null ? data as string : '');
+    },
+    onError(error) {
+      console.log('ensName error', error);
+      toast(error.message, {
+        autoClose: 1000,
+        theme: 'dark',
+        type: 'error'
+      })
     }
-  },
-  computed: {
-    deviceWidth() {
-      return this.windowWidth
+  })
+    
+  const deviceWidth = () => windowWidth.value
+
+  const handleResize = () => {
+    windowWidth.value = window.innerWidth
+  }
+
+  const shortenAddr = (addr: string) => {
+    if (windowWidth.value <= 768) {
+      if (addr.length < 10) return addr
+      return `${addr.slice(0, 8)}...${addr.slice(addr.length - 8)}`
     }
-  },
-  created() {
-    window.addEventListener('resize', this.handleResize)
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize)
-  },
-  methods: {
-    handleResize() {
-      this.windowWidth = window.innerWidth
-    },
-    shortenAddr(addr: string) {
-      if (this.windowWidth <= 768) {
-        if (addr.length < 10) return addr
-        return `${addr.slice(0, 8)}...${addr.slice(addr.length - 8)}`
+    return addr
+  }
+
+  const handleInputChange = () => {
+    address.value = address.value.replace(/\s/g, '')
+  }
+
+  const handleSearch = async () => {
+    store.setSearchAddr(address.value)
+
+    // Define the total number of steps and the duration for the loading animation
+    const totalSteps = 27
+    const animationDuration = 200 // in milliseconds
+
+    // Calculate the increment value for each step
+    const increment = totalSteps / animationDuration
+
+    // Helper function to increment the progress value with a delay
+    const incrementProgress = () => {
+      if (progress.value < totalSteps) {
+        progress.value += increment
+        progressTimeout.value = setTimeout(incrementProgress, 30) // Save the timeout reference to progressTimeout
       }
-      return addr
-    },
-    handleInputChange() {
-      this.address = this.address.replace(/\s/g, '') // Remove white spaces from the address
-    },
-    async handleSearch() {
-      const store = useStore()
-      store.setSearchAddr(this.address)
-      // Define the total number of steps and the duration for the loading animation
-      const totalSteps = 27;
-      const animationDuration = 200; // in milliseconds
+    }
 
-      // Calculate the increment value for each step
-      const increment = totalSteps / animationDuration;
+    incrementProgress()
 
-      // Helper function to increment the progress value with a delay
-      const incrementProgress = () => {
-        if (this.progress < totalSteps) {
-          this.progress += increment;
-          this.progressTimeout = setTimeout(incrementProgress, 30); // Save the timeout reference to progressTimeout
-        }
-      };
+    // Step 2: Resolve ENS link if it is an ENS address
+    if (address.value.endsWith('.eth')) {
+      progress.value = 1 // Update progress bar to Step 2
+      
+      await refetch();
 
-      incrementProgress();
+      const { resolvedAddr } = storeToRefs(store)
 
-      // Step 2: Resolve ENS link if it is an ENS address
-      if (this.address.endsWith('.eth')) {
-        this.progress = 1; // Update progress bar to Step 2
-        try {
-          const resolvedAddress = await resolveENS(this.address)
-          if (resolvedAddress && resolvedAddress.success) {
-            this.address = resolvedAddress.address
-          } else {
-            throw new Error('ENS not found!')
-          }
-        } catch (error: any) {
-          toast(error.message, {
-            autoClose: 1000,
-            theme: 'dark',
-            type: 'error'
-          })
-          this.clearProgressTimeout(); // Clear the loading bar animation when there is an error
-          this.errorOccurred = true; // Set the error flag to true
-          return;
-        }
+      console.log('resolved address=======>', resolvedAddr.value)
+
+      if (resolvedAddr.value !== '') {
+        address.value = resolvedAddr.value
+      } else {
+        throw new Error('ENS not found!')
       }
+      
+      clearProgressTimeout() // Clear the loading bar animation when there is an error
+      errorOccurred.value = true // Set the error flag to true
+    }
 
-      this.progress = 10; // Update progress bar to Step 3
+    progress.value = 10 // Update progress bar to Step 3
 
-      // Step 4: Check if the address owns VRFD NFT
-      try {
-        let balance = await OIVerifiedContract().methods.balanceOf(this.address).call()
-        if (Number(balance) !== 0) {
-          store.setState('verified')
-        }
-      } catch (error: any) {
-        if (error.code === 'INVALID_ARGUMENT') {
-          toast('Invalid Address!', {
-            autoClose: 1000,
-            theme: 'dark',
-            type: 'error'
-          })
-        } else {
-          toast('Unexpected Error!', {
-            autoClose: 1000,
-            theme: 'dark',
-            type: 'error'
-          })
-        }
-        this.clearProgressTimeout(); // Clear the loading bar animation when there is an error
-        this.errorOccurred = true; // Set the error flag to true
-        return;
+    // Step 4: Check if the address owns VRFD NFT
+    try {
+      let balance = await OIVerifiedContract().methods.balanceOf(address.value).call()
+      if (Number(balance) !== 0) {
+        store.setState('verified')
       }
-
-      this.progress = 15; // Update progress bar to Step 4
-
-      // Step 5: Check if the address owns FLAG NFT
-      try {
-        let balance = await OIFlaggedContract().methods.balanceOf(this.address).call()
-        if (Number(balance) !== 0) {
-          store.setState('flagged')
-        }
-      } catch (error: any) {
-        if (error.code === 'INVALID_ARGUMENT') {
-          toast('Invalid Address!', {
-            autoClose: 1000,
-            theme: 'dark',
-            type: 'error'
-          })
-        } else {
-          toast('Unexpected Error!', {
-            autoClose: 1000,
-            theme: 'dark',
-            type: 'error'
-          })
-        }
-        this.clearProgressTimeout(); // Clear the loading bar animation when there is an error
-        this.errorOccurred = true; // Set the error flag to true
-        return;
-      }
-
-      this.progress = 20; // Update progress bar to Step 5
-
-      // Step 6: Check for flag by association via backend
-      try {
-        let res = await checkAddress(this.address)
-        console.log(res.flagged)
-        if (res.flagged) {
-          store.setState('flagged')
-        } else {
-          store.setState('unknown')
-        }
-      } catch (error: any) {
+    } catch (error: any) {
+      if (error.code === 'INVALID_ARGUMENT') {
+        toast('Invalid Address!', {
+          autoClose: 1000,
+          theme: 'dark',
+          type: 'error'
+        })
+      } else {
         toast('Unexpected Error!', {
           autoClose: 1000,
           theme: 'dark',
           type: 'error'
         })
-        this.clearProgressTimeout(); // Clear the loading bar animation when there is an error
-        this.errorOccurred = true; // Set the error flag to true
-        return;
       }
+      clearProgressTimeout() // Clear the loading bar animation when there is an error
+      errorOccurred.value = true // Set the error flag to true
+      return
+    }
 
-      this.progress = 27; // Update progress bar to complete
+    progress.value = 15 // Update progress bar to Step 4
 
-      this.$router.push({ name: 'address', params: { addr: this.address } });
-    },
-
-    clearProgressTimeout() {
-      // Clear the progressTimeout when there is an error or the search is complete
-      if (this.progressTimeout) {
-        clearTimeout(this.progressTimeout);
-        this.progressTimeout = null; // Reset progressTimeout to null after clearing the timeout
+    // Step 5: Check if the address owns FLAG NFT
+    try {
+      let balance = await OIFlaggedContract().methods.balanceOf(address.value).call()
+      if (Number(balance) !== 0) {
+        store.setState('flagged')
       }
-    },
-
-    async pasteFromClipboard() {
-      try {
-        const text = await navigator.clipboard.readText();
-        this.address = text;
-      } catch (error) {
-        console.error('Error pasting text from clipboard:', error);
-        this.errorOccurred = true; // Set the error flag to true
+    } catch (error: any) {
+      if (error.code === 'INVALID_ARGUMENT') {
+        toast('Invalid Address!', {
+          autoClose: 1000,
+          theme: 'dark',
+          type: 'error'
+        })
+      } else {
+        toast('Unexpected Error!', {
+          autoClose: 1000,
+          theme: 'dark',
+          type: 'error'
+        })
       }
+      clearProgressTimeout() // Clear the loading bar animation when there is an error
+      errorOccurred.value = true // Set the error flag to true
+      return
+    }
+
+    progress.value = 20 // Update progress bar to Step 5
+
+    // Step 6: Check for flag by association via backend
+    try {
+      let res = await checkAddress(address.value)
+      console.log(res.flagged)
+      if (res.flagged) {
+        store.setState('flagged')
+      } else {
+        store.setState('unknown')
+      }
+    } catch (error: any) {
+      toast('Unexpected Error!', {
+        autoClose: 1000,
+        theme: 'dark',
+        type: 'error'
+      })
+      clearProgressTimeout() // Clear the loading bar animation when there is an error
+      errorOccurred.value = true // Set the error flag to true
+      return
+    }
+
+    progress.value = 27 // Update progress bar to complete
+    router.push({ name: 'address', params: { addr: address.value } });
+  }
+
+  const clearProgressTimeout = () => {
+    // Clear the progressTimeout when there is an error or the search is complete
+    if (progressTimeout) {
+      // clearTimeout(progressTimeout)
+      // progressTimeout = null // Reset progressTimeout to null after clearing the timeout
     }
   }
-}
+
+  const pasteFromClipboard = async () => {
+    try {
+      const text = await navigator.clipboard.readText()
+      address.value = text
+    } catch (error) {
+      console.error('Error pasting text from clipboard:', error)
+      errorOccurred.value = true // Set the error flag to true
+    }
+  }
+
+  onMounted(() => {
+    window.addEventListener('resize', handleResize)
+  })
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', handleResize)
+  })
+</script>
+
+<script lang="ts">
+  export default {
+    name: 'Home',
+    components: {
+      Header,
+      Footer
+    }
+  }
 </script>
  

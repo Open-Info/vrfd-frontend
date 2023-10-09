@@ -41,19 +41,3 @@ export const getVotes = async (addr: string) => {
   );
   return result.json();
 };
-
-export const getENS = async (addr: string) => {
-  const result = await fetch(
-    `${ENS_API}?address=${addr}`,
-    API_GET_OPTION
-  );
-  return result.json();
-};
-
-export const resolveENS = async (addr: string) => {
-  const result = await fetch(
-    `${ENS_RESOLVE}?ens=${addr}`,
-    API_GET_OPTION
-  );
-  return result.json();
-};

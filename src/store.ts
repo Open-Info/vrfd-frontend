@@ -11,6 +11,7 @@ export const useStore = defineStore("main", {
     version: versionString,
     isInitialized: false,
     state: 'unknown',
+    resolvedAddr: '',
     searchAddr: '',
     walletAddr: '',
     signer: null
@@ -28,6 +29,10 @@ export const useStore = defineStore("main", {
     
     setSearchAddr(searchAddr: string) {
       this.searchAddr = searchAddr;
+    },
+
+    setReservedAddr(addr: string) {
+      this.resolvedAddr = addr;
     },
 
     setWalletAddr(addr: string) {
@@ -51,6 +56,10 @@ export const useStore = defineStore("main", {
 
     getSearchAddr: (state) => {
       return state.searchAddr;
+    },
+
+    getReservedAddr: (state) => {
+      return state.resolvedAddr;
     },
 
     getWalletAddr: (state) => {

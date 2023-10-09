@@ -70,6 +70,9 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import {  useEnsName } from 'vagmi'
 import { useStore } from "../store";
 import EnsReverse from '../components/ENSReverse.vue';
 
@@ -80,6 +83,25 @@ const { walletAddr } = storeToRefs(store);
 watch(walletAddr, (newWalletAddr) => {
   console.log(newWalletAddr);
 });
+
+const route = useRoute()
+const routeParams = route.params
+const ens = ref<string | null>('no alias')
+
+const { data: ensName, isError, isLoading, refetch } = useEnsName({
+  address: routeParams.addr as string,
+  onSuccess(data) {
+    ens.value = data
+  },
+  onError(error) {
+    console.log('ensName error', error);
+  }
+})
+
+onMounted(() => {
+  refetch();
+})
+
 </script>
 
 <script lang="ts">
@@ -91,7 +113,7 @@ import Header from "../pages/layouts/Header.vue";
 import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
 import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
-import { voteAddress, getVotes, getENS } from "@/api";
+import { voteAddress, getVotes } from "@/api";
 import Votes from '../components/Votes.vue';
 
 
@@ -110,7 +132,7 @@ export default {
       ensName: null,
       textColor: 'black',
       votes: 0,
-      ens: 'no alias'
+      // ens: 'no alias'
     };
   },
   computed: {
@@ -131,18 +153,6 @@ export default {
           this.votes = res.votes;
         } else {
           console.log('getVotes api failed');
-        }
-      })
-      .catch(e => {
-        console.log(e);
-      })
-
-      getENS(this.$route.params.addr as string)
-      .then(res => {
-        if (res.success) {
-          this.ens = res.name
-        } else {
-          this.ens = 'no alias'
         }
       })
       .catch(e => {

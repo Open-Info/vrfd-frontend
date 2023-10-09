@@ -12,6 +12,16 @@ import App from './App.vue'
 import './assets/index.postcss'
 import router from './router'
 
+import {
+  chain,
+  configureChains,
+  createClient,
+  defaultChains,
+  VagmiPlugin
+} from 'vagmi';
+import { publicProvider } from 'vagmi/providers/public';
+import { alchemyProvider } from 'vagmi/providers/alchemy'
+
 const head = createHead({
   title: 'VRFD'
   // meta - An array of meta tags
@@ -29,7 +39,7 @@ const injected = injectedModule();
 const walletConnect = walletConnectModule();
 const trust = trustModule();
 
-const chains = [
+const onboardChains = [
   {
     id: '0x61',
     token: 'BSC TEST',
@@ -45,7 +55,7 @@ const onboardOptions = {
     },
   },
   wallets: [walletConnect, injected, trust],
-  chains: chains,
+  chains: onboardChains,
   appMetadata: {
     name: "VRFD",
     icon: "<svg><svg/>",
@@ -60,6 +70,20 @@ const onboardOptions = {
 
 init(onboardOptions);
 
+const alchemyId = import.meta.env.VITE_ALCHEMY_ID;
+
+const { chains, provider, webSocketProvider } = configureChains(
+  [chain.mainnet],
+  // [publicProvider()],
+  [alchemyProvider({ alchemyId })],
+);
+
+const client = createClient({
+  autoConnect: true,
+  provider,
+  webSocketProvider,
+});
+
 const app = createApp(App)
 
 app.use(VueGtag, {
@@ -69,5 +93,7 @@ app.use(VueGtag, {
 app.use(createPinia())
 app.use(router)
 app.use(head)
+
+app.use(VagmiPlugin(client));
 
 app.mount('#app')

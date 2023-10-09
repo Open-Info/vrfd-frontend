@@ -7,7 +7,7 @@
       </div>
     </div>
     <div v-else>
-      <div v-if="alias !== 'no alias'">
+      <div v-if="alias !== null">
         <span class="font-[700]">AKA </span>{{ alias }}
       </div>
       <div v-else>
@@ -35,7 +35,7 @@ export default {
     // Simulating data fetching delay
     setTimeout(() => {
       this.isLoading = false;
-    }, 2000);
+    }, 6000);
 
     // Generate random numbers while data is being fetched
     this.startRandomNumbersCycle();
