@@ -35,7 +35,7 @@ export default {
     // Simulating data fetching delay
     setTimeout(() => {
       this.isLoading = false;
-    }, 2000);
+    }, 4000);
 
     // Generate random numbers while data is being fetched
     this.startRandomNumbersCycle();

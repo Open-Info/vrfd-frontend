@@ -167,7 +167,7 @@ export default {
         this.progress = 1; // Update progress bar to Step 2
         try {
           const resolvedAddress = await resolveENS(this.address)
-          if (resolvedAddress && resolvedAddress.success) {
+          if (resolvedAddress && resolvedAddress.address) {
             this.address = resolvedAddress.address
           } else {
             throw new Error('ENS not found!')

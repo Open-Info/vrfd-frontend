@@ -44,16 +44,29 @@ export const getVotes = async (addr: string) => {
 
 export const getENS = async (addr: string) => {
   const result = await fetch(
-    `${ENS_API}?address=${addr}`,
-    API_GET_OPTION
+    `${ENS_API}/${addr}/reverse`,
+    {
+      ...API_GET_OPTION,
+      headers: {
+        ...API_GET_OPTION.headers,
+        'X-API-Key': import.meta.env.VITE_MORALIS_API_KEY
+      }
+    }
   );
   return result.json();
 };
 
 export const resolveENS = async (addr: string) => {
+
   const result = await fetch(
-    `${ENS_RESOLVE}?ens=${addr}`,
-    API_GET_OPTION
+    `${ENS_RESOLVE}/${addr}`,
+    {
+      ...API_GET_OPTION,
+      headers: {
+        ...API_GET_OPTION.headers,
+        'X-API-Key': import.meta.env.VITE_MORALIS_API_KEY
+      }
+    }
   );
   return result.json();
 };
