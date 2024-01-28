@@ -155,7 +155,8 @@ export default {
       });
       const address: any = this.addressList.value[index]
       console.log("index", address.address)
-      window.open(`/${address.address}`, '_blank');
+      // window.open(`/${address.address}`, '_blank');
+      this.$router.push({ name: 'address', params: { addr: address.address } });
     },
 
     onGridReady(params: any) {
