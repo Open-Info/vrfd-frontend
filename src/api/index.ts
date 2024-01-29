@@ -6,7 +6,9 @@ import {
   VOTES_GET_API,
   API_POST_OPTION,
   ENS_API,
-  ENS_RESOLVE
+  ENS_RESOLVE,
+  VERIFIED_INFO,
+  FLAGGED_INFO
 } from "@/helpers/constants";
 
 export const checkAddress = async (addr: string) => {
@@ -55,5 +57,16 @@ export const resolveENS = async (addr: string) => {
     `${ENS_RESOLVE}?ens=${addr}`,
     API_GET_OPTION
   );
+  return result.json();
+};
+
+export const verifiedMeta = async (token_id: number) => {
+  const result = await fetch(`${VERIFIED_INFO}/${token_id}`, API_GET_OPTION);
+  console.log(result);
+  return result.json();
+};
+
+export const flaggedMeta = async (token_id: number) => {
+  const result = await fetch(`${FLAGGED_INFO}/${token_id}`, API_GET_OPTION);
   return result.json();
 };

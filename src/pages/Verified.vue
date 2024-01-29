@@ -23,7 +23,7 @@
     </div>
     <div class="m_md:hidden flex bg-offWhite justify-center pt-[70px]">
       <!-- Mobile view of ENS -->
-      <button
+      <button @click="showVerifiedModal"
         class="font-['VT323'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
         <EnsReverse :alias="ens" />
       </button>
@@ -51,10 +51,11 @@
         </div>
 
         <!-- Desktop view of ENS -->
-        <div
+        <button @click="showVerifiedModal"
             class="md:hidden font-['VT323'] bg-green font-[400] text-[32px] leading-[36px] text-black text-center shadow-[8px_8px_0px_#000] border-black border-[3px] py-[5px] px-[12px] min-w-[200px]">
             <EnsReverse :alias="ens" />
-        </div>
+      </button>
+      <ENSModal v-show="isModalVisible" :type="modalType" :ens="ens" :content="[...content]" @close="closeModal"  class="absolute inset-0 flex items-center justify-center" />
         <div>
           <button @click="upvote"
             class="bg-green font-['VT323'] font-normal text-[23px] leading-[26px] text-black text-center border-black border-[4px] py-[9px] px-[12px]  hover:brightness-90">
@@ -90,10 +91,10 @@ import { useEthers } from "@/composables/useEthers";
 import Header from "../pages/layouts/Header.vue";
 import Footer from "../pages/layouts/Footer.vue";
 import MobileFooter from "../pages/layouts/MobileFooter.vue";
-import { OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
-import { voteAddress, getVotes, getENS } from "@/api";
+import { OIVerifiedContract, OIVerifiedSignedContract } from "@/contracts/OIVerifiedInstance";
+import { voteAddress, getVotes, getENS, verifiedMeta } from "@/api";
 import Votes from '../components/Votes.vue';
-
+import ENSModal from '../components/ENSModal.vue';
 
 
 export default {
@@ -102,15 +103,19 @@ export default {
     Header,
     Footer,
     MobileFooter,
-    Votes
+    Votes,
   },
   data() {
     return {
+      isModalVisible: false,
       windowWidth: window.innerWidth,
       ensName: null,
       textColor: 'black',
       votes: 0,
-      ens: 'no alias'
+      ens: 'no alias',
+      modalType: '',
+      token: '',
+      content: [],
     };
   },
   computed: {
@@ -130,26 +135,59 @@ export default {
         if (res.success) {
           this.votes = res.votes;
         } else {
-          console.log('getVotes api failed');
+          console.log('GetVotes API refused');
         }
       })
       .catch(e => {
-        console.log(e);
+        console.log('GetVotes error', e);
       })
 
       getENS(this.$route.params.addr as string)
       .then(res => {
         if (res.success) {
-          this.ens = res.name
+          this.ens = res.name;
+          console.log('ENS', res);
         } else {
           this.ens = 'no alias'
+          console.log('No ENS exists', res);
         }
       })
       .catch(e => {
-        console.log(e);
+        console.log('ENS error', e);
       })
+
+      try {
+        const tokenIds = await OIVerifiedContract()
+          .methods.getOwnersToken(this.$route.params.addr)
+          .call();
+
+        if (tokenIds.length === 0) {
+          throw new Error('No token IDs found');
+        }
+
+        const lastTokenId = tokenIds[tokenIds.length - 1];
+
+        const res = await verifiedMeta(lastTokenId as number);
+
+        if (!res) {
+          throw new Error('Network Error');
+        }
+
+        this.content = res.attributes;
+        console.log('Metadata', this.content)
+      } catch (e) {
+        console.error('Metadata Error', e);
+      }
   },
   methods: {
+    showVerifiedModal() {
+      this.isModalVisible = true;
+      this.modalType = 'verified';
+    },
+
+    closeModal() {
+      this.isModalVisible = false;
+    },
     handleResize() {
       this.windowWidth = window.innerWidth;
     },

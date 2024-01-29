@@ -11,7 +11,7 @@
         <span class="font-[700]">AKA </span>{{ alias }}
       </div>
       <div v-else>
-        no alias
+        View Info
       </div>
     </div>
   </div>

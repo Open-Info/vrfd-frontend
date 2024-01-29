@@ -4,6 +4,8 @@ export const VOTE_API = 'https://vrfd.dev/api/db'
 export const VOTES_GET_API = 'https://vrfd.dev/api/db/votes'
 export const ENS_API = 'https://vrfd.dev/api/db/ens_name'
 export const ENS_RESOLVE = 'https://vrfd.dev/api/db/ens_resolve'
+export const VERIFIED_INFO = 'https://vrfd.dev/meta/verified'
+export const FLAGGED_INFO = 'https://vrfd.dev/meta/flagged'
 
 export const API_GET_OPTION: any = {
   method: 'GET',
