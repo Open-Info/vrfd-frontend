@@ -60,12 +60,13 @@ export const resolveENS = async (addr: string) => {
   return result.json();
 };
 
-export const verifiedENS = async (addr: string) => {
-  const result = await fetch(`${VERIFIED_INFO}/1`, API_GET_OPTION);
+export const verifiedMeta = async (token_id: number) => {
+  const result = await fetch(`${VERIFIED_INFO}/${token_id}`, API_GET_OPTION);
+  console.log(result);
   return result.json();
 };
 
-export const flaggedENS = async (addr: string) => {
-  const result = await fetch(`${FLAGGED_INFO}/17`, API_GET_OPTION);
+export const flaggedMeta = async (token_id: number) => {
+  const result = await fetch(`${FLAGGED_INFO}/${token_id}`, API_GET_OPTION);
   return result.json();
 };

@@ -10,7 +10,7 @@
         </button>
       </div>
       <div class="text-center text-[25px]">
-        <slot name="subtitle">{{ token }}</slot>
+        <slot name="subtitle">{{ ens }}</slot>
       </div>
       <div class="relative max-h-[100px] overflow-y-auto overflow-x-hidden scrollbar-hide">
         <slot v-for="info in ensInfo" name="body">
@@ -102,7 +102,7 @@ export default {
       type: String,
       required: true
     },
-    token: {
+    ens: {
       type: String,
       required: true
     },
