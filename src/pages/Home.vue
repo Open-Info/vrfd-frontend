@@ -16,8 +16,10 @@
           type="text"
           id="search"
           name="search"
-          :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')"
+          :placeholder="placeholder_address"
           v-model.trim="address"
+          @focus="clear_placeholder"
+          @blur="return_placeholder"
           @keyup.enter="handleSearch"
           @input="handleInputChange"
           class="bg-offBlack focus:outline-0 text-offWhite font-normal text-[32px] border-t-2 border-b-2 border-[#6B7280] leading-[36px] font-['VT323'] text-center placeholder-grey py-[9px] md:w-[240px] w-[580px]"
@@ -109,6 +111,7 @@ export default {
   data() {
     return {
       windowWidth: window.innerWidth,
+      placeholder_address: this.shortenAddr('0x0000000000000000000000000000000000000000'),
       address: '',
       textColor: 'blue',
       footerColor: 'white',
@@ -132,6 +135,7 @@ export default {
     handleResize() {
       this.windowWidth = window.innerWidth
     },
+
     shortenAddr(addr: string) {
       if (this.windowWidth <= 768) {
         if (addr.length < 10) return addr
@@ -139,9 +143,21 @@ export default {
       }
       return addr
     },
+
+    clear_placeholder() {
+      this.placeholder_address = ''
+    },
+
+    return_placeholder() {
+      if (this.address === '') {
+        this.placeholder_address = this.shortenAddr('0x0000000000000000000000000000000000000000')
+      }
+    },
+
     handleInputChange() {
       this.address = this.address.replace(/\s/g, '') // Remove white spaces from the address
     },
+
     async handleSearch() {
       const store = useStore()
       store.setSearchAddr(this.address)

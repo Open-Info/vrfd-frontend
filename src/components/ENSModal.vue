@@ -4,23 +4,21 @@
       class="modal max-w-sm p-6 mx-4 font-['VT323'] font-normal text-[23px] leading-[26px] text-black border-black border-[3px] shadow-[8px_8px_0px_rgba(0,0,0,0.5)]"
       :class="type">
       <div>
-        <slot name="header"></slot>
         <button type="button" class="btn-close" @click="close">
           x
         </button>
       </div>
       <div class="text-center text-[25px]">
-        <slot name="subtitle">{{ ens }}</slot>
+        <div name="subtitle">{{ ens }}</div>
       </div>
-      <div class="relative max-h-[100px] overflow-y-auto overflow-x-hidden scrollbar-hide">
-        <slot v-for="info in ensInfo" name="body">
+      <div class="relative max-h-[150px] overflow-y-auto overflow-x-hidden scrollbar-hide">
+        <div v-for="info in ensInfo" name="body">
           <div class="grid grid-cols-2 gap-3 mt-2">
             <div class="text-center px-3  flex items-center justify-center">{{ info.name }}</div>
             <div class="text-center">{{ info.value }}</div>
           </div>
-        </slot>
+        </div>
       </div>
-      <slot name="footer"></slot>
     </div>
   </div>
 </template>
@@ -40,7 +38,7 @@
 }
 </style>
 
-<script>
+<script lang="ts">
 export default {
   name: 'ENSModal',
   data() {
