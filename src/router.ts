@@ -6,9 +6,10 @@ import Verified from '@/pages/Verified.vue'
 import Flagged from '@/pages/Flagged.vue'
 import VerifiedView from '@/pages/VerifiedView.vue'
 import FlaggedView from '@/pages/FlaggedView.vue'
+import { toast } from 'vue3-toastify'
 import { OIVerifiedContract } from '@/contracts/OIVerifiedInstance'
 import { OIFlaggedContract } from '@/contracts/OIFlaggedInstance'
-import { checkAddress } from '@/api'
+import { checkAddress, resolveENS } from '@/api'
 import { useStore } from './store'
 
 import { useOnboard } from "./composables/useOnboard";
@@ -63,6 +64,21 @@ const hasRecentlyConnected = (previousTimestamp: number, maxMinutes = 6) => {
 const classifyAddr = async (addr: string) => {
   let flag = 'unknown'
   const store = useStore()
+
+  // Step 2: Resolve ENS link if it is an ENS address
+  if (addr.endsWith('.eth')) {
+    try {
+      const resolvedAddress = await resolveENS(addr)
+      if (resolvedAddress && resolvedAddress.success) {
+        addr = resolvedAddress.address
+      } else {
+        throw new Error('ENS not found!')
+      }
+    } catch (error: any) {
+      console.log(error.message)
+      return;
+    }
+  }
 
   try {
     let balance = await OIVerifiedContract().methods.balanceOf(addr).call()

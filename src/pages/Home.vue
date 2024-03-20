@@ -1,8 +1,8 @@
 <template>
-  <div class="relative">
+  <div class="relative h-screen w-screen overflow-hidden">
     <div class="flex flex-col justify-between md:h-[35vh] h-[50vh] bg-offBlack pb-[60px]">
       <Header class="md:hidden" :textColor="textColor" />
-      <h1 class="md:mt-[50px] font-['Handjet'] text-[150px] drop-shadow-[5px_5px_0px_rgba(0,0,0,0.31)] leading-[168px] font-bold text-blue text-center mb-[9px]">
+      <h1 class="md:mt-[50px] font-['Handjet'] text-[120px] letter-spacing-[20em] drop-shadow-[5px_5px_0px_rgba(0,0,0,0.31)] leading-[168px] font-bold text-blue text-center mb-[9px]">
         Search
       </h1>
     </div>

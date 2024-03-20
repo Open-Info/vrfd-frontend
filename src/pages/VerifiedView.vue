@@ -34,6 +34,7 @@ import MobileFooter from "./layouts/MobileFooter.vue";
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import { getAddrsFromStatus } from "@/api";
+import { checkAddress, resolveENS } from '@/api'
 
 export default {
   name: "App",
@@ -148,7 +149,7 @@ export default {
   },
 
   methods: {
-    onSelectionChanged() {
+    async onSelectionChanged() {
       const selectedNodes = this.gridApi.getSelectedNodes();
       const index = selectedNodes.map(function(node: any) {
         return node.rowIndex;
@@ -156,7 +157,24 @@ export default {
       const address: any = this.addressList.value[index]
       console.log("index", address.address)
       // window.open(`/${address.address}`, '_blank');
-      this.$router.push({ name: 'address', params: { addr: address.address } });
+
+      // Step 2: Resolve ENS link if it is an ENS address
+      let addr = address.address
+      if (addr.endsWith('.eth')) {
+        try {
+          const resolvedAddress = await resolveENS(addr)
+          if (resolvedAddress && resolvedAddress.success) {
+            this.$router.push({ name: 'address', params: { addr: resolvedAddress.address } });
+          } else {
+            throw new Error('ENS not found!')
+          }
+        } catch (error: any) {
+          console.log(error.message)
+          return;
+        }
+      }else{
+        this.$router.push({ name: 'address', params: { addr: address.address } });
+      }
     },
 
     onGridReady(params: any) {
