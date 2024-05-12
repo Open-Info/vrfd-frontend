@@ -66,22 +66,20 @@
           to="/view/verified"
           class="hover:bg-green hover:border-black hover:text-black font-['Handjet'] shadow-[8px_8px_0px_rgba(0,0,0,0.5)] font-normal text-[23px] leading-[26px] text-green text-center border-green border-[4px] py-[12px] px-[24px]"
         >
-          Verified
-          <p>addresses</p>
+          $VRFD
         </router-link>
         <a
           href="#"
           class="hover:bg-yellow hover:border-black hover:text-black font-['Handjet'] shadow-[8px_8px_0px_rgba(0,0,0,0.5)] font-normal text-[23px] leading-[26px] text-yellow text-center border-yellow border-[4px] py-[12px] px-[24px]"
         >
-          Certified
-          <p>addresses</p>
+          $CRTFD
+          <p class="text-[12px] italic">Coming Soon</p>
         </a>
         <router-link
           to="/view/flagged"
           class="hover:bg-red hover:border-black hover:text-black font-['Handjet'] shadow-[8px_8px_0px_rgba(0,0,0,0.5)] font-normal text-[23px] leading-[26px] text-red text-center border-red border-[4px] py-[12px] px-[24px]"
         >
-          Flagged
-          <p>addresses</p>
+          $FLAG
         </router-link>
       </div>
       <Footer :textColor="footerColor" />
@@ -111,7 +109,7 @@ export default {
   data() {
     return {
       windowWidth: window.innerWidth,
-      placeholder_address: this.shortenAddr('0x0000000000000000000000000000000000000000'),
+      placeholder_address: this.shortenAddr('0x123ABC...'),
       address: '',
       textColor: 'blue',
       footerColor: 'white',
@@ -139,7 +137,7 @@ export default {
     shortenAddr(addr: string) {
       if (this.windowWidth <= 768) {
         if (addr.length < 10) return addr
-        return `${addr.slice(0, 8)}...${addr.slice(addr.length - 8)}`
+        return `${addr.slice(0, 6)}...${addr.slice(addr.length - 4)}`
       }
       return addr
     },
@@ -150,7 +148,7 @@ export default {
 
     return_placeholder() {
       if (this.address === '') {
-        this.placeholder_address = this.shortenAddr('0x0000000000000000000000000000000000000000')
+        this.placeholder_address = this.shortenAddr('0x123ABC...')
       }
     },
 

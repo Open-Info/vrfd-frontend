@@ -189,7 +189,7 @@ export default {
     shortenAddr(addr: string) {
       if (this.windowWidth <= 768) {
         if (addr.length < 10) return addr;
-        return `${addr.slice(0, 8)}...${addr.slice(addr.length - 8)}`;
+        return `${addr.slice(0, 6)}...${addr.slice(addr.length - 4)}`;
       }
       return addr;
     },

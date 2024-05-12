@@ -1,15 +1,20 @@
 <template>
   <div class="bg-offBlack">
     <Header :textColor=textColor />
-    <div class="view flex flex-col items-center bg-offBlack h-full justify-center py-[54px]">
-      <div class="mb-[70px] md:hidden">
-        <input type="text" id="search" name="search" v-model="searchQuery"
-          class="bg-offBlack drop-shadow-[6px_6px_0px_rgba(0,0,0,0.25)] text-offWhite font-normal text-[32px] leading-[36px] font-['VT323'] text-center placeholder-grey py-[9px] px-[22px] min-w-[620px]"
+    <div class="view flex flex-col items-center bg-offBlack justify-center py-[5px]">
+      <div class="mb-[20px] md:hidden">       
+         <input type="text" id="search" name="search" v-model="searchQuery"
+         class="bg-offBlack text-offWhite font-normal text-[24px] leading-[24px] drop-shadow-[6px_6px_0px_rgba(0,0,0,0.25)] font-['VT323'] text-center placeholder-grey py-[8px] px-[15px] min-w-[500px]"
           :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')" />
       </div>
-      <div class="ag-grid lg:w-[800px] w-[1062px] border-[3px] border-dashed drop-shadow-[4px_4px_0px_rgba(0,0,0,0.25)] border-green py-[42px]">
-        <ag-grid-vue class="ag-theme-alpine green" style="width: 100%; height: 700px" :columnDefs="columnDefs.value"
-          :rowData="searchData" :defaultColDef="defaultColDef" :rowHeight="68" :headerHeight="68" :pagination="true"
+      <div class="ag-grid lg:w-[800px] w-[1062px] border-[3px] drop-shadow-[4px_4px_0px_rgba(0,0,0,0.25)] border-dashed border-green py-[5px]">
+        <div class="mb-[20px] hidden md:block p-5">
+          <input type="text" id="search" name="search" v-model="searchQuery"
+            class="w-full bg-offBlack text-offWhite font-normal text-[20px] leading-[14px] drop-shadow-[6px_6px_0px_rgba(0,0,0,0.25)] font-['VT323'] placeholder-grey py-[8px] px-[15px]"
+            :placeholder="shortenAddr('0x0000000000000000000000000000000000000000')" />
+        </div>
+        <ag-grid-vue class="ag-theme-alpine green" style="width: 100%; height: 80vh" :columnDefs="columnDefs.value"
+         :rowData="searchData" :defaultColDef="defaultColDef" :rowHeight="68" :headerHeight="68" :pagination="true"
           :paginationPageSize="8" :rowSelection="rowSelection" @grid-ready="onGridReady"
           @selection-changed="onSelectionChanged">
         </ag-grid-vue>
@@ -118,10 +123,10 @@ export default {
     function shortenAddr(addr: string) {
       if (deviceWidth.value <= 1100 && 865 <= deviceWidth.value) {
         if (addr.length < 10) return addr;
-        return `${addr.slice(0, 15)}...${addr.slice(addr.length - 15)}`;
+        return `${addr.slice(0, 10)}...${addr.slice(addr.length - 10)}`;
       } 
       if (deviceWidth.value <= 865) {
-        return `${addr.slice(0, 7)}...${addr.slice(addr.length - 7)}`;
+        return `${addr.slice(0, 6)}...${addr.slice(addr.length - 4)}`;
       }
       return addr;
     };
